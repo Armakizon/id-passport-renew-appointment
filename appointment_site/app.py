@@ -9,9 +9,9 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 class Entry(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)  # Auto-generated
-    date = db.Column(db.String, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     branch_id = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.String, nullable=False)
 
 with app.app_context():
     db.create_all()
@@ -23,7 +23,7 @@ def index():
         <h1>Entries</h1>
         <ul>
         {% for entry in entries %}
-            <li>ID: {{ entry.id }} — Date: {{ entry.date }} — Branch ID: {{ entry.branch_id }}</li>
+            <li>ID: {{ entry.id }} — Branch ID: {{ entry.branch_id }} — Date: {{ entry.date }}</li>
         {% endfor %}
         </ul>
     """, entries=entries)
@@ -34,7 +34,7 @@ def add_entry():
     if not all(k in data for k in ("date", "branch_id")):
         return {"status": "error", "message": "Missing fields"}, 400
 
-    new_entry = Entry(date=data["date"], branch_id=data["branch_id"])
+    new_entry = Entry(branch_id=data["branch_id"], date=data["date"])
     db.session.add(new_entry)
     db.session.commit()
     return {"status": "ok", "message": "Entry added", "id": new_entry.id}
