@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template_string
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 import os
 
 app = Flask(__name__)
@@ -13,20 +14,39 @@ class Entry(db.Model):
     branch_id = db.Column(db.Integer, nullable=False)
     date = db.Column(db.String, nullable=False)
 
+class Meta(db.Model):
+    key = db.Column(db.String, primary_key=True)
+    value = db.Column(db.String, nullable=False)
+
 with app.app_context():
     db.create_all()
+
+def set_last_updated():
+    now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    existing = Meta.query.filter_by(key="last_updated").first()
+    if existing:
+        existing.value = now_str
+    else:
+        db.session.add(Meta(key="last_updated", value=now_str))
+    db.session.commit()
+
+def get_last_updated():
+    meta = Meta.query.filter_by(key="last_updated").first()
+    return meta.value if meta else "Never"
 
 @app.route("/", methods=["GET"])
 def index():
     entries = Entry.query.all()
+    last_updated = get_last_updated()
     return render_template_string("""
         <h1>Entries</h1>
+        <p><strong>Last Updated:</strong> {{ last_updated }}</p>
         <ul>
         {% for entry in entries %}
             <li>ID: {{ entry.id }} — Branch ID: {{ entry.branch_id }} — Date: {{ entry.date }}</li>
         {% endfor %}
         </ul>
-    """, entries=entries)
+    """, entries=entries, last_updated=last_updated)
 
 @app.route("/add", methods=["POST"])
 def add_entry():
@@ -36,6 +56,7 @@ def add_entry():
 
     new_entry = Entry(branch_id=data["branch_id"], date=data["date"])
     db.session.add(new_entry)
+    set_last_updated()
     db.session.commit()
     return {"status": "ok", "message": "Entry added", "id": new_entry.id}
 
@@ -48,6 +69,7 @@ def reset_db():
 
     try:
         db.session.query(Entry).delete()
+        set_last_updated()
         db.session.commit()
         return {"status": "ok", "message": "Database reset"}
     except Exception as e:

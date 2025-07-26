@@ -52,4 +52,4 @@ def get_govisit_token(wait_for_code=60):
 
     finally:
         time.sleep(1)
-        driver.quit()
+        driver.close()

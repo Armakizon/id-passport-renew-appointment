@@ -6,8 +6,8 @@ General plan:
 2. Deal with the id being unique 26.07
 3. add branch_id in API 26.07
 * realize how to make the SQL not disappear (probably cache it somewhere). 26.07
-5. add a request to clean the SQL
-6. Make 1 billion API request from the code
+5. add a request to clean the SQL 26.07
+6. Make 1 billion API request from the code 26.07
 7. Make the code repeat (start testing it to deal with verification)
 4. make sure the site shows the name and not the branch_id
 8. having a filter for names
