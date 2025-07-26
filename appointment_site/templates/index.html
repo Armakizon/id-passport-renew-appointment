@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appointments</title>
+</head>
+<body>
+    <h1>Available Appointments</h1>
+
+    <form method="get">
+        <label>Location:</label>
+        <select name="location">
+            <option value="">All</option>
+            {% for loc in locations %}
+                <option value="{{ loc.name }}">{{ loc.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Day:</label>
+        <input type="date" name="day">
+
+        <label>Time:</label>
+        <input type="time" name="time">
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <ul>
+        {% for t in timeslots %}
+            <li>{{ t.day.date }} — {{ t.time }} at {{ t.day.location.name }}</li>
+        {% else %}
+            <li>No appointments found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
