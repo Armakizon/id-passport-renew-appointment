@@ -1,6 +1,7 @@
 from seleniumwire import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 import time
 import requests
 
@@ -8,7 +9,12 @@ def get_govisit_token(wait_for_code=60):
     options = Options()
     options.headless = False  # Set to True for headless mode
 
-    driver = webdriver.Firefox(seleniumwire_options={}, options=options)
+    # Replace this path with your actual Firefox profile path
+    profile_path = r'C:\Users\shake\AppData\Roaming\Mozilla\Firefox\Profiles\fdykxrir.default'
+
+    profile = FirefoxProfile(profile_path)
+
+    driver = webdriver.Firefox(seleniumwire_options={}, options=options, firefox_profile=profile)
 
     try:
         driver.get("https://govisit.gov.il/he/app/auth/login")
@@ -51,5 +57,5 @@ def get_govisit_token(wait_for_code=60):
         return None
 
     finally:
-        time.sleep(1)
+        time.sleep(5)
         driver.close()

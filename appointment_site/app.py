@@ -32,21 +32,36 @@ def set_last_updated():
 
 def get_last_updated():
     meta = Meta.query.filter_by(key="last_updated").first()
-    return meta.value if meta else "Never"
+    return meta.value if meta else None
+
+def get_time_since(updated_str):
+    if not updated_str:
+        return "Never"
+    updated_time = datetime.strptime(updated_str, "%Y-%m-%d %H:%M:%S")
+    delta = datetime.now() - updated_time
+    days = delta.days
+    seconds = delta.seconds
+    hours = seconds // 3600
+    minutes = (seconds % 3600) // 60
+    return f"{days}d {hours}h {minutes}m ago"
 
 @app.route("/", methods=["GET"])
 def index():
     entries = Entry.query.all()
     last_updated = get_last_updated()
+    time_since = get_time_since(last_updated)
     return render_template_string("""
         <h1>Entries</h1>
-        <p><strong>Last Updated:</strong> {{ last_updated }}</p>
+        <p><strong>Last Updated:</strong>
+           {{ last_updated if last_updated else 'Never' }}
+           ({{ time_since }})
+        </p>
         <ul>
         {% for entry in entries %}
             <li>ID: {{ entry.id }} — Branch ID: {{ entry.branch_id }} — Date: {{ entry.date }}</li>
         {% endfor %}
         </ul>
-    """, entries=entries, last_updated=last_updated)
+    """, entries=entries, last_updated=last_updated, time_since=time_since)
 
 @app.route("/add", methods=["POST"])
 def add_entry():
