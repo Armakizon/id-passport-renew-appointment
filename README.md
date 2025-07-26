@@ -3,9 +3,9 @@
 General plan:
 
 1. being able to get sms message to my pc. 26.07 
-2. Deal with the id being unique 
-3. add branch_id in API
-* realize how to make the SQL not disappear (probably cache it somewhere).
+2. Deal with the id being unique 26.07
+3. add branch_id in API 26.07
+* realize how to make the SQL not disappear (probably cache it somewhere). 26.07
 5. add a request to clean the SQL
 6. Make 1 billion API request from the code
 7. Make the code repeat (start testing it to deal with verification)

@@ -39,5 +39,19 @@ def add_entry():
     db.session.commit()
     return {"status": "ok", "message": "Entry added", "id": new_entry.id}
 
+@app.route("/reset", methods=["POST"])
+def reset_db():
+    token = request.args.get("token")
+    expected = os.environ.get("RESET_TOKEN", "devtoken")
+    if token != expected:
+        return {"status": "unauthorized", "message": "Invalid token"}, 401
+
+    try:
+        db.session.query(Entry).delete()
+        db.session.commit()
+        return {"status": "ok", "message": "Database reset"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}, 500
+
 if __name__ == "__main__":
     app.run()
