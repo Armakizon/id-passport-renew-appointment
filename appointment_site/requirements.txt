@@ -1,5 +1,2 @@
 flask
-sqlalchemy
-flask_sqlalchemy
 gunicorn
-psycopg2-binary
