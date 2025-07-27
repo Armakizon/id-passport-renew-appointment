@@ -2,7 +2,7 @@ import csv
 import requests
 import json
 
-def APIcall(token, csv_file_path="Branch_id.csv"):
+def APIcall(token, csv_file_path="appointment_site/Branch_id.csv"):
     govisit_url = "https://govisit.gov.il/API/appointment/api/appointmentScheduling/getDates?authorityId=262"
     your_server_url = "https://govpoitment.onrender.com/add"
 
