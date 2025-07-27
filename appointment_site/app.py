@@ -1,13 +1,22 @@
 from flask import Flask, request, render_template_string
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from pytz import timezone
 import os
+import csv
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///local.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
+
+# Load branch ID to name mapping
+BRANCH_MAP = {}
+with open("Branch_id.csv", encoding="utf-8") as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        BRANCH_MAP[int(row["branch_id"])] = row["branch_name"]
 
 class Entry(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -22,12 +31,12 @@ with app.app_context():
     db.create_all()
 
 def set_last_updated():
-    now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    israel_time = datetime.now(timezone("Asia/Jerusalem")).strftime("%Y-%m-%d %H:%M:%S")
     existing = Meta.query.filter_by(key="last_updated").first()
     if existing:
-        existing.value = now_str
+        existing.value = israel_time
     else:
-        db.session.add(Meta(key="last_updated", value=now_str))
+        db.session.add(Meta(key="last_updated", value=israel_time))
     db.session.commit()
 
 def get_last_updated():
@@ -38,7 +47,8 @@ def get_time_since(updated_str):
     if not updated_str:
         return "Never"
     updated_time = datetime.strptime(updated_str, "%Y-%m-%d %H:%M:%S")
-    delta = datetime.now() - updated_time
+    updated_time = timezone("Asia/Jerusalem").localize(updated_time)
+    delta = datetime.now(timezone("Asia/Jerusalem")) - updated_time
     days = delta.days
     seconds = delta.seconds
     hours = seconds // 3600
@@ -58,10 +68,10 @@ def index():
         </p>
         <ul>
         {% for entry in entries %}
-            <li>ID: {{ entry.id }} — Branch ID: {{ entry.branch_id }} — Date: {{ entry.date }}</li>
+            <li>Branch: {{ branch_map.get(entry.branch_id, entry.branch_id) }} — Date: {{ entry.date }}</li>
         {% endfor %}
         </ul>
-    """, entries=entries, last_updated=last_updated, time_since=time_since)
+    """, entries=entries, last_updated=last_updated, time_since=time_since, branch_map=BRANCH_MAP)
 
 @app.route("/add", methods=["POST"])
 def add_entry():
