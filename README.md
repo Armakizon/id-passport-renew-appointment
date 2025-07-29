@@ -18,9 +18,9 @@ General plan:
 
 About getting around the captcha:
 
-1. Check if current setup works
-2. Check if resetting the profile with a new one works
-3. Check if coppying certain amount of files from your real one works 
+1. Check if current setup works. NO
+2. Check if resetting the profile with a new one works. NO
+3. Check if coppying certain amount of files from your real one works MAYBE 
 
 
 import requests

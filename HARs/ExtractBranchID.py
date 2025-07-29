@@ -1,42 +1,46 @@
-import re
 import csv
-from tabulate import tabulate
 
-def extract_branches_and_hebrew(file_path, output_csv):
-    with open(file_path, 'r', encoding='utf-8') as f:
-        content = f.read()
+def split_summary_text_clean(input_csv, output_csv):
+    with open(input_csv, 'r', encoding='utf-8') as infile:
+        reader = csv.DictReader(infile)
+        rows = list(reader)
 
-    # Find all branch ids
-    pattern = re.compile(r'id="branch_(\d+)"')
-    matches = list(pattern.finditer(content))
+    new_rows = []
+    for row in rows:
+        summary = row['Summary Text']
+        first_dot = summary.find('.')
+        if first_dot == -1:
+            col1 = summary.strip()
+            col2 = ''
+        else:
+            second_dot = summary.find('.', first_dot + 1)
+            if second_dot == -1:
+                col1 = summary[:first_dot].strip()
+                col2 = summary[first_dot+1:].strip()
+            else:
+                col1 = summary[:first_dot].strip()
+                # Take text between first and second period
+                part = summary[first_dot+1:second_dot].strip()
+                # Remove trailing phrase like "התור הפנוי הקרוב:" if present
+                trailing_phrases = ['התור הפנוי הקרוב:', 'תור אחרון בתאריך זה']  # add more if needed
+                for phrase in trailing_phrases:
+                    if part.endswith(phrase):
+                        part = part[:-len(phrase)].strip()
+                col2 = part
 
-    results = []
+        new_rows.append({
+            'Branch ID': row['Branch ID'],
+            'Part 1': col1,
+            'Part 2': col2
+        })
 
-    for match in matches:
-        branch_id = match.group(1)
-        start_pos = match.end()
+    with open(output_csv, 'w', encoding='utf-8', newline='') as outfile:
+        fieldnames = ['Branch ID', 'Part 1', 'Part 2']
+        writer = csv.DictWriter(outfile, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(new_rows)
 
-        # Look for the next Hebrew text
-        hebrew_pattern = re.compile(r'[\u0590-\u05FF]+(?:[\s\u0590-\u05FF]*)')
-        hebrew_match = hebrew_pattern.search(content, pos=start_pos)
+    print(f"✅ Processed {len(new_rows)} rows into {output_csv}")
 
-        if hebrew_match:
-            hebrew_text = hebrew_match.group().strip()
-            results.append((branch_id, hebrew_text))
-
-    # Print to console
-    if results:
-        print(tabulate(results, headers=["Branch ID", "Hebrew Text"], tablefmt="grid"))
-    else:
-        print("No matches found.")
-
-    # Save to CSV
-    with open(output_csv, 'w', encoding='utf-8', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow(['Branch ID', 'Hebrew Text'])
-        writer.writerows(results)
-
-    print(f"\nExtracted {len(results)} entries to {output_csv}")
-
-# Run the function on your file
-extract_branches_and_hebrew("all branch id.txt", "output.csv")
+# Usage
+split_summary_text_clean("branch_summaries.csv", "branch_summaries_split_clean.csv")
