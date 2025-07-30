@@ -9,19 +9,11 @@ General plan:
 5. add a request to clean the SQL 26.07
 6. Make 1 billion API request from the code 26.07
 7. Make the code repeat (start testing it to deal with verification) 27.07
-4. make sure the site shows the name and not the branch_id 27.07
+4. make sure the site shows the name and not the branch_id 
 8. having a filter for names
 9. sort by date
 10.filter by date
 11. Whatsapp web bot
 
 
-About getting around the captcha:
-
-1. Check if current setup works. NO
-2. Check if resetting the profile with a new one works. NO
-3. Check if coppying certain amount of files from your real one works MAYBE 
-
-
-import requests
-requests.post("https://govpoitment.onrender.com/add", json={"id": 1,"branch": 355, "date": "2025-07-27"})
+ 

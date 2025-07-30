@@ -101,17 +101,25 @@ def index():
            ({{ time_since }})
         </p>
         <button onclick="getLocation()">📍 Find My Location</button>
-        <ul>
-        {% for entry in entries %}
-            <li>
-                Branch: {{ entry.branch_name }} —
-                Date: {{ entry.date }}
-                {% if entry.distance is not none %}
-                    — Distance: {{ entry.distance }} km
-                {% endif %}
-            </li>
-        {% endfor %}
-        </ul>
+
+        <table border="1" cellspacing="0" cellpadding="6">
+            <thead>
+                <tr>
+                    <th>Branch</th>
+                    <th>Date</th>
+                    <th>Distance (km)</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entry in entries %}
+                <tr>
+                    <td>{{ entry.branch_name }}</td>
+                    <td>{{ entry.date }}</td>
+                    <td>{% if entry.distance is not none %}{{ entry.distance }}{% else %}-{% endif %}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
         <script>
         function getLocation() {
