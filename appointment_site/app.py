@@ -90,6 +90,7 @@ def index():
             distance = calculate_distance(user_lat, user_lon, branch["lat"], branch["lon"])
         entries_with_distance.append({
             "branch_name": branch.get("name", entry.branch_id),
+            "address": branch.get("address", "-"),
             "date": entry.date,
             "distance": distance
         })
@@ -106,6 +107,7 @@ def index():
             <thead>
                 <tr>
                     <th>Branch</th>
+                    <th>Address</th>
                     <th>Date</th>
                     <th>Distance (km)</th>
                 </tr>
@@ -114,6 +116,7 @@ def index():
             {% for entry in entries %}
                 <tr>
                     <td>{{ entry.branch_name }}</td>
+                    <td>{{ entry.address }}</td>
                     <td>{{ entry.date }}</td>
                     <td>{% if entry.distance is not none %}{{ entry.distance }}{% else %}-{% endif %}</td>
                 </tr>
