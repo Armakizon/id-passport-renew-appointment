@@ -5,6 +5,7 @@ from pytz import timezone
 import os
 import csv
 from math import radians, cos, sin, sqrt, atan2
+import json
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///local.db")
@@ -17,12 +18,13 @@ BRANCH_MAP = {}
 with open("Branch_id.csv", encoding="utf-8") as f:
     reader = csv.DictReader(f)
     for row in reader:
-        BRANCH_MAP[int(row["branch_id"])] = {
-            "name": row["branch_name"],
-            "address": row["Address"],
-            "lat": float(row["latitude"]),
-            "lon": float(row["longitude"])
-        }
+        if row["latitude"] and row["longitude"]:
+            BRANCH_MAP[int(row["branch_id"])] = {
+                "name": row["branch_name"],
+                "address": row["Address"],
+                "lat": float(row["latitude"]),
+                "lon": float(row["longitude"])
+            }
 
 # SQLAlchemy Models
 class Entry(db.Model):
@@ -37,6 +39,7 @@ class Meta(db.Model):
 with app.app_context():
     db.create_all()
 
+# Haversine formula
 def calculate_distance(lat1, lon1, lat2, lon2):
     R = 6371
     dlat = radians(lat2 - lat1)
@@ -45,6 +48,7 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
     return round(R * c, 2)
 
+# Timestamps
 def set_last_updated():
     israel_time = datetime.now(timezone("Asia/Jerusalem")).strftime("%Y-%m-%d %H:%M:%S")
     existing = Meta.query.filter_by(key="last_updated").first()
@@ -74,168 +78,204 @@ def get_time_since(updated_str):
 def index():
     user_lat = request.args.get("lat", type=float)
     user_lon = request.args.get("lon", type=float)
+    selected_branches = request.args.get("branches")
+    selected_branch_ids = json.loads(selected_branches) if selected_branches else None
+    only_earliest = request.args.get("earliest") == "true"
+    sort_by = request.args.get("sort_by", "date")
+    sort_dir = request.args.get("sort_dir", "asc")
 
     entries = Entry.query.all()
     last_updated = get_last_updated()
     time_since = get_time_since(last_updated)
 
-    entries_with_distance = []
+    entry_map = {}
     for entry in entries:
-        branch = BRANCH_MAP.get(entry.branch_id, {})
-        distance = None
-        if user_lat is not None and user_lon is not None and branch:
-            distance = calculate_distance(user_lat, user_lon, branch["lat"], branch["lon"])
+        if selected_branch_ids and entry.branch_id not in selected_branch_ids:
+            continue
+        if entry.branch_id not in BRANCH_MAP:
+            continue
+        branch = BRANCH_MAP[entry.branch_id]
+        key = entry.branch_id
+        if only_earliest:
+            if key not in entry_map or entry.date < entry_map[key].date:
+                entry_map[key] = entry
+        else:
+            entry_map.setdefault(key, []).append(entry)
+
+    display_entries = []
+    for value in entry_map.values():
+        if isinstance(value, list):
+            for e in value:
+                display_entries.append(e)
+        else:
+            display_entries.append(value)
+
+    def sort_key(e):
+        branch = BRANCH_MAP.get(e.branch_id, {})
+        distance = calculate_distance(user_lat, user_lon, branch["lat"], branch["lon"]) if user_lat and user_lon else None
+        if sort_by == "branch":
+            return branch.get("name", "")
+        elif sort_by == "distance":
+            return distance if distance is not None else float('inf')
+        else:
+            return e.date
+
+    reverse = sort_dir == "desc"
+    display_entries.sort(key=sort_key, reverse=reverse)
+
+    entries_with_distance = []
+    for entry in display_entries:
+        branch = BRANCH_MAP[entry.branch_id]
+        distance = calculate_distance(user_lat, user_lon, branch["lat"], branch["lon"]) if user_lat and user_lon else None
         entries_with_distance.append({
             "branch_id": entry.branch_id,
-            "branch_name": branch.get("name", entry.branch_id),
-            "address": branch.get("address", "-"),
+            "branch_name": branch["name"],
+            "address": branch["address"],
             "date": entry.date,
             "distance": distance
         })
 
+    branch_options = [{
+        "id": bid,
+        "name": b["name"],
+        "address": b["address"]
+    } for bid, b in BRANCH_MAP.items()]
+
     return render_template_string("""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Branch Entries</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-            th {
-                cursor: pointer;
-                user-select: none;
-            }
-        </style>
-    </head>
-    <body class="container mt-4">
-        <h1 class="mb-3">Branch Entries</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Appointments</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-4">
+    <h1 class="mb-4">Appointments</h1>
+    <p><strong>Last Updated:</strong> {{ last_updated or 'Never' }} ({{ time_since }})</p>
 
-        <p><strong>Last Updated:</strong>
-           {{ last_updated if last_updated else 'Never' }}
-           ({{ time_since }})
-        </p>
+    <div class="mb-3">
+        <button class="btn btn-secondary" onclick="getLocation()">📍 Use My Location</button>
+        <label class="form-check-label ms-3">
+            <input class="form-check-input" type="checkbox" id="earliestCheckbox" onchange="applyFilters()"> Show Only Earliest per Branch
+        </label>
+    </div>
 
-        <div class="mb-3">
-            <button onclick="getLocation()" class="btn btn-primary">📍 Find My Location</button>
-            <button onclick="toggleEarliest()" class="btn btn-outline-secondary">🕐 Show Only Earliest Per Branch</button>
-        </div>
+    <div class="mb-3">
+        <input class="form-control" id="searchInput" placeholder="Search branches..." oninput="filterBranches()">
+        <div id="branchResults" class="list-group mt-2"></div>
+    </div>
 
-        <table id="entry-table" class="table table-striped table-bordered">
-            <thead class="table-light">
-                <tr>
-                    <th onclick="sortTable(0)">Branch <span></span></th>
-                    <th onclick="sortTable(1)">Address <span></span></th>
-                    <th onclick="sortTable(2)">Date <span></span></th>
-                    <th onclick="sortTable(3)">Distance <span></span></th>
-                </tr>
-            </thead>
-            <tbody id="entry-body">
+    <div id="selectedBranches" class="mb-3"></div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th><a href="#" onclick="sortBy('branch')">Branch Name</a></th>
+                <th><a href="#" onclick="sortBy('address')">Address</a></th>
+                <th><a href="#" onclick="sortBy('date')">Date</a></th>
+                <th><a href="#" onclick="sortBy('distance')">Distance (km)</a></th>
+            </tr>
+        </thead>
+        <tbody>
             {% for entry in entries %}
-                <tr data-branch="{{ entry.branch_id }}">
+                <tr>
                     <td>{{ entry.branch_name }}</td>
                     <td>{{ entry.address }}</td>
                     <td>{{ entry.date }}</td>
-                    <td>{% if entry.distance is not none %}{{ entry.distance }}{% else %}-{% endif %}</td>
+                    <td>{{ entry.distance if entry.distance is not none else '' }}</td>
                 </tr>
             {% endfor %}
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 
-        <script>
+    <script>
+        const allBranches = {{ branch_options | tojson }};
+        let selected = {{ selected_branch_ids | tojson or "[]" }};
+        let userLat = {{ user_lat or "null" }};
+        let userLon = {{ user_lon or "null" }};
+        let sortByField = "{{ sort_by }}";
+        let sortDir = "{{ sort_dir }}";
+
         function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(pos => {
-                    const { latitude, longitude } = pos.coords;
-                    const url = new URL(window.location.href);
-                    url.searchParams.set("lat", latitude);
-                    url.searchParams.set("lon", longitude);
-                    window.location.href = url;
-                }, err => {
-                    alert("Location access denied or unavailable.");
-                });
+                    userLat = pos.coords.latitude;
+                    userLon = pos.coords.longitude;
+                    applyFilters();
+                }, () => alert("Location access denied."));
             } else {
-                alert("Geolocation is not supported by this browser.");
+                alert("Geolocation not supported.");
             }
         }
 
-        let sortDirection = [true, true, true, true]; // ASC for each column
-
-        function sortTable(colIndex) {
-            const table = document.getElementById("entry-table");
-            const tbody = table.tBodies[0];
-            const rows = Array.from(tbody.rows);
-            const isNumeric = colIndex === 3;
-            const isDate = colIndex === 2;
-
-            rows.sort((a, b) => {
-                let A = a.cells[colIndex].innerText.trim();
-                let B = b.cells[colIndex].innerText.trim();
-
-                if (isNumeric) {
-                    A = parseFloat(A) || 0;
-                    B = parseFloat(B) || 0;
-                } else if (isDate) {
-                    A = new Date(A);
-                    B = new Date(B);
-                }
-
-                if (A < B) return sortDirection[colIndex] ? -1 : 1;
-                if (A > B) return sortDirection[colIndex] ? 1 : -1;
-                return 0;
-            });
-
-            sortDirection[colIndex] = !sortDirection[colIndex];
-            tbody.innerHTML = "";
-            rows.forEach(row => tbody.appendChild(row));
-
-            updateSortIcons(colIndex);
-        }
-
-        function updateSortIcons(colIndex) {
-            const headers = document.querySelectorAll("#entry-table thead th");
-            headers.forEach((th, i) => {
-                th.querySelector("span").textContent = i === colIndex
-                    ? (sortDirection[colIndex] ? "▲" : "▼")
-                    : "";
-            });
-        }
-
-        let showEarliestOnly = false;
-
-        function toggleEarliest() {
-            showEarliestOnly = !showEarliestOnly;
-            const rows = Array.from(document.querySelectorAll("#entry-body tr"));
-            const map = {};
-
-            rows.forEach(row => {
-                const branch = row.getAttribute("data-branch");
-                const date = row.cells[2].innerText;
-                if (!map[branch] || new Date(date) < new Date(map[branch].date)) {
-                    map[branch] = { row, date };
-                }
-            });
-
-            rows.forEach(row => row.style.display = "");
-
-            if (showEarliestOnly) {
-                const keep = new Set(Object.values(map).map(item => item.row));
-                rows.forEach(row => {
-                    if (!keep.has(row)) {
-                        row.style.display = "none";
-                    }
+        function filterBranches() {
+            const query = document.getElementById("searchInput").value.toLowerCase();
+            const container = document.getElementById("branchResults");
+            container.innerHTML = "";
+            allBranches
+                .filter(b => b.name.toLowerCase().includes(query) || b.address.toLowerCase().includes(query))
+                .forEach(branch => {
+                    const div = document.createElement("div");
+                    div.className = "list-group-item list-group-item-action";
+                    div.innerText = branch.name + " - " + branch.address;
+                    div.onclick = () => {
+                        if (!selected.includes(branch.id)) selected.push(branch.id);
+                        applyFilters();
+                    };
+                    container.appendChild(div);
                 });
-            }
         }
-        </script>
-    </body>
-    </html>
-    """, entries=entries_with_distance, last_updated=last_updated, time_since=time_since)
+
+        function applyFilters() {
+            const url = new URL(window.location.href.split("?")[0]);
+            if (userLat && userLon) {
+                url.searchParams.set("lat", userLat);
+                url.searchParams.set("lon", userLon);
+            }
+            if (selected.length) url.searchParams.set("branches", JSON.stringify(selected));
+            if (document.getElementById("earliestCheckbox").checked) url.searchParams.set("earliest", "true");
+            url.searchParams.set("sort_by", sortByField);
+            url.searchParams.set("sort_dir", sortDir);
+            window.location.href = url.toString();
+        }
+
+        function sortBy(field) {
+            if (sortByField === field) {
+                sortDir = sortDir === "asc" ? "desc" : "asc";
+            } else {
+                sortByField = field;
+                sortDir = "asc";
+            }
+            applyFilters();
+        }
+
+        window.onload = () => {
+            const container = document.getElementById("selectedBranches");
+            selected.forEach(id => {
+                const branch = allBranches.find(b => b.id === id);
+                if (!branch) return;
+                const btn = document.createElement("button");
+                btn.className = "btn btn-outline-primary btn-sm me-2 mb-2";
+                btn.innerText = branch.name;
+                btn.onclick = () => {
+                    selected = selected.filter(b => b !== id);
+                    applyFilters();
+                };
+                container.appendChild(btn);
+            });
+        }
+    </script>
+</body>
+</html>
+    """, entries=entries_with_distance, last_updated=last_updated,
+       time_since=time_since, branch_options=branch_options,
+       selected_branch_ids=selected_branch_ids, user_lat=user_lat, user_lon=user_lon,
+       sort_by=sort_by, sort_dir=sort_dir)
 
 @app.route("/add", methods=["POST"])
 def add_entry():
     data = request.get_json()
     if not all(k in data for k in ("date", "branch_id")):
         return {"status": "error", "message": "Missing fields"}, 400
-
     new_entry = Entry(branch_id=data["branch_id"], date=data["date"])
     db.session.add(new_entry)
     set_last_updated()
@@ -248,7 +288,6 @@ def reset_db():
     expected = os.environ.get("RESET_TOKEN", "devtoken")
     if token != expected:
         return {"status": "unauthorized", "message": "Invalid token"}, 401
-
     try:
         db.session.query(Entry).delete()
         set_last_updated()
