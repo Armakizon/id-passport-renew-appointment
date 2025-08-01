@@ -100,29 +100,46 @@
         });
     });
 
-    document.querySelectorAll("th.sortable").forEach(th => {
-        th.addEventListener("click", () => {
-            const column = th.cellIndex;
-            const rows = Array.from(document.querySelector("tbody").rows);
-            const sorted = rows.sort((a, b) => {
-                const valA = a.cells[column].textContent.trim();
-                const valB = b.cells[column].textContent.trim();
-                return isNaN(valA) || isNaN(valB)
-                    ? valA.localeCompare(valB)
-                    : parseFloat(valA) - parseFloat(valB);
-            });
+	document.querySelectorAll("th.sortable").forEach(th => {
+		th.addEventListener("click", () => {
+			const column = parseInt(th.dataset.column);
+			const tbody = document.querySelector("tbody");
+			const rows = Array.from(tbody.rows);
 
-            if (th.dataset.sorted === "asc") {
-                sorted.reverse();
-                th.dataset.sorted = "desc";
-            } else {
-                th.dataset.sorted = "asc";
-            }
+			// Reset all sort indicators
+			document.querySelectorAll("th.sortable").forEach(header => {
+				header.dataset.sorted = "";
+				header.querySelector(".sort-indicator").textContent = "";
+			});
 
-            const tbody = document.querySelector("tbody");
-            tbody.innerHTML = "";
-            sorted.forEach(row => tbody.appendChild(row));
-        });
-    });
+			// Sort rows
+			const sorted = rows.sort((a, b) => {
+				const valA = a.cells[column].textContent.trim();
+				const valB = b.cells[column].textContent.trim();
+				const isNumeric = !isNaN(parseFloat(valA)) && !isNaN(parseFloat(valB));
+
+				if (isNumeric) {
+					return parseFloat(valA) - parseFloat(valB);
+				} else {
+					return valA.localeCompare(valB);
+				}
+			});
+
+			let sortDirection = th.dataset.sorted === "asc" ? "desc" : "asc";
+			th.dataset.sorted = sortDirection;
+
+			if (sortDirection === "desc") {
+				sorted.reverse();
+			}
+
+			// Update sort indicator arrow
+			const indicator = th.querySelector(".sort-indicator");
+			indicator.textContent = sortDirection === "asc" ? "↑" : "↓";
+
+			// Apply sorted rows
+			tbody.innerHTML = "";
+			sorted.forEach(row => tbody.appendChild(row));
+		});
+	});
 </script>
 {% endblock %}

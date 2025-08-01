@@ -1,13 +1,13 @@
 <div class="table-responsive">
     <table class="table table-striped table-bordered" id="appointmentsTable">
-        <thead>
-            <tr>
-                <th class="sortable">Branch Name</th>
-                <th class="sortable">Address</th>
-                <th class="sortable">Date</th>
-                <th class="sortable">Distance (km)</th>
-            </tr>
-        </thead>
+		<thead>
+			<tr>
+				<th class="sortable" data-column="0">Branch Name <span class="sort-indicator"></span></th>
+				<th class="sortable" data-column="1">Address <span class="sort-indicator"></span></th>
+				<th class="sortable" data-column="2">Date <span class="sort-indicator"></span></th>
+				<th class="sortable" data-column="3">Distance (km) <span class="sort-indicator"></span></th>
+			</tr>
+		</thead>
         <tbody>
             {% for entry in entries %}
             <tr data-branch-id="{{ entry.branch_id }}">
