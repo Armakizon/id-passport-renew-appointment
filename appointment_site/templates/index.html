@@ -1,96 +1,141 @@
-{% extends "base.html" %}
-{% block title %}Appointment Dates{% endblock %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // DOM elements and variables
+  const allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
+  const searchInput = document.getElementById("branchSearch");
+  const resultsList = document.getElementById("branchResults");
+  const locationButtons = document.getElementById("locationButtons");
+  const earliestBtn = document.getElementById("toggleEarliestBtn");
 
-{% block content %}
-  <h2 class="mb-4">Appointment Dates</h2>
+  let activeBranchIds = [];
+  let showEarliestOnly = true;  // default to showing earliest only
 
-  <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterDrawer" aria-controls="filterDrawer">
-    Open Filter
-  </button>
+  // Get unique branch names for search autocomplete
+  const branchNames = [...new Set(allRows.map(row => {
+    const id = row.getAttribute("data-branch-id");
+    const name = row.children[0].textContent.trim();
+    return `${id}|${name}`;
+  }))];
 
-  <p><strong>Last Updated:</strong> {{ last_updated }} ({{ time_since }})</p>
-
-  {% include "partials/filter_drawer.html" %}
-  {% include "partials/location_buttons.html" %}
-  {% include "partials/toggle_button.html" %}
-  {% include "partials/appointments_table.html" %}
-{% endblock %}
-
-{% block scripts %}
-  <script>
-    const userLat = new URLSearchParams(window.location.search).get("lat");
-    const userLon = new URLSearchParams(window.location.search).get("lon");
-
-    const allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
-    const searchInput = document.getElementById("branchSearch");
-    const resultsList = document.getElementById("branchResults");
-    const locationButtons = document.getElementById("locationButtons");
-
-    let activeBranchIds = [];
-
-    const branchNames = [...new Set(allRows.map(row => {
+  // Update table rows visibility based on filters and toggle state
+  function updateTableVisibility() {
+    const grouped = {};
+    allRows.forEach(row => {
       const id = row.getAttribute("data-branch-id");
-      const name = row.children[0].textContent.trim();
-      return `${id}|${name}`;
-    }))];
+      (grouped[id] ||= []).push(row);
+    });
 
-    function updateTableVisibility() {
-      const grouped = {};
-      allRows.forEach(row => {
-        const id = row.getAttribute("data-branch-id");
-        (grouped[id] ||= []).push(row);
-      });
+    allRows.forEach(row => row.style.display = "none");
 
-      allRows.forEach(row => row.style.display = "none");
-
-      for (const [branchId, rows] of Object.entries(grouped)) {
-        if (activeBranchIds.length === 0 || activeBranchIds.includes(branchId)) {
-          if (typeof showEarliestOnly !== "undefined" && showEarliestOnly) {
-            rows.sort((a, b) =>
-              new Date(a.children[2].innerText) - new Date(b.children[2].innerText)
-            )[0].style.display = "";
-          } else {
-            rows.forEach(row => row.style.display = "");
-          }
+    for (const [branchId, rows] of Object.entries(grouped)) {
+      if (activeBranchIds.length === 0 || activeBranchIds.includes(branchId)) {
+        if (showEarliestOnly) {
+          rows.sort((a, b) => new Date(a.children[2].innerText) - new Date(b.children[2].innerText))[0].style.display = "";
+        } else {
+          rows.forEach(row => row.style.display = "");
         }
       }
     }
+  }
 
-    function addLocationFilter(id, name) {
-      if (activeBranchIds.includes(id)) return;
-      activeBranchIds.push(id);
+  // Add location filter button and update active filters
+  function addLocationFilter(id, name) {
+    if (activeBranchIds.includes(id)) return;
+    activeBranchIds.push(id);
+    updateTableVisibility();
+
+    const btn = document.createElement("button");
+    btn.className = "btn btn-secondary btn-sm location-btn";
+    btn.textContent = name;
+    btn.onclick = () => {
+      activeBranchIds = activeBranchIds.filter(bid => bid !== id);
+      locationButtons.removeChild(btn);
       updateTableVisibility();
+    };
+    locationButtons.appendChild(btn);
+  }
 
-      const btn = document.createElement("button");
-      btn.className = "btn btn-secondary btn-sm location-btn";
-      btn.textContent = name;
-      btn.onclick = () => {
-        activeBranchIds = activeBranchIds.filter(bid => bid !== id);
-        locationButtons.removeChild(btn);
-        updateTableVisibility();
+  // Event listener for search input autocomplete
+  searchInput?.addEventListener("input", () => {
+    const val = searchInput.value.toLowerCase();
+    resultsList.innerHTML = "";
+    if (!val) return;
+
+    branchNames.filter(item => item.toLowerCase().includes(val)).slice(0, 5).forEach(match => {
+      const [id, name] = match.split("|");
+      const li = document.createElement("li");
+      li.className = "list-group-item list-group-item-action";
+      li.textContent = name;
+      li.onclick = () => {
+        addLocationFilter(id, name);
+        resultsList.innerHTML = "";
+        searchInput.value = "";
       };
-      locationButtons.appendChild(btn);
+      resultsList.appendChild(li);
+    });
+  });
+
+  // Toggle button logic for showing earliest or all dates
+  earliestBtn?.addEventListener("click", () => {
+    showEarliestOnly = !showEarliestOnly;
+    earliestBtn.textContent = showEarliestOnly
+      ? "Show Earliest Date per Branch"
+      : "Show All Dates";
+    updateTableVisibility();
+  });
+
+  // Location button event: add filters based on user location
+  document.getElementById("getLocationBtn")?.addEventListener("click", () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser.");
+      return;
     }
 
-    searchInput?.addEventListener("input", () => {
-      const val = searchInput.value.toLowerCase();
-      resultsList.innerHTML = "";
-      if (!val) return;
+    navigator.geolocation.getCurrentPosition(pos => {
+      const userLat = pos.coords.latitude;
+      const userLon = pos.coords.longitude;
 
-      branchNames.filter(item => item.toLowerCase().includes(val)).slice(0, 5).forEach(match => {
-        const [id, name] = match.split("|");
-        const li = document.createElement("li");
-        li.className = "list-group-item list-group-item-action";
-        li.textContent = name;
-        li.onclick = () => {
-          addLocationFilter(id, name);
-          resultsList.innerHTML = "";
-          searchInput.value = "";
-        };
-        resultsList.appendChild(li);
+      const branchDistances = {};
+
+      allRows.forEach(row => {
+        const branchId = row.getAttribute("data-branch-id");
+        const lat = parseFloat(row.getAttribute("data-lat"));
+        const lon = parseFloat(row.getAttribute("data-lon"));
+
+        if (!isNaN(lat) && !isNaN(lon)) {
+          const d = getDistanceFromLatLonInKm(userLat, userLon, lat, lon);
+          if (!branchDistances[branchId] || branchDistances[branchId] > d) {
+            branchDistances[branchId] = d;
+          }
+        }
       });
-    });
-  </script>
 
-  {% include "partials/sort_logic.html" %}
-{% endblock %}
+      Object.keys(branchDistances).forEach(branchId => {
+        const row = allRows.find(r => r.getAttribute("data-branch-id") === branchId);
+        const branchName = row?.children[0].textContent.trim();
+        if (branchName) {
+          addLocationFilter(branchId, branchName);
+        }
+      });
+    }, () => {
+      alert("Failed to get your location.");
+    });
+  });
+
+  // Utility: calculate distance between two lat/lon points
+  function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    const toRad = d => d * Math.PI / 180;
+    const R = 6371; // Radius of the earth in km
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) ** 2 +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+              Math.sin(dLon / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
+  // Run updateTableVisibility on page load with defaults
+  updateTableVisibility();
+});
+</script>
