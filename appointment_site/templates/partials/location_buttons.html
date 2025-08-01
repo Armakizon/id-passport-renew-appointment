@@ -15,12 +15,6 @@ document.getElementById("getLocationBtn")?.addEventListener("click", () => {
         const userLat = pos.coords.latitude;
         const userLon = pos.coords.longitude;
 
-        // Update URL query params silently (no page reload)
-        const url = new URL(window.location);
-        url.searchParams.set('lat', userLat);
-        url.searchParams.set('lon', userLon);
-        window.history.replaceState({}, '', url);
-
         const branchRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
         const branchDistances = {};
 
