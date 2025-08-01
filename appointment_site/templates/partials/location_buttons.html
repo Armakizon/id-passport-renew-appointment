@@ -1,5 +1,60 @@
-<div class="mb-3">
+<div id="locationButtons" class="mb-3">
   <button id="getLocationBtn" class="btn btn-primary">
     📍 Based on My Location
   </button>
 </div>
+
+<script>
+document.getElementById("getLocationBtn")?.addEventListener("click", () => {
+    if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser.");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(pos => {
+        const userLat = pos.coords.latitude;
+        const userLon = pos.coords.longitude;
+
+        const branchRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
+        const branchDistances = {};
+
+        branchRows.forEach(row => {
+            const branchId = row.getAttribute("data-branch-id");
+            const lat = parseFloat(row.getAttribute("data-lat"));
+            const lon = parseFloat(row.getAttribute("data-lon"));
+
+            if (!isNaN(lat) && !isNaN(lon)) {
+                const d = getDistanceFromLatLonInKm(userLat, userLon, lat, lon);
+                if (!branchDistances[branchId] || branchDistances[branchId] > d) {
+                    branchDistances[branchId] = d;
+                }
+            }
+        });
+
+        const nearest = Object.entries(branchDistances)
+            .sort((a, b) => a[1] - b[1])
+            .slice(0, 3)
+            .map(([branchId]) => {
+                const row = branchRows.find(r => r.getAttribute("data-branch-id") === branchId);
+                const branchName = row?.children[0].textContent.trim();
+                return { id: branchId, name: branchName };
+            });
+
+        nearest.forEach(({ id, name }) => addLocationFilter(id, name));
+    }, () => {
+        alert("Failed to get your location.");
+    });
+});
+
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    const toRad = d => d * Math.PI / 180;
+    const R = 6371;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) ** 2 +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+              Math.sin(dLon / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+</script>
