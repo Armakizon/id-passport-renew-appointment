@@ -1,0 +1,22 @@
+<div class="table-responsive">
+    <table class="table table-striped table-bordered" id="appointmentsTable">
+        <thead>
+            <tr>
+                <th class="sortable">Branch Name</th>
+                <th class="sortable">Address</th>
+                <th class="sortable">Date</th>
+                <th class="sortable">Distance (km)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in entries %}
+            <tr data-branch-id="{{ entry.branch_id }}">
+                <td>{{ entry.branch_name }}</td>
+                <td>{{ entry.address }}</td>
+                <td>{{ entry.date }}</td>
+                <td>{% if entry.distance %}{{ entry.distance }}{% else %}-{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
