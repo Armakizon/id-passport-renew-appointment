@@ -36,11 +36,16 @@
       return `${id}|${name}`;
     }))];
 
-    earliestBtn?.addEventListener("click", () => {
-      showEarliestOnly = !showEarliestOnly;
-      earliestBtn.textContent = showEarliestOnly ? "Show All Dates" : "Show Earliest Date per Branch";
-      updateTableVisibility();
-    });
+let showEarliestOnly = true;
+earliestBtn.textContent = "Show All Dates";
+
+earliestBtn?.addEventListener("click", () => {
+    showEarliestOnly = !showEarliestOnly;
+    earliestBtn.textContent = showEarliestOnly ? "Show All Dates" : "Show Earliest Date per Branch";
+    updateTableVisibility();
+});
+
+updateTableVisibility();  // Apply initial state
 
     function updateTableVisibility() {
       const grouped = {};
