@@ -1,14 +1,13 @@
-<!-- toggle_button.html -->
 <div class="mb-3">
   <button id="toggleEarliestBtn" class="btn btn-outline-primary">
-    Show Earliest Date per Branch
+    Show All Dates
   </button>
 </div>
 
 <script>
-  const earliestBtn = document.getElementById("toggleEarliestBtn");
+  let showEarliestOnly = true;
 
-  let showEarliestOnly = false;
+  const earliestBtn = document.getElementById("toggleEarliestBtn");
 
   earliestBtn?.addEventListener("click", () => {
     showEarliestOnly = !showEarliestOnly;
@@ -17,4 +16,7 @@
       : "Show Earliest Date per Branch";
     updateTableVisibility();
   });
+
+  // Call it once on page load to apply the default
+  updateTableVisibility();
 </script>
