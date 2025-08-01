@@ -21,6 +21,10 @@
         <ul id="branchResults" class="list-group mt-2"></ul>
     </div>
 
+    <div class="mb-3">
+        <button id="getLocationBtn" class="btn btn-info">📍 Sort by My Location</button>
+    </div>
+
     <div id="locationButtons" class="mb-3"></div>
 
     <div class="mb-3">
@@ -43,7 +47,9 @@
                     <td>{{ entry.branch_name }}</td>
                     <td>{{ entry.address }}</td>
                     <td>{{ entry.date }}</td>
-                    <td>{% if entry.distance %}{{ entry.distance }}{% else %}-{% endif %}</td>
+                    <td data-distance="{% if entry.distance %}{{ entry.distance }}{% else %}Infinity{% endif %}">
+                        {% if entry.distance %}{{ entry.distance }}{% else %}-{% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -52,14 +58,12 @@
 </div>
 
 <script>
-    const userLat = new URLSearchParams(window.location.search).get("lat");
-    const userLon = new URLSearchParams(window.location.search).get("lon");
-
     const allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
     const searchInput = document.getElementById("branchSearch");
     const resultsList = document.getElementById("branchResults");
     const locationButtons = document.getElementById("locationButtons");
     const earliestBtn = document.getElementById("toggleEarliestBtn");
+    const getLocationBtn = document.getElementById("getLocationBtn");
 
     let activeBranchIds = [];
     let showEarliestOnly = false;
@@ -136,6 +140,24 @@
                 searchInput.value = "";
             };
             resultsList.appendChild(li);
+        });
+    });
+
+    getLocationBtn.addEventListener("click", () => {
+        if (!navigator.geolocation) {
+            alert("Geolocation is not supported by your browser.");
+            return;
+        }
+        navigator.geolocation.getCurrentPosition(position => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.set("lat", lat);
+            newUrl.searchParams.set("lon", lon);
+            window.location.href = newUrl.toString();
+        }, () => {
+            alert("Unable to retrieve your location.");
         });
     });
 </script>
