@@ -41,7 +41,9 @@
       earliestBtn.textContent = showEarliestOnly ? "Show All Dates" : "Show Earliest Date per Branch";
       updateTableVisibility();
     });
-	updateTableVisibility();
+      showEarliestOnly = !showEarliestOnly;
+      earliestBtn.textContent = showEarliestOnly ? "Show All Dates" : "Show Earliest Date per Branch";
+      updateTableVisibility();
 
     function updateTableVisibility() {
       const grouped = {};
