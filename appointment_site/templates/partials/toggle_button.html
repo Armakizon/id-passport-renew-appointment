@@ -7,16 +7,32 @@
 <script>
   let showEarliestOnly = true;
 
-  const earliestBtn = document.getElementById("toggleEarliestBtn");
+  function initToggleEarliest() {
+    const earliestBtn = document.getElementById("toggleEarliestBtn");
 
-  earliestBtn?.addEventListener("click", () => {
-    showEarliestOnly = !showEarliestOnly;
-    earliestBtn.textContent = showEarliestOnly
-      ? "Show All Dates"
-      : "Show Earliest Date per Branch";
-    updateTableVisibility();
-  });
+    earliestBtn?.addEventListener("click", () => {
+      showEarliestOnly = !showEarliestOnly;
+      earliestBtn.textContent = showEarliestOnly
+        ? "Show All Dates"
+        : "Show Earliest Date per Branch";
+      if (typeof updateTableVisibility === "function") {
+        updateTableVisibility();
+      }
+    });
 
-  // Call it once on page load to apply the default
-  updateTableVisibility();
+    if (typeof updateTableVisibility === "function") {
+      updateTableVisibility();  // Run once on load
+    }
+  }
+
+  // Wait until DOM and updateTableVisibility are ready
+  function waitForVisibilityAndInit() {
+    if (typeof updateTableVisibility === "function") {
+      initToggleEarliest();
+    } else {
+      setTimeout(waitForVisibilityAndInit, 50);
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", waitForVisibilityAndInit);
 </script>
