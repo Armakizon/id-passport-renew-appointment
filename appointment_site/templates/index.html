@@ -1,1 +1,111 @@
-<!-- Your existing HTML template goes here -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment Table</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .location-btn {
+            margin: 0 5px 5px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <h2 class="mb-4">Appointment Dates</h2>
+    <p><strong>Last Updated:</strong> {{ last_updated }} ({{ time_since }})</p>
+    
+    <div class="mb-3">
+        <label for="branchSearch" class="form-label">Search and Add Branch:</label>
+        <input type="text" id="branchSearch" class="form-control" placeholder="Type a branch name...">
+        <ul id="branchResults" class="list-group mt-2"></ul>
+    </div>
+
+    <div id="locationButtons" class="mb-3"></div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered" id="appointmentsTable">
+            <thead>
+                <tr>
+                    <th>Branch Name</th>
+                    <th>Address</th>
+                    <th>Date</th>
+                    <th>Distance (km)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in entries %}
+                <tr data-branch-id="{{ entry.branch_id }}">
+                    <td>{{ entry.branch_name }}</td>
+                    <td>{{ entry.address }}</td>
+                    <td>{{ entry.date }}</td>
+                    <td>{% if entry.distance %}{{ entry.distance }}{% else %}-{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    const userLat = new URLSearchParams(window.location.search).get("lat");
+    const userLon = new URLSearchParams(window.location.search).get("lon");
+
+    const allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
+    const searchInput = document.getElementById("branchSearch");
+    const resultsList = document.getElementById("branchResults");
+    const locationButtons = document.getElementById("locationButtons");
+
+    let activeBranchIds = [];
+
+    const branchNames = [...new Set(allRows.map(row => {
+        const id = row.getAttribute("data-branch-id");
+        const name = row.children[0].textContent.trim();
+        return `${id}|${name}`;
+    }))];
+
+    function updateTableVisibility() {
+        allRows.forEach(row => {
+            const id = row.getAttribute("data-branch-id");
+            row.style.display = (activeBranchIds.length === 0 || activeBranchIds.includes(id)) ? "" : "none";
+        });
+    }
+
+    function addLocationFilter(id, name) {
+        if (activeBranchIds.includes(id)) return;
+        activeBranchIds.push(id);
+        updateTableVisibility();
+
+        const btn = document.createElement("button");
+        btn.className = "btn btn-secondary btn-sm location-btn";
+        btn.textContent = name;
+        btn.onclick = () => {
+            activeBranchIds = activeBranchIds.filter(bid => bid !== id);
+            locationButtons.removeChild(btn);
+            updateTableVisibility();
+        };
+        locationButtons.appendChild(btn);
+    }
+
+    searchInput.addEventListener("input", () => {
+        const searchVal = searchInput.value.toLowerCase();
+        resultsList.innerHTML = "";
+        if (!searchVal) return;
+
+        const matches = branchNames.filter(item => item.toLowerCase().includes(searchVal)).slice(0, 5);
+        matches.forEach(match => {
+            const [id, name] = match.split("|");
+            const li = document.createElement("li");
+            li.className = "list-group-item list-group-item-action";
+            li.textContent = name;
+            li.onclick = () => {
+                addLocationFilter(id, name);
+                resultsList.innerHTML = "";
+                searchInput.value = "";
+            };
+            resultsList.appendChild(li);
+        });
+    });
+</script>
+</body>
+</html>
