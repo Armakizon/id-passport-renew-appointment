@@ -8,12 +8,6 @@
         .location-btn {
             margin: 0 5px 5px 0;
         }
-        th {
-            cursor: pointer;
-        }
-        th span {
-            margin-left: 5px;
-        }
     </style>
 </head>
 <body>
@@ -29,14 +23,18 @@
 
     <div id="locationButtons" class="mb-3"></div>
 
+    <div class="mb-3">
+        <button id="toggleEarliestBtn" class="btn btn-outline-primary">Show Earliest Date per Branch</button>
+    </div>
+
     <div class="table-responsive">
         <table class="table table-striped table-bordered" id="appointmentsTable">
             <thead>
                 <tr>
-                    <th onclick="sortTable(0)">Branch Name <span></span></th>
-                    <th onclick="sortTable(1)">Address <span></span></th>
-                    <th onclick="sortTable(2)">Date <span></span></th>
-                    <th onclick="sortTable(3)">Distance (km) <span></span></th>
+                    <th>Branch Name</th>
+                    <th>Address</th>
+                    <th>Date</th>
+                    <th>Distance (km)</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,8 +59,10 @@
     const searchInput = document.getElementById("branchSearch");
     const resultsList = document.getElementById("branchResults");
     const locationButtons = document.getElementById("locationButtons");
+    const earliestBtn = document.getElementById("toggleEarliestBtn");
 
     let activeBranchIds = [];
+    let showEarliestOnly = false;
 
     const branchNames = [...new Set(allRows.map(row => {
         const id = row.getAttribute("data-branch-id");
@@ -70,11 +70,37 @@
         return `${id}|${name}`;
     }))];
 
+    earliestBtn.addEventListener("click", () => {
+        showEarliestOnly = !showEarliestOnly;
+        earliestBtn.textContent = showEarliestOnly ? "Show All Dates" : "Show Earliest Date per Branch";
+        updateTableVisibility();
+    });
+
     function updateTableVisibility() {
+        const groupedByBranch = {};
+
         allRows.forEach(row => {
             const id = row.getAttribute("data-branch-id");
-            row.style.display = (activeBranchIds.length === 0 || activeBranchIds.includes(id)) ? "" : "none";
+            if (!groupedByBranch[id]) groupedByBranch[id] = [];
+            groupedByBranch[id].push(row);
         });
+
+        allRows.forEach(row => row.style.display = "none");
+
+        for (const [branchId, rows] of Object.entries(groupedByBranch)) {
+            if (activeBranchIds.length === 0 || activeBranchIds.includes(branchId)) {
+                if (showEarliestOnly) {
+                    const sorted = rows.slice().sort((a, b) => {
+                        const dateA = new Date(a.children[2].innerText.trim());
+                        const dateB = new Date(b.children[2].innerText.trim());
+                        return dateA - dateB;
+                    });
+                    sorted[0].style.display = "";
+                } else {
+                    rows.forEach(row => row.style.display = "");
+                }
+            }
+        }
     }
 
     function addLocationFilter(id, name) {
@@ -112,53 +138,6 @@
             resultsList.appendChild(li);
         });
     });
-
-    const sortDirection = {};
-
-    function sortTable(colIndex) {
-        const table = document.getElementById("appointmentsTable");
-        const tbody = table.tBodies[0];
-        const rows = Array.from(tbody.rows);
-        const isNumeric = colIndex === 3;
-        const isDate = colIndex === 2;
-
-        rows.sort((a, b) => {
-            let A = a.cells[colIndex].innerText.trim();
-            let B = b.cells[colIndex].innerText.trim();
-
-            if (isNumeric) {
-                A = parseFloat(A) || 0;
-                B = parseFloat(B) || 0;
-            } else if (isDate) {
-                A = new Date(A);
-                B = new Date(B);
-            } else {
-                A = A.toLowerCase();
-                B = B.toLowerCase();
-            }
-
-            if (A < B) return sortDirection[colIndex] ? -1 : 1;
-            if (A > B) return sortDirection[colIndex] ? 1 : -1;
-            return 0;
-        });
-
-        sortDirection[colIndex] = !sortDirection[colIndex];
-        tbody.innerHTML = "";
-        rows.forEach(row => tbody.appendChild(row));
-        updateSortIcons(colIndex);
-    }
-
-    function updateSortIcons(colIndex) {
-        const headers = document.querySelectorAll("#appointmentsTable thead th");
-        headers.forEach((th, i) => {
-            const span = th.querySelector("span");
-            if (i === colIndex) {
-                span.textContent = sortDirection[colIndex] ? "▲" : "▼";
-            } else {
-                span.textContent = "";
-            }
-        });
-    }
 </script>
 </body>
 </html>
