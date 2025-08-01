@@ -30,6 +30,16 @@
             right: 310px;
             z-index: 1100;
         }
+        th.sortable {
+            cursor: pointer;
+            user-select: none;
+        }
+        th.sortable.asc::after {
+            content: " ▲";
+        }
+        th.sortable.desc::after {
+            content: " ▼";
+        }
     </style>
 </head>
 <body>
@@ -43,27 +53,27 @@
         <button id="toggleEarliestBtn" class="btn btn-outline-primary">Show Earliest Date per Branch</button>
     </div>
 
-    <!-- Active Branch Filters -->
+    <!-- Active Location Buttons -->
     <div id="locationButtons" class="mb-3"></div>
 
     <!-- Appointments Table -->
     <div class="table-responsive">
-        <table class="table table-striped table-bordered sortable" id="appointmentsTable">
+        <table class="table table-striped table-bordered" id="appointmentsTable">
             <thead>
                 <tr>
-                    <th>Branch Name</th>
-                    <th>Address</th>
-                    <th>Date</th>
-                    <th>Distance (km)</th>
+                    <th class="sortable">Branch Name</th>
+                    <th class="sortable">Address</th>
+                    <th class="sortable">Date</th>
+                    <th class="sortable">Distance (km)</th>
                 </tr>
             </thead>
             <tbody>
                 {% for entry in entries %}
-                <tr data-branch-id="{{ entry.branch_id }}">
+                <tr data-branch-id="{{ entry.branch_id }}" data-lat="{{ entry.latitude }}" data-lon="{{ entry.longitude }}">
                     <td>{{ entry.branch_name }}</td>
                     <td>{{ entry.address }}</td>
                     <td>{{ entry.date }}</td>
-                    <td>{% if entry.distance %}{{ entry.distance }}{% else %}-{% endif %}</td>
+                    <td class="distance-cell">{% if entry.distance %}{{ entry.distance }}{% else %}-{% endif %}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -78,53 +88,72 @@
     <ul id="branchResults" class="list-group"></ul>
 </div>
 
-<!-- JS Section -->
+<!-- JavaScript -->
 <script>
-    const userLat = new URLSearchParams(window.location.search).get("lat");
-    const userLon = new URLSearchParams(window.location.search).get("lon");
-
-    const allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
+    const userLat = parseFloat(new URLSearchParams(window.location.search).get("lat"));
+    const userLon = parseFloat(new URLSearchParams(window.location.search).get("lon"));
+    const table = document.getElementById("appointmentsTable");
+    const rows = [...table.querySelectorAll("tbody tr")];
+    const earliestBtn = document.getElementById("toggleEarliestBtn");
     const searchInput = document.getElementById("branchSearch");
     const resultsList = document.getElementById("branchResults");
     const locationButtons = document.getElementById("locationButtons");
-    const earliestBtn = document.getElementById("toggleEarliestBtn");
 
-    let activeBranchIds = [];
     let showEarliestOnly = false;
+    let activeBranchIds = [];
 
-    const branchNames = [...new Set(allRows.map(row => {
-        const id = row.getAttribute("data-branch-id");
-        const name = row.children[0].textContent.trim();
-        return `${id}|${name}`;
-    }))];
+    // GPS Distance Calculation
+    if (!isNaN(userLat) && !isNaN(userLon)) {
+        rows.forEach(row => {
+            const lat = parseFloat(row.dataset.lat);
+            const lon = parseFloat(row.dataset.lon);
+            const distCell = row.querySelector(".distance-cell");
 
+            if (!isNaN(lat) && !isNaN(lon)) {
+                const R = 6371; // km
+                const dLat = (lat - userLat) * Math.PI / 180;
+                const dLon = (lon - userLon) * Math.PI / 180;
+                const a = Math.sin(dLat / 2) ** 2 +
+                          Math.cos(userLat * Math.PI / 180) * Math.cos(lat * Math.PI / 180) *
+                          Math.sin(dLon / 2) ** 2;
+                const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                const distance = (R * c).toFixed(2);
+                distCell.textContent = distance;
+            }
+        });
+    }
+
+    // Toggle Earliest Button
     earliestBtn.addEventListener("click", () => {
         showEarliestOnly = !showEarliestOnly;
         earliestBtn.textContent = showEarliestOnly ? "Show All Dates" : "Show Earliest Date per Branch";
-        updateTableVisibility();
+        updateVisibility();
     });
 
-    function updateTableVisibility() {
-        const groupedByBranch = {};
-        allRows.forEach(row => {
-            const id = row.getAttribute("data-branch-id");
-            if (!groupedByBranch[id]) groupedByBranch[id] = [];
-            groupedByBranch[id].push(row);
+    // Filter Logic
+    const allBranchData = [...new Set(rows.map(r => {
+        const id = r.dataset.branchId;
+        const name = r.children[0].textContent.trim();
+        return `${id}|${name}`;
+    }))];
+
+    function updateVisibility() {
+        const groups = {};
+        rows.forEach(r => {
+            const id = r.dataset.branchId;
+            if (!groups[id]) groups[id] = [];
+            groups[id].push(r);
         });
 
-        allRows.forEach(row => row.style.display = "none");
+        rows.forEach(r => r.style.display = "none");
 
-        for (const [branchId, rows] of Object.entries(groupedByBranch)) {
-            if (activeBranchIds.length === 0 || activeBranchIds.includes(branchId)) {
+        for (const [id, group] of Object.entries(groups)) {
+            if (activeBranchIds.length === 0 || activeBranchIds.includes(id)) {
                 if (showEarliestOnly) {
-                    const sorted = rows.slice().sort((a, b) => {
-                        const dateA = new Date(a.children[2].innerText.trim());
-                        const dateB = new Date(b.children[2].innerText.trim());
-                        return dateA - dateB;
-                    });
-                    sorted[0].style.display = "";
+                    group.sort((a, b) => new Date(a.children[2].innerText) - new Date(b.children[2].innerText));
+                    group[0].style.display = "";
                 } else {
-                    rows.forEach(row => row.style.display = "");
+                    group.forEach(r => r.style.display = "");
                 }
             }
         }
@@ -133,34 +162,33 @@
     function addLocationFilter(id, name) {
         if (activeBranchIds.includes(id)) return;
         activeBranchIds.push(id);
-        updateTableVisibility();
+        updateVisibility();
 
         const btn = document.createElement("button");
         btn.className = "btn btn-secondary btn-sm location-btn";
         btn.textContent = name;
         btn.onclick = () => {
-            activeBranchIds = activeBranchIds.filter(bid => bid !== id);
+            activeBranchIds = activeBranchIds.filter(x => x !== id);
             locationButtons.removeChild(btn);
-            updateTableVisibility();
+            updateVisibility();
         };
         locationButtons.appendChild(btn);
     }
 
     searchInput.addEventListener("input", () => {
-        const searchVal = searchInput.value.toLowerCase();
+        const val = searchInput.value.toLowerCase();
         resultsList.innerHTML = "";
-        if (!searchVal) return;
+        if (!val) return;
 
-        const matches = branchNames.filter(item => item.toLowerCase().includes(searchVal)).slice(0, 5);
-        matches.forEach(match => {
-            const [id, name] = match.split("|");
+        allBranchData.filter(x => x.toLowerCase().includes(val)).slice(0, 5).forEach(entry => {
+            const [id, name] = entry.split("|");
             const li = document.createElement("li");
             li.className = "list-group-item list-group-item-action";
             li.textContent = name;
             li.onclick = () => {
                 addLocationFilter(id, name);
-                resultsList.innerHTML = "";
                 searchInput.value = "";
+                resultsList.innerHTML = "";
             };
             resultsList.appendChild(li);
         });
@@ -172,33 +200,35 @@
     });
 
     // Sorting logic
-    document.querySelectorAll("#appointmentsTable th").forEach((th, colIndex) => {
-        th.style.cursor = "pointer";
+    document.querySelectorAll("th.sortable").forEach((th, i) => {
         th.addEventListener("click", () => {
-            const tbody = document.querySelector("#appointmentsTable tbody");
-            const rows = Array.from(tbody.querySelectorAll("tr"));
-            const ascending = !th.classList.contains("asc");
+            const asc = !th.classList.contains("asc");
+            const tbody = table.querySelector("tbody");
+            const newRows = [...tbody.querySelectorAll("tr")].sort((a, b) => {
+                const valA = a.children[i].innerText.trim();
+                const valB = b.children[i].innerText.trim();
 
-            rows.sort((a, b) => {
-                const cellA = a.children[colIndex].innerText.trim();
-                const cellB = b.children[colIndex].innerText.trim();
-
-                if (colIndex === 3) {
-                    const valA = cellA === "-" ? Infinity : parseFloat(cellA);
-                    const valB = cellB === "-" ? Infinity : parseFloat(cellB);
-                    return ascending ? valA - valB : valB - valA;
+                if (i === 3) {
+                    const distA = valA === "-" ? Infinity : parseFloat(valA);
+                    const distB = valB === "-" ? Infinity : parseFloat(valB);
+                    return asc ? distA - distB : distB - distA;
                 }
 
-                return ascending
-                    ? cellA.localeCompare(cellB, undefined, { numeric: true })
-                    : cellB.localeCompare(cellA, undefined, { numeric: true });
+                const datePattern = /^\d{4}-\d{2}-\d{2}/;
+                if (datePattern.test(valA) && datePattern.test(valB)) {
+                    return asc ? new Date(valA) - new Date(valB) : new Date(valB) - new Date(valA);
+                }
+
+                return asc ? valA.localeCompare(valB) : valB.localeCompare(valA);
             });
 
+            // Clear and append
             tbody.innerHTML = "";
-            rows.forEach(row => tbody.appendChild(row));
+            newRows.forEach(r => tbody.appendChild(r));
 
-            document.querySelectorAll("#appointmentsTable th").forEach(th => th.classList.remove("asc", "desc"));
-            th.classList.add(ascending ? "asc" : "desc");
+            // Update headers
+            document.querySelectorAll("th.sortable").forEach(th => th.classList.remove("asc", "desc"));
+            th.classList.add(asc ? "asc" : "desc");
         });
     });
 </script>
