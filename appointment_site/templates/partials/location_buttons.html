@@ -1,3 +1,9 @@
+<div id="locationButtons" class="mb-3">
+  <button id="getLocationBtn" class="btn btn-primary">
+    📍 Based on My Location
+  </button>
+</div>
+
 <script>
 document.getElementById("getLocationBtn")?.addEventListener("click", () => {
     if (!navigator.geolocation) {
@@ -16,6 +22,7 @@ document.getElementById("getLocationBtn")?.addEventListener("click", () => {
         window.history.replaceState({}, '', url);
 
         const branchRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
+        const branchDistances = {};
 
         branchRows.forEach(row => {
             const branchId = row.getAttribute("data-branch-id");
@@ -23,7 +30,18 @@ document.getElementById("getLocationBtn")?.addEventListener("click", () => {
             const lon = parseFloat(row.getAttribute("data-lon"));
 
             if (!isNaN(lat) && !isNaN(lon)) {
-                const branchName = row.children[0].textContent.trim();
+                const d = getDistanceFromLatLonInKm(userLat, userLon, lat, lon);
+                if (!branchDistances[branchId] || branchDistances[branchId] > d) {
+                    branchDistances[branchId] = d;
+                }
+            }
+        });
+
+        // Add all branches with distance info, in order of appearance, no sorting
+        Object.keys(branchDistances).forEach(branchId => {
+            const row = branchRows.find(r => r.getAttribute("data-branch-id") === branchId);
+            const branchName = row?.children[0].textContent.trim();
+            if (branchName) {
                 addLocationFilter(branchId, branchName);
             }
         });
