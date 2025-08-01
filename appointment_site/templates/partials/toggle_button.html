@@ -1,3 +1,20 @@
+<!-- toggle_button.html -->
 <div class="mb-3">
-    <button id="toggleEarliestBtn" class="btn btn-outline-primary">Show Earliest Date per Branch</button>
+  <button id="toggleEarliestBtn" class="btn btn-outline-primary">
+    Show Earliest Date per Branch
+  </button>
 </div>
+
+<script>
+  const earliestBtn = document.getElementById("toggleEarliestBtn");
+
+  let showEarliestOnly = false;
+
+  earliestBtn?.addEventListener("click", () => {
+    showEarliestOnly = !showEarliestOnly;
+    earliestBtn.textContent = showEarliestOnly
+      ? "Show All Dates"
+      : "Show Earliest Date per Branch";
+    updateTableVisibility();
+  });
+</script>

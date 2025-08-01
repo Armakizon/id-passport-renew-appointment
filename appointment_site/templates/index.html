@@ -25,25 +25,14 @@
     const searchInput = document.getElementById("branchSearch");
     const resultsList = document.getElementById("branchResults");
     const locationButtons = document.getElementById("locationButtons");
-    const earliestBtn = document.getElementById("toggleEarliestBtn");
 
     let activeBranchIds = [];
-    let showEarliestOnly = false;
 
     const branchNames = [...new Set(allRows.map(row => {
       const id = row.getAttribute("data-branch-id");
       const name = row.children[0].textContent.trim();
       return `${id}|${name}`;
     }))];
-
-    earliestBtn?.addEventListener("click", () => {
-      showEarliestOnly = !showEarliestOnly;
-      earliestBtn.textContent = showEarliestOnly ? "Show All Dates" : "Show Earliest Date per Branch";
-      updateTableVisibility();
-    });
-      showEarliestOnly = !showEarliestOnly;
-      earliestBtn.textContent = showEarliestOnly ? "Show All Dates" : "Show Earliest Date per Branch";
-      updateTableVisibility();
 
     function updateTableVisibility() {
       const grouped = {};
@@ -56,7 +45,7 @@
 
       for (const [branchId, rows] of Object.entries(grouped)) {
         if (activeBranchIds.length === 0 || activeBranchIds.includes(branchId)) {
-          if (showEarliestOnly) {
+          if (typeof showEarliestOnly !== "undefined" && showEarliestOnly) {
             rows.sort((a, b) =>
               new Date(a.children[2].innerText) - new Date(b.children[2].innerText)
             )[0].style.display = "";
@@ -103,6 +92,5 @@
     });
   </script>
 
-  {# You can also extract this sorting logic into a separate file if needed #}
   {% include "partials/sort_logic.html" %}
 {% endblock %}
