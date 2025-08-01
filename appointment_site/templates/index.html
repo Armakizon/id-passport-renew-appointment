@@ -2,11 +2,15 @@
 {% block title %}Appointment Dates{% endblock %}
 {% block content %}
     <h2 class="mb-4">Appointment Dates</h2>
+	<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterDrawer" aria-controls="filterDrawer">
+	Open Filter
+	</button>
     <p><strong>Last Updated:</strong> {{ last_updated }} ({{ time_since }})</p>
     {% include "partials/filter_drawer.html" %}
     {% include "partials/location_buttons.html" %}
     {% include "partials/toggle_button.html" %}
     {% include "partials/appointments_table.html" %}
+	
 {% endblock %}
 {% block scripts %}
 <script>
