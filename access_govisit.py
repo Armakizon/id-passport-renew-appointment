@@ -16,7 +16,7 @@ def delete_lock_files(profile_path):
             except Exception as e:
                 print(f"Failed to delete {file_path}: {e}")
 
-def random_sleep(base=1.5, jitter=1.0):
+def random_sleep(base=2.5, jitter=1.0):
     time.sleep(base + random.uniform(0, jitter))
 
 def get_govisit_token(wait_for_code=60):
@@ -46,11 +46,11 @@ def get_govisit_token(wait_for_code=60):
         driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
         driver.find_element(By.ID, "my_visits").click()
-        random_sleep(2, 1)
+        random_sleep(3, 1)
 
         phone_input = driver.find_element(By.XPATH, "//input[@type='tel']")
         phone_input.send_keys("0533319221")  
-        random_sleep(0.5, 0.5)
+        random_sleep(2, 0.5)
 
         driver.find_element(By.ID, "login_button").click()
         print("📱 Phone number submitted")
@@ -66,7 +66,7 @@ def get_govisit_token(wait_for_code=60):
 
         print(f"✅ Code received: {code}")
         driver.find_element(By.ID, "pincodeInput").send_keys(code)
-        random_sleep(1, 0.5)
+        random_sleep(2, 0.5)
 
         driver.find_element(By.ID, "verify-button").click()
         print("✅ Verification code submitted")

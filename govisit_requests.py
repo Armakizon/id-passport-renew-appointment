@@ -1,6 +1,7 @@
 import csv
 import requests
 import json
+from datetime import datetime
 
 def APIcall(token, csv_file_path="appointment_site/Branch_id.csv"):
     govisit_url = "https://govisit.gov.il/API/appointment/api/appointmentScheduling/getDates?authorityId=262"
@@ -15,10 +16,14 @@ def APIcall(token, csv_file_path="appointment_site/Branch_id.csv"):
         "Content-Type": "application/json"
     }
 
+    now = datetime.now()
+    current_year = now.year
+    current_month = now.month
+
     payload_template = {
         "$type": 2,
-        "year": 2025,
-        "month": 7,
+        "year": current_year,
+        "month": current_month,
         "unitId": None,
         "appointmentTypeIds": [343],
         "customer": {
