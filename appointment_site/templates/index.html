@@ -101,6 +101,40 @@
     });
 
 document.querySelectorAll("th.sortable").forEach(th => {
+    th.addEventListener("click", () => {
+        const column = th.cellIndex;
+        const rows = Array.from(document.querySelector("tbody").rows);
+        const sorted = rows.sort((a, b) => {
+            const valA = a.cells[column].textContent.trim();
+            const valB = b.cells[column].textContent.trim();
+            return isNaN(valA) || isNaN(valB)
+                ? valA.localeCompare(valB)
+                : parseFloat(valA) - parseFloat(valB);
+        });
+
+        const isAscending = th.dataset.sorted !== "asc";
+        th.dataset.sorted = isAscending ? "asc" : "desc";
+
+        if (!isAscending) sorted.reverse();
+
+        // Clear all arrows and reset headers to original text
+        document.querySelectorAll("th.sortable").forEach(header => {
+            header.innerHTML = header.dataset.label;
+            delete header.dataset.sorted;
+        });
+
+        // Add arrow to the clicked header
+        const arrow = isAscending ? "↑" : "↓";
+        th.innerHTML = `${th.dataset.label} <span class="sort-indicator">${arrow}</span>`;
+        th.dataset.sorted = isAscending ? "asc" : "desc";
+
+        // Update table
+        const tbody = document.querySelector("tbody");
+        tbody.innerHTML = "";
+        sorted.forEach(row => tbody.appendChild(row));
+    });
+});
+
     // Store original text content once
     if (!th.dataset.originalText) {
         th.dataset.originalText = th.textContent.trim();
