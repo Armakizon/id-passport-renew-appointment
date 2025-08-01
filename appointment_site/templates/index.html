@@ -102,41 +102,35 @@
 
 	document.querySelectorAll("th.sortable").forEach(th => {
 		th.addEventListener("click", () => {
-			const column = parseInt(th.dataset.column);
-			const tbody = document.querySelector("tbody");
-			const rows = Array.from(tbody.rows);
-
-			// Reset all sort indicators
-			document.querySelectorAll("th.sortable").forEach(header => {
-				header.dataset.sorted = "";
-				header.querySelector(".sort-indicator").textContent = "";
-			});
-
-			// Sort rows
+			const column = th.cellIndex;
+			const rows = Array.from(document.querySelector("tbody").rows);
 			const sorted = rows.sort((a, b) => {
 				const valA = a.cells[column].textContent.trim();
 				const valB = b.cells[column].textContent.trim();
-				const isNumeric = !isNaN(parseFloat(valA)) && !isNaN(parseFloat(valB));
-
-				if (isNumeric) {
-					return parseFloat(valA) - parseFloat(valB);
-				} else {
-					return valA.localeCompare(valB);
-				}
+				return isNaN(valA) || isNaN(valB)
+					? valA.localeCompare(valB)
+					: parseFloat(valA) - parseFloat(valB);
 			});
 
-			let sortDirection = th.dataset.sorted === "asc" ? "desc" : "asc";
-			th.dataset.sorted = sortDirection;
+			// Determine sort direction
+			const currentDirection = th.dataset.sorted;
+			const isAscending = currentDirection !== "asc";
+			th.dataset.sorted = isAscending ? "asc" : "desc";
 
-			if (sortDirection === "desc") {
-				sorted.reverse();
-			}
+			if (!isAscending) sorted.reverse();
 
-			// Update sort indicator arrow
-			const indicator = th.querySelector(".sort-indicator");
-			indicator.textContent = sortDirection === "asc" ? "↑" : "↓";
+			// Clear all sort indicators
+			document.querySelectorAll("th.sortable").forEach(header => {
+				header.innerHTML = header.textContent;
+				delete header.dataset.sorted;
+			});
 
-			// Apply sorted rows
+			// Add new sort indicator
+			th.innerHTML = th.textContent + `<span class="sort-indicator">${isAscending ? "↑" : "↓"}</span>`;
+			th.dataset.sorted = isAscending ? "asc" : "desc";
+
+			// Render sorted rows
+			const tbody = document.querySelector("tbody");
 			tbody.innerHTML = "";
 			sorted.forEach(row => tbody.appendChild(row));
 		});
