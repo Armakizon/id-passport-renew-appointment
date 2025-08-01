@@ -2,20 +2,22 @@
 {% block title %}Appointment Dates{% endblock %}
 
 {% block content %}
-    <h2 class="mb-4">Appointment Dates</h2>
-    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterDrawer" aria-controls="filterDrawer">
-        Open Filter
-    </button>
-    <p><strong>Last Updated:</strong> {{ last_updated }} ({{ time_since }})</p>
+  <h2 class="mb-4">Appointment Dates</h2>
 
-    {% include "partials/filter_drawer.html" %}
-    {% include "partials/location_buttons.html" %}
-    {% include "partials/toggle_button.html" %}
-    {% include "partials/appointments_table.html" %}
+  <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterDrawer" aria-controls="filterDrawer">
+    Open Filter
+  </button>
+
+  <p><strong>Last Updated:</strong> {{ last_updated }} ({{ time_since }})</p>
+
+  {% include "partials/filter_drawer.html" %}
+  {% include "partials/location_buttons.html" %}
+  {% include "partials/toggle_button.html" %}
+  {% include "partials/appointments_table.html" %}
 {% endblock %}
 
 {% block scripts %}
-<script>
+  <script>
     const userLat = new URLSearchParams(window.location.search).get("lat");
     const userLon = new URLSearchParams(window.location.search).get("lon");
 
@@ -29,118 +31,75 @@
     let showEarliestOnly = false;
 
     const branchNames = [...new Set(allRows.map(row => {
-        const id = row.getAttribute("data-branch-id");
-        const name = row.children[0].textContent.trim();
-        return `${id}|${name}`;
+      const id = row.getAttribute("data-branch-id");
+      const name = row.children[0].textContent.trim();
+      return `${id}|${name}`;
     }))];
 
     earliestBtn?.addEventListener("click", () => {
-        showEarliestOnly = !showEarliestOnly;
-        earliestBtn.textContent = showEarliestOnly ? "Show All Dates" : "Show Earliest Date per Branch";
-        updateTableVisibility();
+      showEarliestOnly = !showEarliestOnly;
+      earliestBtn.textContent = showEarliestOnly ? "Show All Dates" : "Show Earliest Date per Branch";
+      updateTableVisibility();
     });
 
     function updateTableVisibility() {
-        const groupedByBranch = {};
-        allRows.forEach(row => {
-            const id = row.getAttribute("data-branch-id");
-            if (!groupedByBranch[id]) groupedByBranch[id] = [];
-            groupedByBranch[id].push(row);
-        });
+      const grouped = {};
+      allRows.forEach(row => {
+        const id = row.getAttribute("data-branch-id");
+        (grouped[id] ||= []).push(row);
+      });
 
-        allRows.forEach(row => row.style.display = "none");
+      allRows.forEach(row => row.style.display = "none");
 
-        for (const [branchId, rows] of Object.entries(groupedByBranch)) {
-            if (activeBranchIds.length === 0 || activeBranchIds.includes(branchId)) {
-                if (showEarliestOnly) {
-                    const sorted = rows.slice().sort((a, b) => {
-                        const dateA = new Date(a.children[2].innerText.trim());
-                        const dateB = new Date(b.children[2].innerText.trim());
-                        return dateA - dateB;
-                    });
-                    sorted[0].style.display = "";
-                } else {
-                    rows.forEach(row => row.style.display = "");
-                }
-            }
+      for (const [branchId, rows] of Object.entries(grouped)) {
+        if (activeBranchIds.length === 0 || activeBranchIds.includes(branchId)) {
+          if (showEarliestOnly) {
+            rows.sort((a, b) =>
+              new Date(a.children[2].innerText) - new Date(b.children[2].innerText)
+            )[0].style.display = "";
+          } else {
+            rows.forEach(row => row.style.display = "");
+          }
         }
+      }
     }
 
     function addLocationFilter(id, name) {
-        if (activeBranchIds.includes(id)) return;
-        activeBranchIds.push(id);
-        updateTableVisibility();
+      if (activeBranchIds.includes(id)) return;
+      activeBranchIds.push(id);
+      updateTableVisibility();
 
-        const btn = document.createElement("button");
-        btn.className = "btn btn-secondary btn-sm location-btn";
-        btn.textContent = name;
-        btn.onclick = () => {
-            activeBranchIds = activeBranchIds.filter(bid => bid !== id);
-            locationButtons.removeChild(btn);
-            updateTableVisibility();
-        };
-        locationButtons.appendChild(btn);
+      const btn = document.createElement("button");
+      btn.className = "btn btn-secondary btn-sm location-btn";
+      btn.textContent = name;
+      btn.onclick = () => {
+        activeBranchIds = activeBranchIds.filter(bid => bid !== id);
+        locationButtons.removeChild(btn);
+        updateTableVisibility();
+      };
+      locationButtons.appendChild(btn);
     }
 
-    searchInput.addEventListener("input", () => {
-        const searchVal = searchInput.value.toLowerCase();
-        resultsList.innerHTML = "";
-        if (!searchVal) return;
+    searchInput?.addEventListener("input", () => {
+      const val = searchInput.value.toLowerCase();
+      resultsList.innerHTML = "";
+      if (!val) return;
 
-        const matches = branchNames.filter(item => item.toLowerCase().includes(searchVal)).slice(0, 5);
-        matches.forEach(match => {
-            const [id, name] = match.split("|");
-            const li = document.createElement("li");
-            li.className = "list-group-item list-group-item-action";
-            li.textContent = name;
-            li.onclick = () => {
-                addLocationFilter(id, name);
-                resultsList.innerHTML = "";
-                searchInput.value = "";
-            };
-            resultsList.appendChild(li);
-        });
+      branchNames.filter(item => item.toLowerCase().includes(val)).slice(0, 5).forEach(match => {
+        const [id, name] = match.split("|");
+        const li = document.createElement("li");
+        li.className = "list-group-item list-group-item-action";
+        li.textContent = name;
+        li.onclick = () => {
+          addLocationFilter(id, name);
+          resultsList.innerHTML = "";
+          searchInput.value = "";
+        };
+        resultsList.appendChild(li);
+      });
     });
+  </script>
 
-    // Clean sorting logic without duplicates
-    document.querySelectorAll("th.sortable").forEach(th => {
-        // Store original label once
-        th.dataset.label = th.textContent.trim();
-
-        th.addEventListener("click", () => {
-            const column = th.cellIndex;
-            const rows = Array.from(document.querySelector("tbody").rows);
-
-            // Determine sort direction
-            const isAscending = th.dataset.sorted !== "asc";
-            th.dataset.sorted = isAscending ? "asc" : "desc";
-
-            // Sort rows
-            const sorted = rows.sort((a, b) => {
-                const valA = a.cells[column].textContent.trim();
-                const valB = b.cells[column].textContent.trim();
-                return isNaN(valA) || isNaN(valB)
-                    ? valA.localeCompare(valB)
-                    : parseFloat(valA) - parseFloat(valB);
-            });
-
-            if (!isAscending) sorted.reverse();
-
-            // Clear all arrows and reset headers
-            document.querySelectorAll("th.sortable").forEach(header => {
-                header.innerHTML = header.dataset.label;
-                delete header.dataset.sorted;
-            });
-
-            // Update clicked header
-            th.innerHTML = `${th.dataset.label} <span class="sort-indicator">${isAscending ? "↑" : "↓"}</span>`;
-            th.dataset.sorted = isAscending ? "asc" : "desc";
-
-            // Render sorted rows
-            const tbody = document.querySelector("tbody");
-            tbody.innerHTML = "";
-            sorted.forEach(row => tbody.appendChild(row));
-        });
-    });
-</script>
+  {# You can also extract this sorting logic into a separate file if needed #}
+  {% include "partials/sort_logic.html" %}
 {% endblock %}

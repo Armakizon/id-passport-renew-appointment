@@ -1,16 +1,16 @@
 <div class="table-responsive">
     <table class="table table-striped table-bordered" id="appointmentsTable">
-		<thead>
-			<tr>
-					<th class="sortable" data-label="Branch Name">Branch Name</th>
-					<th class="sortable" data-label="Address">Address</th>
-					<th class="sortable" data-label="Date">Date</th>
-					<th class="sortable" data-label="Distance (km)">Distance (km)</th>
-			</tr>
-		</thead>
+        <thead>
+            <tr>
+                <th class="sortable" data-label="Branch Name">Branch Name</th>
+                <th class="sortable" data-label="Address">Address</th>
+                <th class="sortable" data-label="Date">Date</th>
+                <th class="sortable" data-label="Distance (km)">Distance (km)</th>
+            </tr>
+        </thead>
         <tbody>
             {% for entry in entries %}
-            <tr data-branch-id="{{ entry.branch_id }}">
+            <tr data-branch-id="{{ entry.branch_id }}" data-lat="{{ entry.latitude }}" data-lon="{{ entry.longitude }}">
                 <td>{{ entry.branch_name }}</td>
                 <td>{{ entry.address }}</td>
                 <td>{{ entry.date }}</td>
@@ -20,3 +20,38 @@
         </tbody>
     </table>
 </div>
+
+<script>
+document.querySelectorAll("#appointmentsTable th.sortable").forEach(th => {
+    th.dataset.label = th.textContent.trim();
+
+    th.addEventListener("click", () => {
+        const column = th.cellIndex;
+        const rows = Array.from(document.querySelector("#appointmentsTable tbody").rows);
+        const isAscending = th.dataset.sorted !== "asc";
+        th.dataset.sorted = isAscending ? "asc" : "desc";
+
+        const sorted = rows.sort((a, b) => {
+            const valA = a.cells[column].textContent.trim();
+            const valB = b.cells[column].textContent.trim();
+            return isNaN(valA) || isNaN(valB)
+                ? valA.localeCompare(valB)
+                : parseFloat(valA) - parseFloat(valB);
+        });
+
+        if (!isAscending) sorted.reverse();
+
+        document.querySelectorAll("#appointmentsTable th.sortable").forEach(header => {
+            header.innerHTML = header.dataset.label;
+            delete header.dataset.sorted;
+        });
+
+        th.innerHTML = `${th.dataset.label} <span class="sort-indicator">${isAscending ? "↑" : "↓"}</span>`;
+        th.dataset.sorted = isAscending ? "asc" : "desc";
+
+        const tbody = document.querySelector("#appointmentsTable tbody");
+        tbody.innerHTML = "";
+        sorted.forEach(row => tbody.appendChild(row));
+    });
+});
+</script>
