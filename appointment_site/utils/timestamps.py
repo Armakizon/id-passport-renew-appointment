@@ -1,7 +1,7 @@
 from datetime import datetime
 from pytz import timezone
 from models import Meta
-from app import db
+from extensions import db
 from config import TIMEZONE
 
 def set_last_updated():

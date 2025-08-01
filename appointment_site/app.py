@@ -1,9 +1,7 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from extensions import db
 from routes import main_routes, api_routes
 import os
-
-db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
