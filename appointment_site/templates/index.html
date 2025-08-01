@@ -8,6 +8,9 @@
         .location-btn {
             margin: 0 5px 5px 0;
         }
+        th {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -19,10 +22,6 @@
         <label for="branchSearch" class="form-label">Search and Add Branch:</label>
         <input type="text" id="branchSearch" class="form-control" placeholder="Type a branch name...">
         <ul id="branchResults" class="list-group mt-2"></ul>
-    </div>
-
-    <div class="mb-3">
-        <button id="getLocationBtn" class="btn btn-info">📍 Sort by My Location</button>
     </div>
 
     <div id="locationButtons" class="mb-3"></div>
@@ -37,8 +36,8 @@
                 <tr>
                     <th>Branch Name</th>
                     <th>Address</th>
-                    <th>Date</th>
-                    <th>Distance (km)</th>
+                    <th id="sortDate">Date ⬍</th>
+                    <th id="sortDistance">Distance (km) ⬍</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,9 +46,7 @@
                     <td>{{ entry.branch_name }}</td>
                     <td>{{ entry.address }}</td>
                     <td>{{ entry.date }}</td>
-                    <td data-distance="{% if entry.distance %}{{ entry.distance }}{% else %}Infinity{% endif %}">
-                        {% if entry.distance %}{{ entry.distance }}{% else %}-{% endif %}
-                    </td>
+                    <td>{% if entry.distance %}{{ entry.distance }}{% else %}-{% endif %}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -58,12 +55,14 @@
 </div>
 
 <script>
+    const userLat = new URLSearchParams(window.location.search).get("lat");
+    const userLon = new URLSearchParams(window.location.search).get("lon");
+
     const allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
     const searchInput = document.getElementById("branchSearch");
     const resultsList = document.getElementById("branchResults");
     const locationButtons = document.getElementById("locationButtons");
     const earliestBtn = document.getElementById("toggleEarliestBtn");
-    const getLocationBtn = document.getElementById("getLocationBtn");
 
     let activeBranchIds = [];
     let showEarliestOnly = false;
@@ -143,23 +142,42 @@
         });
     });
 
-    getLocationBtn.addEventListener("click", () => {
-        if (!navigator.geolocation) {
-            alert("Geolocation is not supported by your browser.");
-            return;
-        }
-        navigator.geolocation.getCurrentPosition(position => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
+    let sortDirection = { date: 1, distance: 1 };
 
-            const newUrl = new URL(window.location.href);
-            newUrl.searchParams.set("lat", lat);
-            newUrl.searchParams.set("lon", lon);
-            window.location.href = newUrl.toString();
-        }, () => {
-            alert("Unable to retrieve your location.");
-        });
+    document.getElementById("sortDate").addEventListener("click", () => {
+        sortTableByColumn(2, sortDirection.date, "date");
+        sortDirection.date *= -1;
     });
+
+    document.getElementById("sortDistance").addEventListener("click", () => {
+        sortTableByColumn(3, sortDirection.distance, "number");
+        sortDirection.distance *= -1;
+    });
+
+    function sortTableByColumn(colIndex, direction, type) {
+        const tbody = document.querySelector("#appointmentsTable tbody");
+        const rows = Array.from(tbody.querySelectorAll("tr"))
+            .filter(row => row.style.display !== "none");
+
+        rows.sort((a, b) => {
+            let aText = a.children[colIndex].innerText.trim();
+            let bText = b.children[colIndex].innerText.trim();
+
+            if (type === "date") {
+                return (new Date(aText) - new Date(bText)) * direction;
+            } else if (type === "number") {
+                const aVal = aText === "-" ? Infinity : parseFloat(aText);
+                const bVal = bText === "-" ? Infinity : parseFloat(bText);
+                return (aVal - bVal) * direction;
+            } else {
+                return aText.localeCompare(bText) * direction;
+            }
+        });
+
+        for (const row of rows) {
+            tbody.appendChild(row);
+        }
+    }
 </script>
 </body>
 </html>
