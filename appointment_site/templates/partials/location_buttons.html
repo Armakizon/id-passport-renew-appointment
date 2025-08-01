@@ -2,63 +2,63 @@
   <button id="getLocationBtn" class="btn btn-primary">
     📍 Based on My Location
   </button>
-  <span class="ms-2">or choose my location from the list</span>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("getLocationBtn");
-  btn?.addEventListener("click", () => {
+document.getElementById("getLocationBtn")?.addEventListener("click", () => {
     if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser.");
-      return;
+        alert("Geolocation is not supported by your browser.");
+        return;
     }
 
     navigator.geolocation.getCurrentPosition(pos => {
-      const userLat = pos.coords.latitude;
-      const userLon = pos.coords.longitude;
+        const userLat = pos.coords.latitude;
+        const userLon = pos.coords.longitude;
 
-      const branchDistances = {};
+        // Update URL query params silently (no page reload)
+        const url = new URL(window.location);
+        url.searchParams.set('lat', userLat);
+        url.searchParams.set('lon', userLon);
+        window.history.replaceState({}, '', url);
 
-      window.allRows.forEach(row => {
-        const branchId = row.getAttribute("data-branch-id");
-        const lat = parseFloat(row.getAttribute("data-lat"));
-        const lon = parseFloat(row.getAttribute("data-lon"));
+        const branchRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
+        const branchDistances = {};
 
-        if (!isNaN(lat) && !isNaN(lon)) {
-          const d = getDistanceFromLatLonInKm(userLat, userLon, lat, lon);
-          if (!branchDistances[branchId] || branchDistances[branchId] > d) {
-            branchDistances[branchId] = d;
-          }
-        }
-      });
+        branchRows.forEach(row => {
+            const branchId = row.getAttribute("data-branch-id");
+            const lat = parseFloat(row.getAttribute("data-lat"));
+            const lon = parseFloat(row.getAttribute("data-lon"));
 
-      Object.keys(branchDistances).forEach(branchId => {
-        const row = window.allRows.find(r => r.getAttribute("data-branch-id") === branchId);
-        const branchName = row?.children[0].textContent.trim();
-        if (branchName) {
-          if (typeof window.addLocationFilter === "function") {
-            window.addLocationFilter(branchId, branchName);
-          } else {
-            console.error("addLocationFilter is not defined");
-          }
-        }
-      });
+            if (!isNaN(lat) && !isNaN(lon)) {
+                const d = getDistanceFromLatLonInKm(userLat, userLon, lat, lon);
+                if (!branchDistances[branchId] || branchDistances[branchId] > d) {
+                    branchDistances[branchId] = d;
+                }
+            }
+        });
+
+        // Add all branches with distance info, in order of appearance, no sorting
+        Object.keys(branchDistances).forEach(branchId => {
+            const row = branchRows.find(r => r.getAttribute("data-branch-id") === branchId);
+            const branchName = row?.children[0].textContent.trim();
+            if (branchName) {
+                addLocationFilter(branchId, branchName);
+            }
+        });
     }, () => {
-      alert("Failed to get your location.");
+        alert("Failed to get your location.");
     });
-  });
 });
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-  const toRad = d => d * Math.PI / 180;
-  const R = 6371; // Radius of the earth in km
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a = Math.sin(dLat / 2) ** 2 +
-            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-            Math.sin(dLon / 2) ** 2;
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
+    const toRad = d => d * Math.PI / 180;
+    const R = 6371; // Radius of the earth in km
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) ** 2 +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+              Math.sin(dLon / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
 }
 </script>

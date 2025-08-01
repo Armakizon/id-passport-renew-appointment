@@ -31,7 +31,7 @@
     const branchNames = [...new Set(allRows.map(row => {
       const id = row.getAttribute("data-branch-id");
       const name = row.children[0].textContent.trim();
-      return ${id}|${name};
+      return `${id}|${name}`;
     }))];
 
     function updateTableVisibility() {
@@ -90,12 +90,6 @@
         resultsList.appendChild(li);
       });
     });
-	  // Expose globals so other scripts can use them
-  window.addLocationFilter = addLocationFilter;
-  window.updateTableVisibility = updateTableVisibility;
-  window.activeBranchIds = activeBranchIds;
-  window.locationButtons = locationButtons;
-  window.allRows = allRows;
   </script>
 
   {% include "partials/sort_logic.html" %}
