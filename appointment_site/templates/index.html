@@ -1,16 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>Appointment Table</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .location-btn {
             margin: 0 5px 5px 0;
         }
-        th {
-            cursor: pointer;
-            user-select: none;
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 100%;
+            background-color: #f8f9fa;
+            border-left: 1px solid #ccc;
+            padding: 1rem;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        }
+        .drawer.show {
+            display: block;
+        }
+        .drawer-toggle {
+            position: fixed;
+            top: 10px;
+            right: 310px;
+            z-index: 1100;
         }
     </style>
 </head>
@@ -18,28 +36,25 @@
 <div class="container mt-4">
     <h2 class="mb-4">Appointment Dates</h2>
     <p><strong>Last Updated:</strong> {{ last_updated }} ({{ time_since }})</p>
-    
-    <div class="mb-3">
-        <label for="branchSearch" class="form-label">Search and Add Branch:</label>
-        <input type="text" id="branchSearch" class="form-control" placeholder="Type a branch name..." autocomplete="off" />
-        <ul id="branchResults" class="list-group mt-2"></ul>
+
+    <!-- Controls -->
+    <div class="mb-3 d-flex justify-content-between align-items-center">
+        <button class="btn btn-outline-secondary drawer-toggle">Toggle Filters</button>
+        <button id="toggleEarliestBtn" class="btn btn-outline-primary">Show Earliest Date per Branch</button>
     </div>
 
+    <!-- Active Branch Filters -->
     <div id="locationButtons" class="mb-3"></div>
 
-    <div class="mb-3">
-        <button id="toggleEarliestBtn" class="btn btn-outline-primary">Show Earliest Date per Branch</button>
-        <button id="getLocationBtn" class="btn btn-primary ms-2">📍 Find My Location</button>
-    </div>
-
+    <!-- Appointments Table -->
     <div class="table-responsive">
-        <table class="table table-striped table-bordered" id="appointmentsTable">
+        <table class="table table-striped table-bordered sortable" id="appointmentsTable">
             <thead>
                 <tr>
-                    <th data-col="branch" data-type="string">Branch Name <span></span></th>
-                    <th data-col="address" data-type="string">Address <span></span></th>
-                    <th data-col="date" data-type="date">Date <span></span></th>
-                    <th data-col="distance" data-type="number">Distance (km) <span></span></th>
+                    <th>Branch Name</th>
+                    <th>Address</th>
+                    <th>Date</th>
+                    <th>Distance (km)</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,7 +63,7 @@
                     <td>{{ entry.branch_name }}</td>
                     <td>{{ entry.address }}</td>
                     <td>{{ entry.date }}</td>
-                    <td>{% if entry.distance is not none %}{{ entry.distance }}{% else %}-{% endif %}</td>
+                    <td>{% if entry.distance %}{{ entry.distance }}{% else %}-{% endif %}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -56,54 +71,45 @@
     </div>
 </div>
 
-<script>
-    // Grab URL params for lat/lon (used to recalc distance and sort)
-    let userLat = parseFloat(new URLSearchParams(window.location.search).get("lat"));
-    let userLon = parseFloat(new URLSearchParams(window.location.search).get("lon"));
+<!-- Filter Drawer -->
+<div class="drawer" id="filterDrawer">
+    <h5>Search and Add Branch:</h5>
+    <input type="text" id="branchSearch" class="form-control mb-2" placeholder="Type a branch name...">
+    <ul id="branchResults" class="list-group"></ul>
+</div>
 
-    const table = document.getElementById("appointmentsTable");
-    const tbody = table.tBodies[0];
-    const allRows = [...tbody.rows];
+<!-- JS Section -->
+<script>
+    const userLat = new URLSearchParams(window.location.search).get("lat");
+    const userLon = new URLSearchParams(window.location.search).get("lon");
+
+    const allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
     const searchInput = document.getElementById("branchSearch");
     const resultsList = document.getElementById("branchResults");
     const locationButtons = document.getElementById("locationButtons");
     const earliestBtn = document.getElementById("toggleEarliestBtn");
-    const getLocationBtn = document.getElementById("getLocationBtn");
 
     let activeBranchIds = [];
     let showEarliestOnly = false;
 
-    // Sorting state: which col, and ascending or descending
-    let sortColIndex = null;
-    let sortAscending = true;
-
-    // Build branch name list from rows for search/autocomplete
     const branchNames = [...new Set(allRows.map(row => {
         const id = row.getAttribute("data-branch-id");
-        const name = row.cells[0].textContent.trim();
+        const name = row.children[0].textContent.trim();
         return `${id}|${name}`;
     }))];
 
-    // Function: Calculate distance between two lat/lon points (km)
-    function calculateDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371; // Earth radius in km
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLon = (lon2 - lon1) * Math.PI / 180;
-        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                  Math.sin(dLon/2) * Math.sin(dLon/2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        return +(R * c).toFixed(2);
-    }
+    earliestBtn.addEventListener("click", () => {
+        showEarliestOnly = !showEarliestOnly;
+        earliestBtn.textContent = showEarliestOnly ? "Show All Dates" : "Show Earliest Date per Branch";
+        updateTableVisibility();
+    });
 
-    // Update visibility of rows based on active filters and toggle earliest only
     function updateTableVisibility() {
-        // Group rows by branch id
         const groupedByBranch = {};
         allRows.forEach(row => {
-            const branchId = row.getAttribute("data-branch-id");
-            if (!groupedByBranch[branchId]) groupedByBranch[branchId] = [];
-            groupedByBranch[branchId].push(row);
+            const id = row.getAttribute("data-branch-id");
+            if (!groupedByBranch[id]) groupedByBranch[id] = [];
+            groupedByBranch[id].push(row);
         });
 
         allRows.forEach(row => row.style.display = "none");
@@ -111,19 +117,19 @@
         for (const [branchId, rows] of Object.entries(groupedByBranch)) {
             if (activeBranchIds.length === 0 || activeBranchIds.includes(branchId)) {
                 if (showEarliestOnly) {
-                    // Find earliest date in group
-                    const sortedRows = rows.slice().sort((a,b) => {
-                        return new Date(a.cells[2].textContent.trim()) - new Date(b.cells[2].textContent.trim());
+                    const sorted = rows.slice().sort((a, b) => {
+                        const dateA = new Date(a.children[2].innerText.trim());
+                        const dateB = new Date(b.children[2].innerText.trim());
+                        return dateA - dateB;
                     });
-                    sortedRows[0].style.display = "";
+                    sorted[0].style.display = "";
                 } else {
-                    rows.forEach(r => r.style.display = "");
+                    rows.forEach(row => row.style.display = "");
                 }
             }
         }
     }
 
-    // Add branch filter button
     function addLocationFilter(id, name) {
         if (activeBranchIds.includes(id)) return;
         activeBranchIds.push(id);
@@ -131,8 +137,7 @@
 
         const btn = document.createElement("button");
         btn.className = "btn btn-secondary btn-sm location-btn";
-        btn.textContent = name + " ✕";
-        btn.title = "Remove filter";
+        btn.textContent = name;
         btn.onclick = () => {
             activeBranchIds = activeBranchIds.filter(bid => bid !== id);
             locationButtons.removeChild(btn);
@@ -141,13 +146,12 @@
         locationButtons.appendChild(btn);
     }
 
-    // Branch search autocomplete
     searchInput.addEventListener("input", () => {
-        const val = searchInput.value.toLowerCase().trim();
+        const searchVal = searchInput.value.toLowerCase();
         resultsList.innerHTML = "";
-        if (!val) return;
+        if (!searchVal) return;
 
-        const matches = branchNames.filter(item => item.toLowerCase().includes(val)).slice(0, 5);
+        const matches = branchNames.filter(item => item.toLowerCase().includes(searchVal)).slice(0, 5);
         matches.forEach(match => {
             const [id, name] = match.split("|");
             const li = document.createElement("li");
@@ -155,121 +159,48 @@
             li.textContent = name;
             li.onclick = () => {
                 addLocationFilter(id, name);
-                searchInput.value = "";
                 resultsList.innerHTML = "";
+                searchInput.value = "";
             };
             resultsList.appendChild(li);
         });
     });
 
-    // Sorting function on table headers
-    function sortTable(colIndex, type) {
-        const rowsArray = Array.from(tbody.rows).filter(row => row.style.display !== "none");
-        const getCellValue = (row) => row.cells[colIndex].textContent.trim();
-
-        rowsArray.sort((a, b) => {
-            let valA = getCellValue(a);
-            let valB = getCellValue(b);
-
-            if (type === "number") {
-                valA = parseFloat(valA) || 0;
-                valB = parseFloat(valB) || 0;
-            } else if (type === "date") {
-                valA = new Date(valA);
-                valB = new Date(valB);
-            } else {
-                valA = valA.toLowerCase();
-                valB = valB.toLowerCase();
-            }
-
-            if (valA < valB) return sortAscending ? -1 : 1;
-            if (valA > valB) return sortAscending ? 1 : -1;
-            return 0;
-        });
-
-        // Re-append rows in sorted order
-        rowsArray.forEach(row => tbody.appendChild(row));
-
-        // Toggle sort direction for next click
-        sortAscending = !sortAscending;
-        sortColIndex = colIndex;
-
-        // Update sort icons
-        updateSortIcons();
-    }
-
-    // Update sorting icons on headers
-    function updateSortIcons() {
-        const headers = table.tHead.rows[0].cells;
-        for (let i = 0; i < headers.length; i++) {
-            const span = headers[i].querySelector("span");
-            if (i === sortColIndex) {
-                span.textContent = sortAscending ? "▲" : "▼";
-            } else {
-                span.textContent = "";
-            }
-        }
-    }
-
-    // Attach sorting events to headers
-    Array.from(table.tHead.rows[0].cells).forEach((th, i) => {
-        const type = th.getAttribute("data-type");
-        th.addEventListener("click", () => sortTable(i, type));
+    // Drawer toggle
+    document.querySelector(".drawer-toggle").addEventListener("click", () => {
+        document.getElementById("filterDrawer").classList.toggle("show");
     });
 
-    // Toggle earliest date button
-    earliestBtn.addEventListener("click", () => {
-        showEarliestOnly = !showEarliestOnly;
-        earliestBtn.textContent = showEarliestOnly ? "Show All Dates" : "Show Earliest Date per Branch";
-        updateTableVisibility();
-    });
+    // Sorting logic
+    document.querySelectorAll("#appointmentsTable th").forEach((th, colIndex) => {
+        th.style.cursor = "pointer";
+        th.addEventListener("click", () => {
+            const tbody = document.querySelector("#appointmentsTable tbody");
+            const rows = Array.from(tbody.querySelectorAll("tr"));
+            const ascending = !th.classList.contains("asc");
 
-    // GPS location button: get user's location and reload page with lat/lon params
-    getLocationBtn.addEventListener("click", () => {
-        if (!navigator.geolocation) {
-            alert("Geolocation is not supported by your browser.");
-            return;
-        }
-        getLocationBtn.disabled = true;
-        getLocationBtn.textContent = "Locating...";
+            rows.sort((a, b) => {
+                const cellA = a.children[colIndex].innerText.trim();
+                const cellB = b.children[colIndex].innerText.trim();
 
-        navigator.geolocation.getCurrentPosition(position => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            // Update URL params and reload
-            const url = new URL(window.location);
-            url.searchParams.set("lat", lat);
-            url.searchParams.set("lon", lon);
-            window.location.href = url.toString();
-        }, () => {
-            alert("Unable to retrieve your location.");
-            getLocationBtn.disabled = false;
-            getLocationBtn.textContent = "📍 Find My Location";
+                if (colIndex === 3) {
+                    const valA = cellA === "-" ? Infinity : parseFloat(cellA);
+                    const valB = cellB === "-" ? Infinity : parseFloat(cellB);
+                    return ascending ? valA - valB : valB - valA;
+                }
+
+                return ascending
+                    ? cellA.localeCompare(cellB, undefined, { numeric: true })
+                    : cellB.localeCompare(cellA, undefined, { numeric: true });
+            });
+
+            tbody.innerHTML = "";
+            rows.forEach(row => tbody.appendChild(row));
+
+            document.querySelectorAll("#appointmentsTable th").forEach(th => th.classList.remove("asc", "desc"));
+            th.classList.add(ascending ? "asc" : "desc");
         });
     });
-
-    // If lat/lon present, recalc distances for all rows, then sort by distance asc by default
-    if (!isNaN(userLat) && !isNaN(userLon)) {
-        allRows.forEach(row => {
-            const latText = row.cells[3].textContent.trim();
-            if (latText === "-" || latText === "") return; // No distance to recalc if no lat/lon data
-
-            // The original distance was calculated server-side, but if you want to recalc here:
-            // Actually we only have the distance number; to recalc we would need lat/lon of branch.
-            // So this requires the lat/lon of each branch in JS or another approach.
-            // For simplicity, keep server-side distance.
-
-            // Alternatively, we could sort rows by existing distance values:
-        });
-
-        // Sort by distance asc initially
-        sortColIndex = 3; // distance column
-        sortAscending = true;
-        sortTable(sortColIndex, "number");
-    }
-
-    // Initial table visibility update on page load
-    updateTableVisibility();
 </script>
 </body>
 </html>
