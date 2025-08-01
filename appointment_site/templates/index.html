@@ -204,4 +204,23 @@ document.querySelectorAll("th.sortable").forEach(th => {
 		});
 	});
 </script>
+<script>
+document.getElementById("useMyLocation").addEventListener("click", () => {
+  if (!navigator.geolocation) {
+    alert("Geolocation not supported.");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(position => {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    const params = new URLSearchParams(window.location.search);
+    params.set("lat", lat);
+    params.set("lon", lon);
+    window.location.search = params.toString();
+  }, () => {
+    alert("Unable to retrieve your location.");
+  });
+});
+</script>
 {% endblock %}
