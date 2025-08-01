@@ -19,7 +19,7 @@ document.getElementById("getLocationBtn")?.addEventListener("click", () => {
         const url = new URL(window.location);
         url.searchParams.set('lat', userLat);
         url.searchParams.set('lon', userLon);
-        window.history.replaceState({}, '', url);
+		window.location.href = url.toString();
 
         const branchRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
         const branchDistances = {};
