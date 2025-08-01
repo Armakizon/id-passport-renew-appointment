@@ -1,5 +1,4 @@
 <script>
-document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("getLocationBtn")?.addEventListener("click", () => {
     if (!navigator.geolocation) {
       alert("Geolocation is not supported by your browser.");
@@ -10,10 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const userLat = pos.coords.latitude;
       const userLon = pos.coords.longitude;
 
-      const branchRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
       const branchDistances = {};
 
-      branchRows.forEach(row => {
+      window.allRows.forEach(row => {
         const branchId = row.getAttribute("data-branch-id");
         const lat = parseFloat(row.getAttribute("data-lat"));
         const lon = parseFloat(row.getAttribute("data-lon"));
@@ -27,31 +25,26 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       Object.keys(branchDistances).forEach(branchId => {
-        const row = branchRows.find(r => r.getAttribute("data-branch-id") === branchId);
+        const row = window.allRows.find(r => r.getAttribute("data-branch-id") === branchId);
         const branchName = row?.children[0].textContent.trim();
         if (branchName) {
-          if (typeof addLocationFilter === "function") {
-            addLocationFilter(branchId, branchName);
-          } else {
-            console.error("addLocationFilter is not defined");
-          }
+          window.addLocationFilter(branchId, branchName);
         }
       });
     }, () => {
       alert("Failed to get your location.");
     });
   });
-});
 
-function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-  const toRad = d => d * Math.PI / 180;
-  const R = 6371; // Radius of the earth in km
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a = Math.sin(dLat / 2) ** 2 +
-            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-            Math.sin(dLon / 2) ** 2;
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
+  function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    const toRad = d => d * Math.PI / 180;
+    const R = 6371; // Radius of the earth in km
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) ** 2 +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+              Math.sin(dLon / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
 </script>
