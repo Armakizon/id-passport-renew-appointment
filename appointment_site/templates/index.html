@@ -100,7 +100,41 @@
         });
     });
 
-	document.querySelectorAll("th.sortable").forEach(th => {
+document.querySelectorAll("th.sortable").forEach(th => {
+    // Store original text content once
+    if (!th.dataset.originalText) {
+        th.dataset.originalText = th.textContent.trim();
+    }
+
+    th.addEventListener("click", () => {
+        const column = th.cellIndex;
+        const rows = Array.from(document.querySelector("tbody").rows);
+        const sorted = rows.sort((a, b) => {
+            const valA = a.cells[column].textContent.trim();
+            const valB = b.cells[column].textContent.trim();
+            return isNaN(valA) || isNaN(valB)
+                ? valA.localeCompare(valB)
+                : parseFloat(valA) - parseFloat(valB);
+        });
+
+        // Determine sort direction
+        const currentDirection = th.dataset.sorted;
+        const isAscending = currentDirection !== "asc";
+        th.dataset.sorted = isAscending ? "asc" : "desc";
+
+        if (!isAscending) sorted.reverse();
+
+        // Clear all sort indicators
+        document.querySelectorAll("th.sortable").forEach(header => {
+            header.innerHTML = header.dataset.originalText;
+            delete header.dataset.sorted;
+        });
+
+        // Add new sort indicator
+        const arrow = isAscending ? "↑" : "↓";
+        th.innerHTML = `${th.dataset.originalText} <span class="sort-indicator">${arrow}</span>`;
+        th.dataset.sorted = isAscending ? "asc" : "desc";
+
 		th.addEventListener("click", () => {
 			const column = th.cellIndex;
 			const rows = Array.from(document.querySelector("tbody").rows);
