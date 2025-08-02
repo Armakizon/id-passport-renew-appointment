@@ -71,8 +71,6 @@ def get_time_since(updated_str):
 
 @app.route("/")
 def index():
-    user_lat = request.args.get("lat", type=float)
-    user_lon = request.args.get("lon", type=float)
 
     entries = Entry.query.all()
     last_updated = get_last_updated()
@@ -83,7 +81,6 @@ def index():
         branch = BRANCH_MAP.get(entry.branch_id, {})
         distance = None
         if user_lat is not None and user_lon is not None and branch:
-            distance = calculate_distance(user_lat, user_lon, branch["lat"], branch["lon"])
         entries_with_distance.append({
             "branch_id": entry.branch_id,
             "branch_name": branch.get("name", entry.branch_id),

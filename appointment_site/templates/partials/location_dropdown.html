@@ -1,0 +1,23 @@
+<!-- templates/location_dropdown.html -->
+<form id="locationSelectForm" class="mb-3">
+  <select id="locationDropdown" class="form-select">
+    <option selected disabled>Choose a location</option>
+    {% for id, info in branch_map.items() %}
+      <option value="{{ info.lat }},{{ info.lon }}">
+        {{ info.name }} - {{ info.address }}
+      </option>
+    {% endfor %}
+  </select>
+</form>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const dropdown = document.getElementById("locationDropdown");
+    dropdown.addEventListener("change", () => {
+      const [lat, lon] = dropdown.value.split(",");
+      if (lat && lon) {
+        window.location.href = `/?lat=${lat}&lon=${lon}`;
+      }
+    });
+  });
+</script>
