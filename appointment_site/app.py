@@ -2,7 +2,6 @@ from flask import Flask, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from pytz import timezone
-from math import radians, cos, sin, sqrt, atan2
 import os
 import csv
 
@@ -36,7 +35,6 @@ class Meta(db.Model):
 with app.app_context():
     db.create_all()
 
-
 def set_last_updated():
     israel_time = datetime.now(timezone("Asia/Jerusalem")).strftime("%Y-%m-%d %H:%M:%S")
     existing = Meta.query.filter_by(key="last_updated").first()
@@ -61,44 +59,33 @@ def get_time_since(updated_str):
     hours = seconds // 3600
     minutes = (seconds % 3600) // 60
     return f"{days}d {hours}h {minutes}m ago"
-def calculate_distance(lat1, lon1, lat2, lon2):
-    R = 6371  # Earth radius in kilometers
-    dlat = radians(lat2 - lat1)
-    dlon = radians(lon2 - lon1)
-    a = sin(dlat / 2)**2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(dlon / 2)**2
-    c = 2 * atan2(sqrt(a), sqrt(1 - a))
-    return round(R * c, 1)
+
 @app.route("/")
 def index():
-    user_lat = request.args.get("lat", type=float)
-    user_lon = request.args.get("lon", type=float)
-
+    # User location is no longer needed on backend since distance calc is client-side
     entries = Entry.query.all()
     last_updated = get_last_updated()
     time_since = get_time_since(last_updated)
 
-    entries_with_distance = []
+    entries_with_coords = []
     for entry in entries:
         branch = BRANCH_MAP.get(entry.branch_id, {})
-        distance = None
-        if user_lat is not None and user_lon is not None and branch:
-            distance = calculate_distance(user_lat, user_lon, branch["lat"], branch["lon"])
-        entries_with_distance.append({
+        entries_with_coords.append({
             "branch_id": entry.branch_id,
             "branch_name": branch.get("name", entry.branch_id),
             "address": branch.get("address", "-"),
             "date": entry.date,
-            "distance": distance
+            "lat": branch.get("lat"),
+            "lon": branch.get("lon")
         })
 
     return render_template(
         "index.html",
-        entries=entries_with_distance,
+        entries=entries_with_coords,
         last_updated=last_updated,
         time_since=time_since,
         branch_map=BRANCH_MAP
     )
-
 
 from api import register_api_routes
 register_api_routes(app, db, Entry, set_last_updated)
