@@ -5,6 +5,27 @@
   }
   #distanceFilterContainer label {
     font-weight: 600;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  /* Container for input and button side by side */
+  #distanceInputRow {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  /* Input half width, no spinner arrows */
+  #maxDistanceInput {
+    width: 50%;
+    -moz-appearance: textfield;
+  }
+  /* Remove spinner arrows in Chrome, Edge, Safari */
+  #maxDistanceInput::-webkit-inner-spin-button,
+  #maxDistanceInput::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 
   /* Shake animation */
@@ -28,15 +49,20 @@
 
 <div id="distanceFilterContainer">
   <label for="maxDistanceInput">Filter by max distance (km):</label>
-  <input
-    type="number"
-    id="maxDistanceInput"
-    min="0"
-    step="0.1"
-    placeholder="Enter max distance"
-    class="form-control"
-  />
-  <button id="applyDistanceFilterBtn" class="btn btn-primary mt-2">Apply</button>
+  <div id="distanceInputRow">
+    <input
+      type="number"
+      id="maxDistanceInput"
+      min="0"
+      step="0.1"
+      placeholder="Enter max distance"
+      class="form-control"
+      autocomplete="off"
+    />
+    <button id="applyDistanceFilterBtn" class="btn btn-primary">
+      Apply
+    </button>
+  </div>
   <div id="distanceFilterError" style="display:none;"></div>
 </div>
 
@@ -63,20 +89,17 @@
       return R * c;
     }
 
-    // Remove error message and shaking class
     function clearError() {
       errorDiv.style.display = "none";
       errorDiv.textContent = "";
       distanceContainer.classList.remove("shake");
     }
 
-    // Show error message and shake container
     function showError(msg) {
       errorDiv.textContent = msg;
       errorDiv.style.display = "block";
       distanceContainer.classList.add("shake");
 
-      // Remove shake class after animation so it can repeat
       setTimeout(() => {
         distanceContainer.classList.remove("shake");
       }, 300);
@@ -96,7 +119,6 @@
         return;
       }
 
-      // Clear current selected branch buttons and activeBranchIds
       activeBranchIds = [];
       locationButtonsContainer.innerHTML = "";
 
