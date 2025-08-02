@@ -3,3 +3,44 @@
   <input type="text" id="branchSearch" class="form-control" placeholder="Type a branch name...">
   <ul id="branchResults" class="list-group mt-2"></ul>
 </div>
+
+<script>
+  let allBranches = [];
+  const activeBranchIds = [];
+
+  fetch("/all_branches")
+    .then(res => res.json())
+    .then(data => allBranches = data);
+
+  const branchSearchInput = document.getElementById("branchSearch");
+  const branchResultsList = document.getElementById("branchResults");
+
+  branchSearchInput.addEventListener("input", () => {
+    const query = branchSearchInput.value.toLowerCase();
+    branchResultsList.innerHTML = "";
+
+    const filtered = allBranches.filter(branch =>
+      branch.name.toLowerCase().includes(query)
+    );
+
+    filtered.slice(0, 10).forEach(branch => {
+      const item = document.createElement("li");
+      item.className = "list-group-item list-group-item-action";
+      item.textContent = `${branch.name} – ${branch.address}`;
+      item.addEventListener("click", () => {
+        if (!activeBranchIds.includes(branch.id)) {
+          activeBranchIds.push(branch.id);
+          addLocationFilter(branch.id, branch.name, branch.lat, branch.lon);
+        }
+        branchResultsList.innerHTML = "";
+        branchSearchInput.value = "";
+      });
+      branchResultsList.appendChild(item);
+    });
+  });
+
+  function addLocationFilter(id, name, lat, lon) {
+    // Your implementation — assumed to update the UI and table visibility
+    console.log("Added:", id, name, lat, lon);
+  }
+</script>
