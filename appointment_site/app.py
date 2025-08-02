@@ -95,7 +95,8 @@ def index():
         "index.html",
         entries=entries_with_distance,
         last_updated=last_updated,
-        time_since=time_since
+        time_since=time_since,
+        branch_map=BRANCH_MAP
     )
 
 
