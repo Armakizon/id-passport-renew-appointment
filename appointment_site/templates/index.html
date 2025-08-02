@@ -19,15 +19,15 @@
 
 {% block scripts %}
   <script>
-    const userLat = new URLSearchParams(window.location.search).get("lat");
-    const userLon = new URLSearchParams(window.location.search).get("lon");
+    window.userLat = new URLSearchParams(window.location.search).get("lat");
+    window.userLon = new URLSearchParams(window.location.search).get("lon");
 
     const allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
     const searchInput = document.getElementById("branchSearch");
     const resultsList = document.getElementById("branchResults");
     const getLocationButton = document.getElementById("getLocationButton");
 
-    let activeBranchIds = [];
+    window.activeBranchIds = [];
 	window.userHasSelectedLocation = false;
 
     const branchNames = [...new Set(allRows.map(row => {
