@@ -1,85 +1,166 @@
-<div class="mb-3">
-  <label for="distanceInput" class="form-label">Filter by distance (km)</label>
-  <div class="d-flex align-items-start gap-2">
+<style>
+  #distanceFilterContainer {
+    margin-top: 1rem;
+    position: relative;
+  }
+  #distanceFilterContainer label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  /* Container for input and button side by side */
+  #distanceInputRow {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  /* Input half width, no spinner arrows */
+  #maxDistanceInput {
+    width: 50%;
+    -moz-appearance: textfield;
+  }
+  /* Remove spinner arrows in Chrome, Edge, Safari */
+  #maxDistanceInput::-webkit-inner-spin-button,
+  #maxDistanceInput::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Shake animation */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+  }
+
+  #distanceFilterContainer.shake {
+    animation: shake 0.3s;
+  }
+
+  #distanceFilterError {
+    color: red;
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+</style>
+
+<div id="distanceFilterContainer">
+  <label for="maxDistanceInput">Filter by max distance (km):</label>
+  <div id="distanceInputRow">
     <input
       type="number"
+      id="maxDistanceInput"
+      min="0"
+      step="0.1"
+      placeholder="Enter max distance"
       class="form-control"
-      id="distanceInput"
-      placeholder="Enter km"
-      min="1"
-      style="max-width: 100px;"
+      autocomplete="off"
     />
-    <button id="applyDistanceFilter" class="btn btn-primary">Apply</button>
+    <button id="applyDistanceFilterBtn" class="btn btn-primary">
+      Apply
+    </button>
   </div>
-  <div id="distanceError" class="mt-1 text-danger" style="display: none;">Please select your location to enable this filter.</div>
+  <div id="distanceFilterError" style="display:none;"></div>
 </div>
 
 <script>
-  function haversineDistance(lat1, lon1, lat2, lon2) {
-    const toRad = angle => (angle * Math.PI) / 180;
-    const R = 6371;
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
-    const a =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
-  }
-
   document.addEventListener("DOMContentLoaded", () => {
-    const applyBtn = document.getElementById("applyDistanceFilter");
-    const distanceInput = document.getElementById("distanceInput");
-    const distanceError = document.getElementById("distanceError");
+    const distanceContainer = document.getElementById("distanceFilterContainer");
+    const maxDistanceInput = document.getElementById("maxDistanceInput");
+    const applyBtn = document.getElementById("applyDistanceFilterBtn");
+    const errorDiv = document.getElementById("distanceFilterError");
+    const locationButtonsContainer = document.getElementById("locationButtons"); // branch buttons container
+    const allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
+
+    function haversineDistance(lat1, lon1, lat2, lon2) {
+      const toRad = angle => (angle * Math.PI) / 180;
+      const R = 6371; // Earth radius in km
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(lat1)) *
+          Math.cos(toRad(lat2)) *
+          Math.sin(dLon / 2) ** 2;
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
+    function clearError() {
+      errorDiv.style.display = "none";
+      errorDiv.textContent = "";
+      distanceContainer.classList.remove("shake");
+    }
+
+    function showError(msg) {
+      errorDiv.textContent = msg;
+      errorDiv.style.display = "block";
+      distanceContainer.classList.add("shake");
+
+      setTimeout(() => {
+        distanceContainer.classList.remove("shake");
+      }, 300);
+    }
 
     applyBtn.addEventListener("click", () => {
-      if (!window.userHasSelectedLocation || !userLat || !userLon) {
-        distanceError.style.display = "block";
-        distanceError.classList.add("shake");
-        setTimeout(() => distanceError.classList.remove("shake"), 500);
+      clearError();
+
+      if (!window.userHasSelectedLocation) {
+        showError("Please select your location to enable this filter.");
         return;
       }
 
-      const threshold = parseFloat(distanceInput.value);
-      if (isNaN(threshold)) return;
+      const maxDistance = parseFloat(maxDistanceInput.value);
+      if (isNaN(maxDistance) || maxDistance < 0) {
+        showError("Please enter a valid positive number for max distance.");
+        return;
+      }
 
-      // Clear existing buttons
-      const locationButtons = document.getElementById("locationButtons");
-      if (locationButtons) locationButtons.innerHTML = "";
       activeBranchIds = [];
+      locationButtonsContainer.innerHTML = "";
 
-      {% for id, info in branch_map.items() %}
-        const dist{{ id }} = haversineDistance(userLat, userLon, {{ info.latitude }}, {{ info.longitude }});
-        if (dist{{ id }} <= threshold) {
-          const btn = document.createElement("button");
-          btn.className = "btn btn-secondary btn-sm location-btn me-1 mb-1";
-          btn.textContent = "{{ info.branch_name }}";
-          btn.onclick = () => {
-            activeBranchIds = activeBranchIds.filter(bid => bid !== "{{ id }}");
-            btn.remove();
-            updateTableVisibility();
-          };
-          locationButtons.appendChild(btn);
-          activeBranchIds.push("{{ id }}");
+      const dropdown = document.getElementById("locationDropdown");
+      if (!dropdown) return;
+
+      const [refLat, refLon] = dropdown.value.split(",").map(parseFloat);
+
+      const branchesWithinDistance = [];
+
+      allRows.forEach(row => {
+        const branchId = row.getAttribute("data-branch-id");
+        const rowLat = parseFloat(row.getAttribute("data-lat"));
+        const rowLon = parseFloat(row.getAttribute("data-lon"));
+
+        if (isNaN(rowLat) || isNaN(rowLon)) return;
+
+        const dist = haversineDistance(refLat, refLon, rowLat, rowLon);
+
+        if (dist <= maxDistance && !branchesWithinDistance.includes(branchId)) {
+          branchesWithinDistance.push(branchId);
         }
-      {% endfor %}
+      });
+
+      branchesWithinDistance.forEach(branchId => {
+        const row = allRows.find(r => r.getAttribute("data-branch-id") === branchId);
+        const branchName = row ? row.children[0].textContent.trim() : "Unknown";
+
+        activeBranchIds.push(branchId);
+
+        const btn = document.createElement("button");
+        btn.className = "btn btn-secondary btn-sm location-btn m-1";
+        btn.textContent = branchName;
+        btn.onclick = () => {
+          activeBranchIds = activeBranchIds.filter(id => id !== branchId);
+          locationButtonsContainer.removeChild(btn);
+          updateTableVisibility();
+        };
+        locationButtonsContainer.appendChild(btn);
+      });
 
       updateTableVisibility();
-      distanceError.style.display = "none";
     });
   });
 </script>
-
-<style>
-  @keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-4px); }
-    50% { transform: translateX(4px); }
-    75% { transform: translateX(-4px); }
-    100% { transform: translateX(0); }
-  }
-
-  .shake {
-    animation: shake 0.3s ease-in-out;
-  }
-</style>

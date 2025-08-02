@@ -33,7 +33,7 @@
     const branchNames = [...new Set(allRows.map(row => {
       const id = row.getAttribute("data-branch-id");
       const name = row.children[0].textContent.trim();
-      return ${id}|${name};
+      return `${id}|${name}`;
     }))];
 
 function updateTableVisibility() {
