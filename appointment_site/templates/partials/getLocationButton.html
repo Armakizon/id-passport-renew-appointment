@@ -35,6 +35,7 @@ document.getElementById("getLocationBtn")?.addEventListener("click", (e) => {
     const allRows = document.querySelectorAll("#appointmentsTable tbody tr");
 
     // Update distance column
+	userHasSelectedLocation = true;
     allRows.forEach(row => {
       const rowLat = parseFloat(row.getAttribute("data-lat"));
       const rowLon = parseFloat(row.getAttribute("data-lon"));

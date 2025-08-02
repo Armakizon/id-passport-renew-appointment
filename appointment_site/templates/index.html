@@ -28,6 +28,7 @@
     const getLocationButton = document.getElementById("getLocationButton");
 
     let activeBranchIds = [];
+	window.userHasSelectedLocation = false;
 
     const branchNames = [...new Set(allRows.map(row => {
       const id = row.getAttribute("data-branch-id");
