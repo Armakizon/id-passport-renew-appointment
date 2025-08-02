@@ -5,9 +5,14 @@
   #distanceFilterContainer label {
     font-weight: 600;
   }
+  /* Visual cue for disabled controls */
+  .disabled-opacity {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 </style>
 
-<div id="distanceFilterContainer" style="display:none;">
+<div id="distanceFilterContainer">
   <label for="maxDistanceInput">Filter by max distance (km):</label>
   <input
     type="number"
@@ -16,8 +21,12 @@
     step="0.1"
     placeholder="Enter max distance"
     class="form-control"
+    disabled
   />
-  <button id="applyDistanceFilterBtn" class="btn btn-primary mt-2">Apply</button>
+  <button id="applyDistanceFilterBtn" class="btn btn-primary mt-2" disabled>Apply</button>
+  <small id="distanceFilterHelp" class="form-text text-muted mt-1">
+    Please select your location to enable this filter.
+  </small>
 </div>
 
 <script>
@@ -25,10 +34,11 @@
     const distanceContainer = document.getElementById("distanceFilterContainer");
     const maxDistanceInput = document.getElementById("maxDistanceInput");
     const applyBtn = document.getElementById("applyDistanceFilterBtn");
-    const locationButtonsContainer = document.getElementById("locationButtons"); // branch buttons container
+    const helpText = document.getElementById("distanceFilterHelp");
+    const locationButtonsContainer = document.getElementById("locationButtons");
     const allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
 
-    // Helper: Haversine formula - reuse if needed
+    // Helper: Haversine formula
     function haversineDistance(lat1, lon1, lat2, lon2) {
       const toRad = angle => (angle * Math.PI) / 180;
       const R = 6371; // Earth radius in km
@@ -43,20 +53,28 @@
       return R * c;
     }
 
-    // Show distance filter only if user has selected location
-    function checkShowDistanceFilter() {
-      if (window.userHasSelectedLocation) {
-        distanceContainer.style.display = "block";
+    // Enable or disable filter controls based on location selection
+    function updateDistanceFilterAccessibility() {
+      const enabled = window.userHasSelectedLocation === true;
+
+      maxDistanceInput.disabled = !enabled;
+      applyBtn.disabled = !enabled;
+
+      if (!enabled) {
+        maxDistanceInput.classList.add("disabled-opacity");
+        applyBtn.classList.add("disabled-opacity");
+        helpText.style.display = "block";
       } else {
-        distanceContainer.style.display = "none";
+        maxDistanceInput.classList.remove("disabled-opacity");
+        applyBtn.classList.remove("disabled-opacity");
+        helpText.style.display = "none";
       }
     }
 
-    checkShowDistanceFilter();
+    // Initial accessibility update
+    updateDistanceFilterAccessibility();
 
-    // Optional: watch userHasSelectedLocation changes if you have a way to emit event or use a polling
-    // or just call checkShowDistanceFilter() manually from location selection handlers.
-
+    // Apply max distance filter on button click
     applyBtn.addEventListener("click", () => {
       const maxDistance = parseFloat(maxDistanceInput.value);
       if (isNaN(maxDistance) || maxDistance < 0) {
@@ -64,13 +82,13 @@
         return;
       }
 
-      // Clear current selected branch buttons and activeBranchIds
+      // Clear selected branch buttons and activeBranchIds
       activeBranchIds = [];
       locationButtonsContainer.innerHTML = "";
 
-      // Get current ref location from dropdown or GPS stored somewhere
+      // Get reference location from dropdown (or wherever you store it)
       const dropdown = document.getElementById("locationDropdown");
-      if (!dropdown) return;
+      if (!dropdown) return alert("Please select a reference location first.");
 
       const [refLat, refLon] = dropdown.value.split(",").map(parseFloat);
 
@@ -93,7 +111,6 @@
 
       // Add buttons for each branch within distance
       branchesWithinDistance.forEach(branchId => {
-        // Find a row with branch name for button text (assumes at least one row per branch)
         const row = allRows.find(r => r.getAttribute("data-branch-id") === branchId);
         const branchName = row ? row.children[0].textContent.trim() : "Unknown";
 
@@ -112,5 +129,8 @@
 
       updateTableVisibility();
     });
+
+    // Expose accessibility updater for outside calls (e.g., location selection handlers)
+    window.updateDistanceFilterAccessibility = updateDistanceFilterAccessibility;
   });
 </script>
