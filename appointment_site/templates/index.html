@@ -19,6 +19,7 @@
 
 {% block scripts %}
   <script>
+    window.branch_map = {{ branch_map | tojson }};
 	window.userLat = null;
 	window.userLon = null;
 
