@@ -19,8 +19,8 @@
 
 {% block scripts %}
   <script>
-    window.userLat = new URLSearchParams(window.location.search).get("lat");
-    window.userLon = new URLSearchParams(window.location.search).get("lon");
+	window.userLat = null;
+	window.userLon = null;
 
     const allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
     const searchInput = document.getElementById("branchSearch");

@@ -30,8 +30,8 @@ document.getElementById("getLocationBtn")?.addEventListener("click", (e) => {
   }
 
   navigator.geolocation.getCurrentPosition(pos => {
-    const userLat = pos.coords.latitude.toFixed(6);
-    const userLon = pos.coords.longitude.toFixed(6);
+    userLat = pos.coords.latitude.toFixed(6);
+    userLon = pos.coords.longitude.toFixed(6);
     const allRows = document.querySelectorAll("#appointmentsTable tbody tr");
 
     // Update distance column
