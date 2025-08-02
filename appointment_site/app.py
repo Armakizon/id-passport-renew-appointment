@@ -36,13 +36,6 @@ class Meta(db.Model):
 with app.app_context():
     db.create_all()
 
-def calculate_distance(lat1, lon1, lat2, lon2):
-    R = 6371
-    dlat = radians(lat2 - lat1)
-    dlon = radians(lon2 - lon1)
-    a = sin(dlat/2)**2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(dlon/2)**2
-    c = 2 * atan2(sqrt(a), sqrt(1 - a))
-    return round(R * c, 2)
 
 def set_last_updated():
     israel_time = datetime.now(timezone("Asia/Jerusalem")).strftime("%Y-%m-%d %H:%M:%S")
@@ -68,9 +61,17 @@ def get_time_since(updated_str):
     hours = seconds // 3600
     minutes = (seconds % 3600) // 60
     return f"{days}d {hours}h {minutes}m ago"
-
+def calculate_distance(lat1, lon1, lat2, lon2):
+    R = 6371  # Earth radius in kilometers
+    dlat = radians(lat2 - lat1)
+    dlon = radians(lon2 - lon1)
+    a = sin(dlat / 2)**2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(dlon / 2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    return round(R * c, 1)
 @app.route("/")
 def index():
+    user_lat = request.args.get("lat", type=float)
+    user_lon = request.args.get("lon", type=float)
 
     entries = Entry.query.all()
     last_updated = get_last_updated()
@@ -80,6 +81,8 @@ def index():
     for entry in entries:
         branch = BRANCH_MAP.get(entry.branch_id, {})
         distance = None
+        if user_lat is not None and user_lon is not None and branch:
+            distance = calculate_distance(user_lat, user_lon, branch["lat"], branch["lon"])
         entries_with_distance.append({
             "branch_id": entry.branch_id,
             "branch_name": branch.get("name", entry.branch_id),
@@ -88,7 +91,13 @@ def index():
             "distance": distance
         })
 
-    return render_template("index.html", entries=entries_with_distance, last_updated=last_updated, time_since=time_since)
+    return render_template(
+        "index.html",
+        entries=entries_with_distance,
+        last_updated=last_updated,
+        time_since=time_since
+    )
+
 
 from api import register_api_routes
 register_api_routes(app, db, Entry, set_last_updated)
