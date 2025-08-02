@@ -11,7 +11,7 @@
   <p><strong>Last Updated:</strong> {{ last_updated }} ({{ time_since }})</p>
 
   {% include "partials/filter_drawer.html" %}
-  {% include "partials/location_buttons.html" %}
+  {% include "partials/getLocationButton.html" %}
   {% include "partials/location_dropdown.html" %}
   {% include "partials/toggle_button.html" %}
   {% include "partials/appointments_table.html" %}
@@ -25,7 +25,7 @@
     const allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
     const searchInput = document.getElementById("branchSearch");
     const resultsList = document.getElementById("branchResults");
-    const locationButtons = document.getElementById("locationButtons");
+    const getLocationButton = document.getElementById("getLocationButton");
 
     let activeBranchIds = [];
 
