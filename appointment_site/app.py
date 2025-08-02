@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from pytz import timezone
@@ -62,7 +62,6 @@ def get_time_since(updated_str):
 
 @app.route("/")
 def index():
-    # User location is no longer needed on backend since distance calc is client-side
     entries = Entry.query.all()
     last_updated = get_last_updated()
     time_since = get_time_since(last_updated)
@@ -86,6 +85,19 @@ def index():
         time_since=time_since,
         branch_map=BRANCH_MAP
     )
+
+@app.route("/all_branches")
+def all_branches():
+    return jsonify([
+        {
+            "id": branch_id,
+            "name": info["name"],
+            "address": info["address"],
+            "lat": info["lat"],
+            "lon": info["lon"]
+        }
+        for branch_id, info in BRANCH_MAP.items()
+    ])
 
 from api import register_api_routes
 register_api_routes(app, db, Entry, set_last_updated)
