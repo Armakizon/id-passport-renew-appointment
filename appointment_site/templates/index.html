@@ -36,13 +36,6 @@
     }))];
 
 function updateTableVisibility() {
-  if (!window.allRows) {
-    window.allRows = Array.from(document.querySelectorAll("#appointmentsTable tbody tr"));
-  }
-  if (!window.activeBranchIds) {
-    window.activeBranchIds = []; // or initialize properly elsewhere
-  }
-
   const grouped = {};
   allRows.forEach(row => {
     const id = row.getAttribute("data-branch-id");
@@ -53,12 +46,12 @@ function updateTableVisibility() {
   const startDate = urlParams.get("start_date");
   const endDate = urlParams.get("end_date");
 
-  allRows.forEach(row => (row.style.display = "none"));
+  allRows.forEach(row => row.style.display = "none");
 
   for (const [branchId, rows] of Object.entries(grouped)) {
     if (activeBranchIds.length === 0 || activeBranchIds.includes(branchId)) {
       const filteredRows = rows.filter(row => {
-        const dateStr = row.children[2]?.innerText?.trim(); // Adjust index if needed
+        const dateStr = row.children[2]?.innerText?.trim();  // Adjust index if needed
         if (!dateStr) return false;
 
         const rowDate = new Date(dateStr);
@@ -71,13 +64,12 @@ function updateTableVisibility() {
         return true;
       });
 
-      if (showEarliestOnly) {
-        filteredRows.sort((a, b) => new Date(a.children[2].innerText) - new Date(b.children[2].innerText));
-        if (filteredRows.length > 0) {
-          filteredRows[0].style.display = "";
-        }
+      if (typeof showEarliestOnly !== "undefined" && showEarliestOnly) {
+        filteredRows.sort((a, b) =>
+          new Date(a.children[2].innerText) - new Date(b.children[2].innerText)
+        )[0]?.style && (filteredRows[0].style.display = "");
       } else {
-        filteredRows.forEach(row => (row.style.display = ""));
+        filteredRows.forEach(row => row.style.display = "");
       }
     }
   }
