@@ -80,7 +80,6 @@ def index():
     for entry in entries:
         branch = BRANCH_MAP.get(entry.branch_id, {})
         distance = None
-        if user_lat is not None and user_lon is not None and branch:
         entries_with_distance.append({
             "branch_id": entry.branch_id,
             "branch_name": branch.get("name", entry.branch_id),
