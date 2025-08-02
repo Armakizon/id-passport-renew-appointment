@@ -6,7 +6,7 @@
 
 <script>
 document.getElementById("getLocationBtn")?.addEventListener("click", (e) => {
-  e.preventDefault(); // prevent form/button default behavior
+  e.preventDefault();
 
   if (!navigator.geolocation) {
     alert("Geolocation is not supported by your browser.");
@@ -30,15 +30,15 @@ document.getElementById("getLocationBtn")?.addEventListener("click", (e) => {
   }
 
   navigator.geolocation.getCurrentPosition(pos => {
-    const userLat = pos.coords.latitude;
-    const userLon = pos.coords.longitude;
-
+    const userLat = pos.coords.latitude.toFixed(6);
+    const userLon = pos.coords.longitude.toFixed(6);
     const allRows = document.querySelectorAll("#appointmentsTable tbody tr");
 
+    // Update distance column
     allRows.forEach(row => {
       const rowLat = parseFloat(row.getAttribute("data-lat"));
       const rowLon = parseFloat(row.getAttribute("data-lon"));
-      const distanceCell = row.children[3]; // Assumes 4th column is Distance (km)
+      const distanceCell = row.children[3];
 
       if (!isNaN(rowLat) && !isNaN(rowLon)) {
         const dist = haversineDistance(userLat, userLon, rowLat, rowLon);
@@ -47,6 +47,30 @@ document.getElementById("getLocationBtn")?.addEventListener("click", (e) => {
         distanceCell.textContent = "-";
       }
     });
+
+    // Update the dropdown with "📍 Based on your location"
+    const dropdown = document.getElementById("locationDropdown");
+    if (dropdown) {
+      const valueStr = `${userLat},${userLon}`;
+      let found = false;
+
+      for (const option of dropdown.options) {
+        if (option.value === valueStr) {
+          option.selected = true;
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        const newOption = new Option("📍 Based on your location", valueStr, true, true);
+        dropdown.appendChild(newOption);
+      }
+
+      // Manually trigger the change event to reapply any other logic
+      dropdown.dispatchEvent(new Event("change"));
+    }
+
   }, () => {
     alert("Failed to get your location.");
   });
