@@ -1,10 +1,53 @@
+<style>
+  .location-btn {
+    margin: 2px;
+  }
+</style>
+
+<!-- Location Dropdown -->
 <form id="locationSelectForm" class="mb-3">
   <select id="filterLocationDropdown" class="form-select">
     <option selected disabled>Choose a branch you are interested to see</option>
     {% for id, info in branch_map.items() %}
-      <option value="{{ info.lat }},{{ info.lon }}">
+      <option value="{{ id }}" data-lat="{{ info.lat }}" data-lon="{{ info.lon }}">
         {{ info.name }} - {{ info.address }}
       </option>
     {% endfor %}
   </select>
 </form>
+
+<!-- Selected Location Buttons -->
+<div id="locationButtons" class="mb-3 d-flex flex-wrap">
+  {% include "partials/location_buttons.html" %}
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const dropdown = document.getElementById("filterLocationDropdown");
+    const locationButtons = document.getElementById("locationButtons");
+
+    dropdown.addEventListener("change", () => {
+      const selectedOption = dropdown.options[dropdown.selectedIndex];
+      const branchId = selectedOption.value;
+      const branchName = selectedOption.text;
+
+      if (!activeBranchIds.includes(branchId)) {
+        activeBranchIds.push(branchId);
+        updateTableVisibility();
+
+        const btn = document.createElement("button");
+        btn.className = "btn btn-secondary btn-sm location-btn";
+        btn.textContent = branchName;
+        btn.onclick = () => {
+          activeBranchIds = activeBranchIds.filter(id => id !== branchId);
+          locationButtons.removeChild(btn);
+          updateTableVisibility();
+        };
+
+        locationButtons.appendChild(btn);
+      }
+
+      dropdown.selectedIndex = 0;  // Reset to default
+    });
+  });
+</script>
