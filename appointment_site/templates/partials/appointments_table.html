@@ -10,7 +10,7 @@
         </thead>
         <tbody>
             {% for entry in entries %}
-            <tr data-branch-id="{{ entry.branch_id }}" data-lat="{{ entry.latitude }}" data-lon="{{ entry.longitude }}">
+            <tr data-branch-id="{{ entry.branch_id }}" data-lat="{{ entry.lat }}" data-lon="{{ entry.lon }}">
                 <td>{{ entry.branch_name }}</td>
                 <td>{{ entry.address }}</td>
                 <td>{{ entry.date }}</td>
