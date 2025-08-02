@@ -1,8 +1,14 @@
 <!-- templates/partials/date_filter.html -->
 <div class="mb-3">
   <label class="form-label">Filter by Date Range:</label>
-  <div class="d-flex gap-2">
+
+  <div class="mb-2">
+    <label for="startDate" class="form-label">From:</label>
     <input type="date" id="startDate" class="form-control" placeholder="Start date">
+  </div>
+
+  <div>
+    <label for="endDate" class="form-label">Until:</label>
     <input type="date" id="endDate" class="form-control" placeholder="End date">
   </div>
 </div>
@@ -30,7 +36,9 @@
         url.searchParams.delete("end_date");
       }
 
-      window.location.href = url.toString();
+      // Use history.pushState to update URL without reload
+      history.pushState(null, "", url);
+      updateTableVisibility?.();  // Make sure this filters your table if you already use it
     }
 
     startDate.addEventListener("change", updateDateParams);
