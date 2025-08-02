@@ -1,12 +1,3 @@
-<div class="mb-3">
-  <label for="distanceInput" class="form-label">Max Distance (km):</label>
-  <div class="d-flex align-items-center">
-    <input type="number" class="form-control me-2" id="distanceInput" placeholder="Enter distance">
-    <button class="btn btn-primary" id="applyDistanceFilter">Apply</button>
-  </div>
-  <div id="distanceWarning" class="mt-2 text-danger" style="display: none;">Please select your location to enable this filter.</div>
-</div>
-
 <script>
   function haversineDistance(lat1, lon1, lat2, lon2) {
     const toRad = angle => (angle * Math.PI) / 180;
@@ -28,7 +19,14 @@
     const distanceInput = document.getElementById("distanceInput");
     const maxDistance = parseFloat(distanceInput.value);
 
-    if (!userHasSelectedLocation) {
+    console.log("Clicked applyDistanceFilter");
+    console.log("userLat:", window.userLat);
+    console.log("userLon:", window.userLon);
+    console.log("userHasSelectedLocation:", window.userHasSelectedLocation);
+    console.log("maxDistance:", maxDistance);
+
+    if (!window.userHasSelectedLocation) {
+      console.warn("Location not selected!");
       distanceWarning.style.display = "block";
       distanceWarning.classList.add("shake");
       setTimeout(() => distanceWarning.classList.remove("shake"), 500);
@@ -37,45 +35,47 @@
       distanceWarning.style.display = "none";
     }
 
+    if (isNaN(maxDistance)) {
+      console.error("Invalid distance input!");
+      alert("Please enter a valid number for distance.");
+      return;
+    }
+
     const locationButtons = document.getElementById("locationButtons");
     locationButtons.innerHTML = "";
-    activeBranchIds = [];
+    window.activeBranchIds = [];
 
     for (const [id, info] of Object.entries(branch_map)) {
       const branchLat = info.lat;
       const branchLon = info.lon;
-      const dist = haversineDistance(userLat, userLon, branchLat, branchLon);
+
+      if (branchLat == null || branchLon == null) {
+        console.warn(`Branch ${id} missing coordinates`);
+        continue;
+      }
+
+      const dist = haversineDistance(window.userLat, window.userLon, branchLat, branchLon);
+      console.log(`Branch ${id}: ${info.name}, Distance: ${dist.toFixed(2)} km`);
 
       if (dist <= maxDistance) {
-        activeBranchIds.push(id);
+        console.log(`✅ Within range: ${info.name}`);
+        window.activeBranchIds.push(id);
 
         const btn = document.createElement("button");
         btn.className = "btn btn-secondary btn-sm location-btn";
         btn.textContent = `${info.name} - ${info.address}`;
         btn.onclick = () => {
-          activeBranchIds = activeBranchIds.filter(bid => bid !== id);
+          window.activeBranchIds = window.activeBranchIds.filter(bid => bid !== id);
           locationButtons.removeChild(btn);
           updateTableVisibility();
         };
 
         locationButtons.appendChild(btn);
+      } else {
+        console.log(`❌ Too far: ${info.name}`);
       }
     }
 
     updateTableVisibility();
   });
 </script>
-
-<style>
-  .shake {
-    animation: shake 0.3s;
-  }
-
-  @keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-    100% { transform: translateX(0); }
-  }
-</style>
