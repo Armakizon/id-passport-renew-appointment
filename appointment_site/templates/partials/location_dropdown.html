@@ -42,17 +42,3 @@
     });
   });
 </script>
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const dropdown = document.getElementById("locationDropdown");
-    dropdown?.addEventListener("change", () => {
-      const [lat, lon] = dropdown.value.split(",");
-      if (lat && lon) {
-        const url = new URL(window.location);
-        url.searchParams.set("lat", lat);
-        url.searchParams.set("lon", lon);
-        window.location.href = url.toString();
-      }
-    });
-  });
-</script>
