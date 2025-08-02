@@ -1,14 +1,28 @@
 <style>
   #distanceFilterContainer {
     margin-top: 1rem;
+    position: relative;
   }
   #distanceFilterContainer label {
     font-weight: 600;
   }
-  /* Visual cue for disabled controls */
-  .disabled-opacity {
-    opacity: 0.5;
-    pointer-events: none;
+
+  /* Shake animation */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+  }
+
+  #distanceFilterContainer.shake {
+    animation: shake 0.3s;
+  }
+
+  #distanceFilterError {
+    color: red;
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+    font-weight: 600;
   }
 </style>
 
@@ -21,12 +35,9 @@
     step="0.1"
     placeholder="Enter max distance"
     class="form-control"
-    disabled
   />
-  <button id="applyDistanceFilterBtn" class="btn btn-primary mt-2" disabled>Apply</button>
-  <small id="distanceFilterHelp" class="form-text text-muted mt-1">
-    Please select your location to enable this filter.
-  </small>
+  <button id="applyDistanceFilterBtn" class="btn btn-primary mt-2">Apply</button>
+  <div id="distanceFilterError" style="display:none;"></div>
 </div>
 
 <script>
@@ -34,11 +45,10 @@
     const distanceContainer = document.getElementById("distanceFilterContainer");
     const maxDistanceInput = document.getElementById("maxDistanceInput");
     const applyBtn = document.getElementById("applyDistanceFilterBtn");
-    const helpText = document.getElementById("distanceFilterHelp");
-    const locationButtonsContainer = document.getElementById("locationButtons");
+    const errorDiv = document.getElementById("distanceFilterError");
+    const locationButtonsContainer = document.getElementById("locationButtons"); // branch buttons container
     const allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
 
-    // Helper: Haversine formula
     function haversineDistance(lat1, lon1, lat2, lon2) {
       const toRad = angle => (angle * Math.PI) / 180;
       const R = 6371; // Earth radius in km
@@ -53,46 +63,48 @@
       return R * c;
     }
 
-    // Enable or disable filter controls based on location selection
-    function updateDistanceFilterAccessibility() {
-      const enabled = window.userHasSelectedLocation === true;
-
-      maxDistanceInput.disabled = !enabled;
-      applyBtn.disabled = !enabled;
-
-      if (!enabled) {
-        maxDistanceInput.classList.add("disabled-opacity");
-        applyBtn.classList.add("disabled-opacity");
-        helpText.style.display = "block";
-      } else {
-        maxDistanceInput.classList.remove("disabled-opacity");
-        applyBtn.classList.remove("disabled-opacity");
-        helpText.style.display = "none";
-      }
+    // Remove error message and shaking class
+    function clearError() {
+      errorDiv.style.display = "none";
+      errorDiv.textContent = "";
+      distanceContainer.classList.remove("shake");
     }
 
-    // Initial accessibility update
-    updateDistanceFilterAccessibility();
+    // Show error message and shake container
+    function showError(msg) {
+      errorDiv.textContent = msg;
+      errorDiv.style.display = "block";
+      distanceContainer.classList.add("shake");
 
-    // Apply max distance filter on button click
+      // Remove shake class after animation so it can repeat
+      setTimeout(() => {
+        distanceContainer.classList.remove("shake");
+      }, 300);
+    }
+
     applyBtn.addEventListener("click", () => {
-      const maxDistance = parseFloat(maxDistanceInput.value);
-      if (isNaN(maxDistance) || maxDistance < 0) {
-        alert("Please enter a valid positive number for max distance.");
+      clearError();
+
+      if (!window.userHasSelectedLocation) {
+        showError("Please select your location to enable this filter.");
         return;
       }
 
-      // Clear selected branch buttons and activeBranchIds
+      const maxDistance = parseFloat(maxDistanceInput.value);
+      if (isNaN(maxDistance) || maxDistance < 0) {
+        showError("Please enter a valid positive number for max distance.");
+        return;
+      }
+
+      // Clear current selected branch buttons and activeBranchIds
       activeBranchIds = [];
       locationButtonsContainer.innerHTML = "";
 
-      // Get reference location from dropdown (or wherever you store it)
       const dropdown = document.getElementById("locationDropdown");
-      if (!dropdown) return alert("Please select a reference location first.");
+      if (!dropdown) return;
 
       const [refLat, refLon] = dropdown.value.split(",").map(parseFloat);
 
-      // Find branches within maxDistance
       const branchesWithinDistance = [];
 
       allRows.forEach(row => {
@@ -109,7 +121,6 @@
         }
       });
 
-      // Add buttons for each branch within distance
       branchesWithinDistance.forEach(branchId => {
         const row = allRows.find(r => r.getAttribute("data-branch-id") === branchId);
         const branchName = row ? row.children[0].textContent.trim() : "Unknown";
@@ -129,8 +140,5 @@
 
       updateTableVisibility();
     });
-
-    // Expose accessibility updater for outside calls (e.g., location selection handlers)
-    window.updateDistanceFilterAccessibility = updateDistanceFilterAccessibility;
   });
 </script>
