@@ -12,7 +12,6 @@
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const dropdown = document.getElementById("locationDropdown");
-	userHasSelectedLocation = true;
     // Helper: Haversine formula
     function haversineDistance(lat1, lon1, lat2, lon2) {
       const toRad = angle => (angle * Math.PI) / 180;
@@ -30,6 +29,7 @@
     }
 
     dropdown?.addEventListener("change", () => {
+	  userHasSelectedLocation = true;
       const [refLat, refLon] = dropdown.value.split(",").map(parseFloat);
       const rows = document.querySelectorAll("#appointmentsTable tbody tr");
 
