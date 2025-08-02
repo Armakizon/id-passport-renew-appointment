@@ -1,7 +1,7 @@
 <!-- templates/partials/location_dropdown.html -->
 <form id="locationSelectForm" class="mb-3">
   <select id="locationDropdown" class="form-select">
-    <option selected disabled>📍 Choose a branch</option>
+    <option selected value="">📍 Choose a branch</option>
     {% for id, info in branch_map.items() %}
       <option value="{{ info.lat }},{{ info.lon }}">
         {{ info.name }} - {{ info.address }}
@@ -14,31 +14,20 @@
   document.addEventListener("DOMContentLoaded", () => {
     const dropdown = document.getElementById("locationDropdown");
 
-    // Select the right item if lat/lon exist in URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const lat = urlParams.get("lat");
-    const lon = urlParams.get("lon");
-
-    if (lat && lon) {
-      const valueToSelect = `${lat},${lon}`;
-      const options = dropdown.options;
-      for (let i = 0; i < options.length; i++) {
-        if (options[i].value === valueToSelect) {
-          options[i].selected = true;
-          break;
-        }
-      }
-    }
-
-    // Handle selection
     dropdown?.addEventListener("change", () => {
-      const [lat, lon] = dropdown.value.split(",");
-      if (lat && lon) {
-        const url = new URL(window.location);
-        url.searchParams.set("lat", lat);
-        url.searchParams.set("lon", lon);
-        window.location.href = url.toString();
-      }
+      const [selectedLat, selectedLon] = dropdown.value.split(",");
+
+      const allRows = document.querySelectorAll("#appointmentsTable tbody tr");
+
+      allRows.forEach(row => {
+        const rowLat = row.getAttribute("data-lat");
+        const rowLon = row.getAttribute("data-lon");
+
+        const matches = selectedLat === rowLat && selectedLon === rowLon;
+        const showAll = dropdown.selectedIndex === 0 || dropdown.value === "";
+
+        row.style.display = matches || showAll ? "" : "none";
+      });
     });
   });
 </script>
