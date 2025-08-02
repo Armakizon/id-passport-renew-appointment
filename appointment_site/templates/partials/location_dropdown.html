@@ -1,7 +1,7 @@
-<!-- templates/location_dropdown.html -->
+<!-- templates/partials/location_dropdown.html -->
 <form id="locationSelectForm" class="mb-3">
   <select id="locationDropdown" class="form-select">
-    <option selected disabled>Choose a location</option>
+    <option selected disabled>📍 Choose a branch</option>
     {% for id, info in branch_map.items() %}
       <option value="{{ info.lat }},{{ info.lon }}">
         {{ info.name }} - {{ info.address }}
@@ -13,10 +13,13 @@
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const dropdown = document.getElementById("locationDropdown");
-    dropdown.addEventListener("change", () => {
+    dropdown?.addEventListener("change", () => {
       const [lat, lon] = dropdown.value.split(",");
       if (lat && lon) {
-        window.location.href = `/?lat=${lat}&lon=${lon}`;
+        const url = new URL(window.location);
+        url.searchParams.set("lat", lat);
+        url.searchParams.set("lon", lon);
+        window.location.href = url.toString();
       }
     });
   });
