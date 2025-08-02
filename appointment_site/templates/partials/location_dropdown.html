@@ -13,6 +13,38 @@
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const dropdown = document.getElementById("locationDropdown");
+
+    // Select the right item if lat/lon exist in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const lat = urlParams.get("lat");
+    const lon = urlParams.get("lon");
+
+    if (lat && lon) {
+      const valueToSelect = `${lat},${lon}`;
+      const options = dropdown.options;
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].value === valueToSelect) {
+          options[i].selected = true;
+          break;
+        }
+      }
+    }
+
+    // Handle selection
+    dropdown?.addEventListener("change", () => {
+      const [lat, lon] = dropdown.value.split(",");
+      if (lat && lon) {
+        const url = new URL(window.location);
+        url.searchParams.set("lat", lat);
+        url.searchParams.set("lon", lon);
+        window.location.href = url.toString();
+      }
+    });
+  });
+</script>
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const dropdown = document.getElementById("locationDropdown");
     dropdown?.addEventListener("change", () => {
       const [lat, lon] = dropdown.value.split(",");
       if (lat && lon) {
