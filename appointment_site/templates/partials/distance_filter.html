@@ -1,0 +1,116 @@
+<style>
+  #distanceFilterContainer {
+    margin-top: 1rem;
+  }
+  #distanceFilterContainer label {
+    font-weight: 600;
+  }
+</style>
+
+<div id="distanceFilterContainer" style="display:none;">
+  <label for="maxDistanceInput">Filter by max distance (km):</label>
+  <input
+    type="number"
+    id="maxDistanceInput"
+    min="0"
+    step="0.1"
+    placeholder="Enter max distance"
+    class="form-control"
+  />
+  <button id="applyDistanceFilterBtn" class="btn btn-primary mt-2">Apply</button>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const distanceContainer = document.getElementById("distanceFilterContainer");
+    const maxDistanceInput = document.getElementById("maxDistanceInput");
+    const applyBtn = document.getElementById("applyDistanceFilterBtn");
+    const locationButtonsContainer = document.getElementById("locationButtons"); // branch buttons container
+    const allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
+
+    // Helper: Haversine formula - reuse if needed
+    function haversineDistance(lat1, lon1, lat2, lon2) {
+      const toRad = angle => (angle * Math.PI) / 180;
+      const R = 6371; // Earth radius in km
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(lat1)) *
+          Math.cos(toRad(lat2)) *
+          Math.sin(dLon / 2) ** 2;
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
+    // Show distance filter only if user has selected location
+    function checkShowDistanceFilter() {
+      if (window.userHasSelectedLocation) {
+        distanceContainer.style.display = "block";
+      } else {
+        distanceContainer.style.display = "none";
+      }
+    }
+
+    checkShowDistanceFilter();
+
+    // Optional: watch userHasSelectedLocation changes if you have a way to emit event or use a polling
+    // or just call checkShowDistanceFilter() manually from location selection handlers.
+
+    applyBtn.addEventListener("click", () => {
+      const maxDistance = parseFloat(maxDistanceInput.value);
+      if (isNaN(maxDistance) || maxDistance < 0) {
+        alert("Please enter a valid positive number for max distance.");
+        return;
+      }
+
+      // Clear current selected branch buttons and activeBranchIds
+      activeBranchIds = [];
+      locationButtonsContainer.innerHTML = "";
+
+      // Get current ref location from dropdown or GPS stored somewhere
+      const dropdown = document.getElementById("locationDropdown");
+      if (!dropdown) return;
+
+      const [refLat, refLon] = dropdown.value.split(",").map(parseFloat);
+
+      // Find branches within maxDistance
+      const branchesWithinDistance = [];
+
+      allRows.forEach(row => {
+        const branchId = row.getAttribute("data-branch-id");
+        const rowLat = parseFloat(row.getAttribute("data-lat"));
+        const rowLon = parseFloat(row.getAttribute("data-lon"));
+
+        if (isNaN(rowLat) || isNaN(rowLon)) return;
+
+        const dist = haversineDistance(refLat, refLon, rowLat, rowLon);
+
+        if (dist <= maxDistance && !branchesWithinDistance.includes(branchId)) {
+          branchesWithinDistance.push(branchId);
+        }
+      });
+
+      // Add buttons for each branch within distance
+      branchesWithinDistance.forEach(branchId => {
+        // Find a row with branch name for button text (assumes at least one row per branch)
+        const row = allRows.find(r => r.getAttribute("data-branch-id") === branchId);
+        const branchName = row ? row.children[0].textContent.trim() : "Unknown";
+
+        activeBranchIds.push(branchId);
+
+        const btn = document.createElement("button");
+        btn.className = "btn btn-secondary btn-sm location-btn m-1";
+        btn.textContent = branchName;
+        btn.onclick = () => {
+          activeBranchIds = activeBranchIds.filter(id => id !== branchId);
+          locationButtonsContainer.removeChild(btn);
+          updateTableVisibility();
+        };
+        locationButtonsContainer.appendChild(btn);
+      });
+
+      updateTableVisibility();
+    });
+  });
+</script>
