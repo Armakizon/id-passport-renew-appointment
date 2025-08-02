@@ -1,30 +1,39 @@
 <!-- templates/partials/date_filter.html -->
 <div class="mb-3">
-  <label for="dateFilter" class="form-label">Filter by Date:</label>
-  <input type="date" id="dateFilter" class="form-control">
+  <label class="form-label">Filter by Date Range:</label>
+  <div class="d-flex gap-2">
+    <input type="date" id="startDate" class="form-control" placeholder="Start date">
+    <input type="date" id="endDate" class="form-control" placeholder="End date">
+  </div>
 </div>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const dateInput = document.getElementById("dateFilter");
+    const startDate = document.getElementById("startDate");
+    const endDate = document.getElementById("endDate");
 
-    // Pre-select if date exists in URL
     const params = new URLSearchParams(window.location.search);
-    const date = params.get("date");
-    if (date) {
-      dateInput.value = date;
+    if (params.has("start_date")) startDate.value = params.get("start_date");
+    if (params.has("end_date")) endDate.value = params.get("end_date");
+
+    function updateDateParams() {
+      const url = new URL(window.location);
+      if (startDate.value) {
+        url.searchParams.set("start_date", startDate.value);
+      } else {
+        url.searchParams.delete("start_date");
+      }
+
+      if (endDate.value) {
+        url.searchParams.set("end_date", endDate.value);
+      } else {
+        url.searchParams.delete("end_date");
+      }
+
+      window.location.href = url.toString();
     }
 
-    // Update URL when changed
-    dateInput?.addEventListener("change", () => {
-      const selectedDate = dateInput.value;
-      const url = new URL(window.location);
-      if (selectedDate) {
-        url.searchParams.set("date", selectedDate);
-      } else {
-        url.searchParams.delete("date");
-      }
-      window.location.href = url.toString();
-    });
+    startDate.addEventListener("change", updateDateParams);
+    endDate.addEventListener("change", updateDateParams);
   });
 </script>
