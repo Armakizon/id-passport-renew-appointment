@@ -15,12 +15,8 @@
     <h5 class="offcanvas-title" id="filterDrawerLabel">Filters</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-  {% include "partials/date_filter.html" %}
   <div class="offcanvas-body">
-    <div class="mb-3">
-      <label for="branchSearch" class="form-label">Search and Add Branch:</label>
-      <input type="text" id="branchSearch" class="form-control" placeholder="Type a branch name...">
-      <ul id="branchResults" class="list-group mt-2"></ul>
-    </div>
+    {% include "partials/date_filter.html" %}
+    {% include "partials/location_filter.html" %}
   </div>
 </div>
