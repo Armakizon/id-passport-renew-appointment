@@ -1,7 +1,6 @@
-<!-- templates/partials/location_dropdown.html -->
 <form id="locationSelectForm" class="mb-3">
   <select id="locationDropdown" class="form-select">
-    <option selected value="">📍 Choose a branch</option>
+    <option selected disabled>📍 Choose a branch</option>
     {% for id, info in branch_map.items() %}
       <option value="{{ info.lat }},{{ info.lon }}">
         {{ info.name }} - {{ info.address }}
@@ -14,19 +13,37 @@
   document.addEventListener("DOMContentLoaded", () => {
     const dropdown = document.getElementById("locationDropdown");
 
+    // Helper: Haversine formula
+    function haversineDistance(lat1, lon1, lat2, lon2) {
+      const toRad = angle => (angle * Math.PI) / 180;
+      const R = 6371; // Earth radius in km
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) *
+          Math.cos(toRad(lat2)) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
     dropdown?.addEventListener("change", () => {
-      const [selectedLat, selectedLon] = dropdown.value.split(",");
+      const [refLat, refLon] = dropdown.value.split(",").map(parseFloat);
+      const rows = document.querySelectorAll("#appointmentsTable tbody tr");
 
-      const allRows = document.querySelectorAll("#appointmentsTable tbody tr");
+      rows.forEach(row => {
+        const rowLat = parseFloat(row.getAttribute("data-lat"));
+        const rowLon = parseFloat(row.getAttribute("data-lon"));
+        const distanceCell = row.children[3]; // Assumes 4th column is Distance (km)
 
-      allRows.forEach(row => {
-        const rowLat = row.getAttribute("data-lat");
-        const rowLon = row.getAttribute("data-lon");
-
-        const matches = selectedLat === rowLat && selectedLon === rowLon;
-        const showAll = dropdown.selectedIndex === 0 || dropdown.value === "";
-
-        row.style.display = matches || showAll ? "" : "none";
+        if (!isNaN(rowLat) && !isNaN(rowLon)) {
+          const dist = haversineDistance(refLat, refLon, rowLat, rowLon);
+          distanceCell.textContent = dist.toFixed(2);
+        } else {
+          distanceCell.textContent = "-";
+        }
       });
     });
   });
