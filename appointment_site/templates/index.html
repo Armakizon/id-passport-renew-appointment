@@ -75,40 +75,7 @@ function updateTableVisibility() {
   }
 }
 
-    function addLocationFilter(id, name) {
-      if (activeBranchIds.includes(id)) return;
-      activeBranchIds.push(id);
-      updateTableVisibility();
 
-      const btn = document.createElement("button");
-      btn.className = "btn btn-secondary btn-sm location-btn";
-      btn.textContent = name;
-      btn.onclick = () => {
-        activeBranchIds = activeBranchIds.filter(bid => bid !== id);
-        locationButtons.removeChild(btn);
-        updateTableVisibility();
-      };
-      locationButtons.appendChild(btn);
-    }
-
-    searchInput?.addEventListener("input", () => {
-      const val = searchInput.value.toLowerCase();
-      resultsList.innerHTML = "";
-      if (!val) return;
-
-      branchNames.filter(item => item.toLowerCase().includes(val)).slice(0, 5).forEach(match => {
-        const [id, name] = match.split("|");
-        const li = document.createElement("li");
-        li.className = "list-group-item list-group-item-action";
-        li.textContent = name;
-        li.onclick = () => {
-          addLocationFilter(id, name);
-          resultsList.innerHTML = "";
-          searchInput.value = "";
-        };
-        resultsList.appendChild(li);
-      });
-    });
   </script>
 
 {% endblock %}
