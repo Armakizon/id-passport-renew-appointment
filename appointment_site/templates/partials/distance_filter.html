@@ -1,10 +1,30 @@
+<style>
+  .location-btn {
+    margin: 2px;
+  }
+
+  .shake {
+    animation: shake 0.3s;
+  }
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+  }
+</style>
+
 <div class="mb-3">
   <label for="distanceInput" class="form-label">Max Distance (km):</label>
   <div class="d-flex align-items-center">
-    <input type="number" class="form-control me-2" id="distanceInput" placeholder="Enter distance">
+    <input type="number" class="form-control me-2" id="distanceInput" placeholder="Enter distance" />
     <button class="btn btn-primary" id="applyDistanceFilter">Apply</button>
   </div>
-  <div id="distanceWarning" class="mt-2 text-danger" style="display: none;">Please select your location to enable this filter.</div>
+  <div id="distanceWarning" class="mt-2 text-danger" style="display: none;">
+    Please select your location to enable this filter.
+  </div>
 </div>
 
 <script>
@@ -14,11 +34,10 @@
     const dLat = toRad(lat2 - lat1);
     const dLon = toRad(lon2 - lon1);
     const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.sin(dLat / 2) ** 2 +
       Math.cos(toRad(lat1)) *
       Math.cos(toRad(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+      Math.sin(dLon / 2) ** 2;
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
   }
@@ -44,13 +63,16 @@
       distanceWarning.style.display = "none";
     }
 
-    if (isNaN(maxDistance)) {
-      console.error("Invalid distance input!");
-      alert("Please enter a valid number for distance.");
+    if (isNaN(maxDistance) || maxDistance <= 0) {
+      alert("Please enter a valid positive number for max distance.");
       return;
     }
 
     const locationButtons = document.getElementById("locationButtons");
+    if (!locationButtons) {
+      console.error("locationButtons container not found");
+      return;
+    }
     locationButtons.innerHTML = "";
     window.activeBranchIds = [];
 
@@ -88,75 +110,3 @@
     updateTableVisibility();
   });
 </script>
-
-  function haversineDistance(lat1, lon1, lat2, lon2) {
-    const toRad = angle => (angle * Math.PI) / 180;
-    const R = 6371; // Earth radius in km
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(lat1)) *
-      Math.cos(toRad(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
-  }
-
-  document.getElementById("applyDistanceFilter").addEventListener("click", () => {
-    const distanceWarning = document.getElementById("distanceWarning");
-    const distanceInput = document.getElementById("distanceInput");
-    const maxDistance = parseFloat(distanceInput.value);
-
-    if (!userHasSelectedLocation) {
-      distanceWarning.style.display = "block";
-      distanceWarning.classList.add("shake");
-      setTimeout(() => distanceWarning.classList.remove("shake"), 500);
-      return;
-    } else {
-      distanceWarning.style.display = "none";
-    }
-
-    const locationButtons = document.getElementById("locationButtons");
-    locationButtons.innerHTML = "";
-    activeBranchIds = [];
-
-    for (const [id, info] of Object.entries(branch_map)) {
-      const branchLat = info.lat;
-      const branchLon = info.lon;
-      const dist = haversineDistance(userLat, userLon, branchLat, branchLon);
-
-      if (dist <= maxDistance) {
-        activeBranchIds.push(id);
-
-        const btn = document.createElement("button");
-        btn.className = "btn btn-secondary btn-sm location-btn";
-        btn.textContent = ${info.name} - ${info.address};
-        btn.onclick = () => {
-          activeBranchIds = activeBranchIds.filter(bid => bid !== id);
-          locationButtons.removeChild(btn);
-          updateTableVisibility();
-        };
-
-        locationButtons.appendChild(btn);
-      }
-    }
-
-    updateTableVisibility();
-  });
-</script>
-
-<style>
-  .shake {
-    animation: shake 0.3s;
-  }
-
-  @keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-    100% { transform: translateX(0); }
-  }
-</style>
