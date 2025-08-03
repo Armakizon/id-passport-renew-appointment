@@ -17,8 +17,8 @@ def subscribe():
     return redirect("/")  # or use render_template to return a confirmation page
 
 def send_email(to_email, subject, body):
-    from_email = "your_email@example.com"
-    password = "your_app_password"
+    from_email = "govappointmentil"
+    password = "shaked150150"
 
     msg = MIMEText(body)
     msg["Subject"] = subject
