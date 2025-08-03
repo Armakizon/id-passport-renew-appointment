@@ -1,13 +1,19 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from pytz import timezone
 import os
 import csv
+import smtplib
+from email.mime.text import MIMEText
+from api import register_api_routes, api
+
+
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///local.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.register_blueprint(api)
 
 db = SQLAlchemy(app)
 
@@ -98,6 +104,15 @@ def all_branches():
         }
         for branch_id, info in BRANCH_MAP.items()
     ])
+@app.route("/subscribe", methods=["POST"])
+def subscribe():
+    email = request.form["email"]
+    phone = request.form["phone"]
+    
+    # Simple message
+    subject = "Your Appointment Subscription"
+    body = f"Thank you! We've received your phone number {phone} and will notify you when an appointment is available."
+    send_email(email, subject, body)
 
-from api import register_api_routes
+    return redirect("/")  # or render a thank you template
 register_api_routes(app, db, Entry, set_last_updated)

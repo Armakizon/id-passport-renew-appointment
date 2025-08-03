@@ -1,5 +1,33 @@
-from flask import request, jsonify
+from flask import request, jsonify, redirect, Blueprint
+import smtplib
+from email.mime.text import MIMEText
 import os
+
+api = Blueprint('api', __name__)
+
+@api.route("/subscribe", methods=["POST"])
+def subscribe():
+    email = request.form["email"]
+    phone = request.form["phone"]
+    
+    subject = "Your Appointment Subscription"
+    body = f"Thank you! We've received your phone number {phone} and will notify you when an appointment is available."
+    send_email(email, subject, body)
+
+    return redirect("/")  # or use render_template to return a confirmation page
+
+def send_email(to_email, subject, body):
+    from_email = "your_email@example.com"
+    password = "your_app_password"
+
+    msg = MIMEText(body)
+    msg["Subject"] = subject
+    msg["From"] = from_email
+    msg["To"] = to_email
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        smtp.login(from_email, password)
+        smtp.send_message(msg)
 
 def register_api_routes(app, db, Entry, set_last_updated):
     @app.route("/add", methods=["POST"])
