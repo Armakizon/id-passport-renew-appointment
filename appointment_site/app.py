@@ -107,3 +107,6 @@ def all_branches():
 
 
 register_api_routes(app, db, Entry, set_last_updated)
+
+if __name__ == "__main__":
+    app.run(debug=True)

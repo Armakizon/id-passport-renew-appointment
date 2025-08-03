@@ -2,8 +2,13 @@ from flask import Blueprint, request, redirect, jsonify
 import os
 import smtplib
 from email.mime.text import MIMEText
+from dotenv import load_dotenv
 
+load_dotenv()  # Load environment variables from .env file
+from_email = os.getenv("EMAIL_ADDRESS")
+password = os.getenv("EMAIL_PASSWORD")
 api = Blueprint('api', __name__)
+
 def register_api_routes(app, db, Entry, set_last_updated):
     @app.route("/add", methods=["POST"])
     def add_entry():
@@ -43,8 +48,9 @@ def subscribe():
     return redirect("/")  # or use render_template to return a confirmation page
 
 def send_email(to_email, subject, body):
-    from_email = "govappointmentil@gmail.com"
-    password = "shaked150150"
+
+    if not from_email or not password:
+        raise ValueError("Email credentials are not set in environment variables.")
 
     msg = MIMEText(body)
     msg["Subject"] = subject
