@@ -104,15 +104,6 @@ def all_branches():
         }
         for branch_id, info in BRANCH_MAP.items()
     ])
-@app.route("/subscribe", methods=["POST"])
-def subscribe():
-    email = request.form["email"]
-    phone = request.form["phone"]
-    
-    # Simple message
-    subject = "Your Appointment Subscription"
-    body = f"Thank you! We've received your phone number {phone} and will notify you when an appointment is available."
-    send_email(email, subject, body)
 
-    return redirect("/")  # or render a thank you template
+
 register_api_routes(app, db, Entry, set_last_updated)

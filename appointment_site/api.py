@@ -1,34 +1,9 @@
-from flask import request, jsonify, redirect, Blueprint
+from flask import Blueprint, request, redirect, jsonify
+import os
 import smtplib
 from email.mime.text import MIMEText
-import os
 
 api = Blueprint('api', __name__)
-
-@api.route("/subscribe", methods=["POST"])
-def subscribe():
-    email = request.form["email"]
-    phone = request.form["phone"]
-    
-    subject = "Your Appointment Subscription"
-    body = f"Thank you! We've received your phone number {phone} and will notify you when an appointment is available."
-    send_email(email, subject, body)
-
-    return redirect("/")  # or use render_template to return a confirmation page
-
-def send_email(to_email, subject, body):
-    from_email = "govappointmentil"
-    password = "shaked150150"
-
-    msg = MIMEText(body)
-    msg["Subject"] = subject
-    msg["From"] = from_email
-    msg["To"] = to_email
-
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-        smtp.login(from_email, password)
-        smtp.send_message(msg)
-
 def register_api_routes(app, db, Entry, set_last_updated):
     @app.route("/add", methods=["POST"])
     def add_entry():
@@ -56,3 +31,26 @@ def register_api_routes(app, db, Entry, set_last_updated):
             return {"status": "ok", "message": "Database reset"}
         except Exception as e:
             return {"status": "error", "message": str(e)}, 500
+
+@api.route("/subscribe", methods=["POST"])
+def subscribe():
+    email = request.form["email"]
+    
+    subject = "Your Appointment Subscription"
+    body = f"Thank you! You've been subscribed for appointment updates."
+    send_email(email, subject, body)
+
+    return redirect("/")  # or use render_template to return a confirmation page
+
+def send_email(to_email, subject, body):
+    from_email = "govappointmentil@gmail.com"
+    password = "shaked150150"
+
+    msg = MIMEText(body)
+    msg["Subject"] = subject
+    msg["From"] = from_email
+    msg["To"] = to_email
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+        smtp.login(from_email, password)
+        smtp.send_message(msg)
