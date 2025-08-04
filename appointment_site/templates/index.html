@@ -76,5 +76,43 @@
         }
       }
     }
+	function getFilteredEntries(startDate, endDate, activeBranchIds) {
+  const grouped = {};
+  allRows.forEach(row => {
+    const id = row.getAttribute("data-branch-id");
+    (grouped[id] ||= []).push(row);
+  });
+
+  const start = startDate ? new Date(startDate) : null;
+  const end = endDate ? new Date(endDate) : null;
+
+  const results = [];
+
+  for (const [branchId, rows] of Object.entries(grouped)) {
+    if (activeBranchIds.length === 0 || activeBranchIds.includes(branchId)) {
+      const filteredRows = rows.filter(row => {
+        const dateStr = row.children[2]?.innerText?.trim(); // Adjust index if needed
+        if (!dateStr) return false;
+
+        const rowDate = new Date(dateStr);
+
+        if (start && rowDate < start) return false;
+        if (end && rowDate > end) return false;
+
+        return true;
+      });
+
+      filteredRows.forEach(row => {
+        results.push({
+          branchId,
+          date: row.children[2].innerText.trim()
+        });
+      });
+    }
+  }
+
+  return results;
+}
+
   </script>
 {% endblock %}

@@ -4,8 +4,10 @@ from selenium.webdriver.firefox.options import Options
 import time
 import random
 import requests
+from dotenv import load_dotenv
 import os
 
+load_dotenv()
 def delete_lock_files(profile_path):
     for filename in os.listdir(profile_path):
         if filename.endswith(".lock") or filename == "parent.lock":
@@ -49,7 +51,8 @@ def get_govisit_token(wait_for_code=60):
         random_sleep(3, 1)
 
         phone_input = driver.find_element(By.XPATH, "//input[@type='tel']")
-        phone_input.send_keys("0533319221")  
+        phone_number = os.getenv("PHONE_NUMBER")
+        phone_input.send_keys(phone_number)  
         random_sleep(2, 0.5)
 
         driver.find_element(By.ID, "login_button").click()

@@ -2,6 +2,10 @@ import csv
 import requests
 import json
 from datetime import datetime
+from dotenv import load_dotenv
+import os
+
+load_dotenv()  # Load environment variables from .env file
 
 def APIcall(token, csv_file_path="appointment_site/Branch_id.csv"):
     govisit_url = "https://govisit.gov.il/API/appointment/api/appointmentScheduling/getDates?authorityId=262"
@@ -19,6 +23,8 @@ def APIcall(token, csv_file_path="appointment_site/Branch_id.csv"):
     now = datetime.now()
     current_year = now.year
     current_month = now.month
+    phone_number = os.getenv("PHONE_NUMBER")
+    id_number = os.getenv("ID_NUMBER")
 
     payload_template = {
         "$type": 2,
@@ -27,10 +33,10 @@ def APIcall(token, csv_file_path="appointment_site/Branch_id.csv"):
         "unitId": None,
         "appointmentTypeIds": [343],
         "customer": {
-            "personalId": "207081530",
+            "personalId": id_number,
             "customerIdTypeId": 1,
             "additionalParameters": {
-                "TelNumber1": "0533319221"
+                "TelNumber1": phone_number
             }
         },
         "appointmentLeadTime": 0,
