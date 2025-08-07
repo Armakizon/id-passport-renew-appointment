@@ -29,3 +29,5 @@ instance/
 
 # Other IDE/editor folders (optional)
 .idea/
+
+subscribed_emails.txt

@@ -91,7 +91,6 @@ def index():
         time_since=time_since,
         branch_map=BRANCH_MAP
     )
-
 @app.route("/all_branches")
 def all_branches():
     return jsonify([

@@ -3,5 +3,21 @@
     <label for="email" class="form-label">Email address</label>
     <input type="email" class="form-control" id="email" name="email" required>
   </div>
+
+  <!-- Hidden input to store activeBranchIds -->
+  <input type="hidden" name="locations" id="locationsInput">
+  <input type="hidden" name="fromdate" id="fromDateInput">
+  <input type="hidden" name="todate" id="toDateInput">
   <button type="submit" class="btn btn-primary">Notify Me</button>
 </form>
+
+<script>
+  document.getElementById("notifyForm").addEventListener("submit", function () {
+    // Save locations
+    document.getElementById("locationsInput").value = JSON.stringify(window.activeBranchIds || []);
+
+    // Save fromdate and todate from your filter inputs
+    document.getElementById("fromDateInput").value = document.getElementById("startDate")?.value || "";
+    document.getElementById("toDateInput").value = document.getElementById("endDate")?.value || "";
+  });
+</script>
