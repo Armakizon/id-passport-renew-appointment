@@ -4,5 +4,4 @@ gunicorn
 psycopg2-binary
 pytz
 python-dotenv
-sqlite3
 datetime
