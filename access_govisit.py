@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
+password=os.getenv("PASSWORD")
 def delete_lock_files(profile_path):
     for filename in os.listdir(profile_path):
         if filename.endswith(".lock") or filename == "parent.lock":
@@ -60,7 +61,10 @@ def get_govisit_token(wait_for_code=60):
 
         time.sleep(wait_for_code)  # Waiting for SMS code as before
 
-        response = requests.get("https://armakizon.pythonanywhere.com/")
+        url = "https://armakizon.pythonanywhere.com/"
+        params = {"password": password}
+
+        response = requests.get(url, params=params)
         code = response.json().get("code")
 
         if not code:

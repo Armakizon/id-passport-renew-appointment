@@ -107,5 +107,43 @@ def all_branches():
 
 register_api_routes(app, db, Entry, set_last_updated)
 
+@app.route("/filter_entries", methods=["GET"])
+def filter_entries():
+    start_date = request.args.get("startDate")  # e.g. "2025-01-01"
+    end_date = request.args.get("endDate")      # e.g. "2025-02-01"
+    active_branch_ids = request.args.getlist("branchId")  # e.g. ?branchId=135&branchId=137
+
+    query = Entry.query
+
+    # Filter by branch IDs if provided
+    if active_branch_ids:
+        try:
+            branch_ids_int = list(map(int, active_branch_ids))
+            query = query.filter(Entry.branch_id.in_(branch_ids_int))
+        except ValueError:
+            return jsonify({"error": "Invalid branchId"}), 400
+
+    # Filter by start date
+    if start_date:
+        query = query.filter(Entry.date >= start_date)
+
+    # Filter by end date
+    if end_date:
+        query = query.filter(Entry.date <= end_date)
+
+    results = []
+    for entry in query.all():
+        branch = BRANCH_MAP.get(entry.branch_id, {})
+        results.append({
+            "branch_id": entry.branch_id,
+            "branch_name": branch.get("name", entry.branch_id),
+            "address": branch.get("address", "-"),
+            "date": entry.date,
+            "lat": branch.get("lat"),
+            "lon": branch.get("lon")
+        })
+
+    return jsonify(results)
+
 if __name__ == "__main__":
     app.run(debug=True)

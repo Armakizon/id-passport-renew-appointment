@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import sqlite3
 from datetime import datetime
 import json
+import requests
 
 load_dotenv()  # Load environment variables from .env file
 from_email = os.getenv("EMAIL_ADDRESS")
@@ -74,36 +75,24 @@ def subscribe():
     locations = request.form.get("locations", "[]")
     fromdate = request.form.get("fromdate") or None
     todate = request.form.get("todate") or None
-    initialize_db()
-    upsert_email(email, locations, fromdate, todate)
 
-    return redirect("/")
+    # Instead of initialize_db() and upsert_email, send POST request to external API:
+    api_url = "https://armakizon.pythonanywhere.com/subscribe"
+    payload = {
+        "email": email,
+        "locations": locations,
+        "fromdate": fromdate,
+        "todate": todate
+    }
 
-
-def upsert_email(email, locations, fromdate=None, todate=None):
-    # If 'locations' is a JSON string, parse it
     try:
-        loc_list = json.loads(locations)
-    except (json.JSONDecodeError, TypeError):
-        loc_list = []
-
-    conn = sqlite3.connect("subscriptions.db")
-    cursor = conn.cursor()
-
-    if not loc_list:  # Empty list → remove subscription
-        cursor.execute("DELETE FROM subscriptions WHERE email = ?", (email,))
-    else:  # Insert or update
-        cursor.execute("""
-            INSERT INTO subscriptions (email, fromdate, todate, locations)
-            VALUES (?, ?, ?, ?)
-            ON CONFLICT(email) DO UPDATE SET
-                fromdate = excluded.fromdate,
-                todate = excluded.todate,
-                locations = excluded.locations
-        """, (email, fromdate, todate, locations))
-
-    conn.commit()
-    conn.close()
+        response = requests.post(api_url, data=payload)
+        if response.status_code == 200:
+            return redirect("/")  # or return success JSON, depends on your app flow
+        else:
+            return jsonify({"status": "error", "message": f"API call failed: {response.text}"}), 500
+    except requests.RequestException as e:
+        return jsonify({"status": "error", "message": f"Request exception: {str(e)}"}), 500
 
 def send_email(to_email, subject, body):
 
