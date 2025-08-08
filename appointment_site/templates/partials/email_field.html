@@ -12,12 +12,31 @@
 </form>
 
 <script>
-  document.getElementById("notifyForm").addEventListener("submit", function () {
-    // Save locations
-    document.getElementById("locationsInput").value = JSON.stringify(window.activeBranchIds || []);
+  document.getElementById("notifyForm").addEventListener("submit", function (event) {
+    event.preventDefault(); // Stop default submit for now
 
-    // Save fromdate and todate from your filter inputs
-    document.getElementById("fromDateInput").value = document.getElementById("startDate")?.value || "";
-    document.getElementById("toDateInput").value = document.getElementById("endDate")?.value || "";
+    // Prepare values
+    const activeBranchIds = window.activeBranchIds || [];
+    const fromDate = document.getElementById("startDate")?.value || "";
+    const toDate = document.getElementById("endDate")?.value || "";
+
+    // Set hidden inputs
+    document.getElementById("locationsInput").value = JSON.stringify(activeBranchIds);
+    document.getElementById("fromDateInput").value = fromDate;
+    document.getElementById("toDateInput").value = toDate;
+
+    // Prepare a readable list of branch names or IDs - 
+    // If you only have IDs, you can show IDs, or if you have names somewhere accessible, show those
+    const branchList = activeBranchIds.length > 0 ? activeBranchIds.join(", ") : "no branches selected";
+
+    // Build the confirmation message
+    const message = `You successfully signed up to get notified for these branches: ${branchList} \nFrom: ${fromDate || "any date"} \nTo: ${toDate || "any date"}. Proceed?`;
+
+    if (confirm(message)) {
+      // If user confirms, submit the form programmatically
+      event.target.submit();
+    } else {
+      // Otherwise do nothing (cancel submit)
+    }
   });
 </script>
