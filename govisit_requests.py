@@ -58,33 +58,23 @@ def APIcall(token, csv_file_path="appointment_site/Branch_id.csv"):
                 data = response.json()
 
                 if response.status_code != 200 or "data" not in data or not data["data"]:
-                    print(f"unitId: {unit_id} ➜ No data or bad response")
                     continue
 
                 available_dates = data["data"].get("availableDates", [])
                 if not available_dates:
-                    print(f"unitId: {unit_id} ➜ No available dates")
                     continue
 
-                # Extract and process each date
-                print(f"unitId: {unit_id} ➜ Dates:")
                 for entry in available_dates:
                     date_str = entry["date"].split("T")[0]
-                    print(f"  - {date_str}")
 
-                    # Send to your server
                     post_payload = {
                         "branch_id": unit_id,
                         "date": date_str
                     }
 
                     post_resp = requests.post(your_server_url, headers=post_headers, json=post_payload)
-                    if post_resp.status_code == 200:
-                        print("    ✔ Sent to server")
-                    else:
-                        print(f"    ⚠ Failed to send: {post_resp.status_code} — {post_resp.text}")
 
-            except (json.JSONDecodeError, KeyError) as e:
-                print(f"unitId: {unit_id} ➜ Failed to parse response: {e}")
-            except requests.RequestException as e:
-                print(f"unitId: {unit_id} ➜ Request failed: {e}")
+            except (json.JSONDecodeError, KeyError):
+                pass
+            except requests.RequestException:
+                pass

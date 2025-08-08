@@ -86,17 +86,19 @@ def main():
             <html>
             <body>
                 <p>Found {len(entries)} new entries for your subscribed locations:</p>
-                <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>Branch Name</th>
-                            <th style="text-align:right">Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {rows}
-                    </tbody>
-                </table>
+                <div style="max-width: 600px; margin: auto;">
+                  <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+                      <thead>
+                          <tr>
+                              <th>Branch Name</th>
+                              <th style="text-align:right">Date</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {rows}
+                      </tbody>
+                  </table>
+                </div>
                 <p>If you wish to unsubscribe from these emails, click <a href="{unsubscribe_url}">here</a>.</p>
             </body>
             </html>

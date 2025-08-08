@@ -1,6 +1,7 @@
 import time
 from access_govisit import get_govisit_token
 from govisit_requests import APIcall
+from mailsender import main
 
 while True:
     try:
@@ -17,6 +18,6 @@ while True:
     except Exception as e:
         print("❌ An error occurred during token retrieval:")
         print(e)
-
+    main()
     print("⏳ Sleeping for 1 hour before next attempt...\n")
     time.sleep(3751)
