@@ -54,7 +54,6 @@ def fetch_filtered_entries(branch_ids, fromdate, todate):
     return resp.json()
 
 def format_date(date_str):
-    # Parse ISO or YYYY-MM-DD-like and convert to DD/MM/YYYY
     try:
         dt = datetime.strptime(date_str, "%Y-%m-%d")
         return dt.strftime("%d/%m/%Y")
@@ -78,29 +77,34 @@ def main():
             rows = ""
             for e in entries:
                 formatted_date = format_date(e['date'])
-                rows += f"<tr><td>{e['branch_name']}</td><td>{formatted_date}</td></tr>"
+                # Branch Name first column, Date second column
+                rows += f"<tr><td>{e['branch_name']}</td><td style='text-align:right'>{formatted_date}</td></tr>"
+
+            unsubscribe_url = f"https://armakizon.pythonanywhere.com/unsubscribe?email={email}"
 
             body_html = f"""
             <html>
             <body>
                 <p>Found {len(entries)} new entries for your subscribed locations:</p>
-                <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse;">
+                <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse; width: 100%;">
                     <thead>
                         <tr>
                             <th>Branch Name</th>
-                            <th>Date</th>
+                            <th style="text-align:right">Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         {rows}
                     </tbody>
                 </table>
+                <p>If you wish to unsubscribe from these emails, click <a href="{unsubscribe_url}">here</a>.</p>
             </body>
             </html>
             """
 
             body_text = f"Found {len(entries)} new entries for your subscribed locations.\n" + \
-                        "\n".join([f"{e['branch_name']} : {format_date(e['date'])}" for e in entries])
+                        "\n".join([f"{e['branch_name']} : {format_date(e['date'])}" for e in entries]) + \
+                        f"\n\nTo unsubscribe, visit: {unsubscribe_url}"
 
             print(f"Sending email to {email} with {len(entries)} entries...")
             send_email(email, "Appointment Updates", body_html, body_text)

@@ -87,7 +87,7 @@ def subscribe():
             return jsonify({"error": "Email is required"}), 400
 
         upsert_email(email, locations, fromdate, todate)
-        return jsonify({"status": "subscription updated"}), 200
+        return jsonify({"status": "subscription status updated"}), 200
 
     else:  # GET
         password = request.args.get("password")
@@ -113,3 +113,18 @@ def subscribe():
                 })
 
             return jsonify({"subscriptions": subscriptions})
+
+@app.route("/unsubscribe", methods=["GET"])
+def unsubscribe():
+    email = request.args.get("email")
+    if not email:
+        return jsonify({"error": "Email parameter is required"}), 400
+
+    initialize_subscriptions_db()
+    # Unsubscribe by sending empty locations list
+    upsert_email(email, "[]")
+
+    return jsonify({"status": f"Unsubscribed {email} successfully"}), 200
+
+if __name__ == "__main__":
+    app.run()

@@ -11,32 +11,92 @@
   <button type="submit" class="btn btn-primary">Notify Me</button>
 </form>
 
+<!-- Custom modal container -->
+<div id="confirmationModal" style="display:none;">
+  <div class="modal-overlay"></div>
+  <div class="modal-content">
+    <p id="confirmationMessage"></p>
+    <button id="confirmBtn" class="btn btn-success">Confirm</button>
+    <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
+  </div>
+</div>
+
+<style>
+  #confirmationModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right:0;
+    bottom:0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  .modal-overlay {
+    position: absolute;
+    top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.5);
+  }
+  .modal-content {
+    position: relative;
+    background: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    max-width: 400px;
+    z-index: 1001;
+    text-align: center;
+  }
+  .modal-content p {
+    margin-bottom: 20px;
+  }
+  .modal-content button {
+    margin: 0 10px;
+  }
+</style>
+
 <script>
-  document.getElementById("notifyForm").addEventListener("submit", function (event) {
-    event.preventDefault(); // Stop default submit for now
+  const form = document.getElementById("notifyForm");
+  const modal = document.getElementById("confirmationModal");
+  const messageEl = document.getElementById("confirmationMessage");
+  const confirmBtn = document.getElementById("confirmBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
 
-    // Prepare values
-    const activeBranchIds = window.activeBranchIds || [];
-    const fromDate = document.getElementById("startDate")?.value || "";
-    const toDate = document.getElementById("endDate")?.value || "";
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
 
-    // Set hidden inputs
-    document.getElementById("locationsInput").value = JSON.stringify(activeBranchIds);
-    document.getElementById("fromDateInput").value = fromDate;
-    document.getElementById("toDateInput").value = toDate;
+  // Fill hidden inputs as before
+  document.getElementById("locationsInput").value = JSON.stringify(window.activeBranchIds || []);
+  document.getElementById("fromDateInput").value = document.getElementById("startDate")?.value || "";
+  document.getElementById("toDateInput").value = document.getElementById("endDate")?.value || "";
 
-    // Prepare a readable list of branch names or IDs - 
-    // If you only have IDs, you can show IDs, or if you have names somewhere accessible, show those
-    const branchList = activeBranchIds.length > 0 ? activeBranchIds.join(", ") : "no branches selected";
+  // Build branch names from buttons
+  const locationButtons = document.getElementById("locationButtons");
+  const branchNames = [];
+  if (locationButtons) {
+    locationButtons.querySelectorAll("button.location-btn").forEach(btn => {
+      branchNames.push(btn.textContent.trim());
+    });
+  }
 
-    // Build the confirmation message
-    const message = `You successfully signed up to get notified for these branches: ${branchList} \nFrom: ${fromDate || "any date"} \nTo: ${toDate || "any date"}. Proceed?`;
+  const branchList = branchNames.length > 0 ? branchNames.join(", ") : "no branches selected";
 
-    if (confirm(message)) {
-      // If user confirms, submit the form programmatically
-      event.target.submit();
-    } else {
-      // Otherwise do nothing (cancel submit)
-    }
+  // Set confirmation message HTML with line breaks
+	messageEl.innerHTML = `You are about to sign up to get notified for these branches:<br><strong>${branchList}</strong><br><br>
+	From: <strong>${document.getElementById("startDate")?.value || "any date"}</strong><br>
+	To: <strong>${document.getElementById("endDate")?.value || "any date"}</strong>.<br><br>
+	Proceed?`;
+
+  modal.style.display = "flex";
+});
+
+  confirmBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+    form.submit();
+  });
+
+  cancelBtn.addEventListener("click", () => {
+    modal.style.display = "none";
   });
 </script>
