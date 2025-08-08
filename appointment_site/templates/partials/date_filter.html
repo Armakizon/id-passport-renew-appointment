@@ -1,4 +1,3 @@
-<!-- templates/partials/date_filter.html -->
 <div class="mb-3">
   <label class="form-label">Filter by Date Range:</label>
 
@@ -12,36 +11,3 @@
     <input type="date" id="endDate" class="form-control" placeholder="End date">
   </div>
 </div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const startDate = document.getElementById("startDate");
-    const endDate = document.getElementById("endDate");
-
-    const params = new URLSearchParams(window.location.search);
-    if (params.has("start_date")) startDate.value = params.get("start_date");
-    if (params.has("end_date")) endDate.value = params.get("end_date");
-
-    function updateDateParams() {
-      const url = new URL(window.location);
-      if (startDate.value) {
-        url.searchParams.set("start_date", startDate.value);
-      } else {
-        url.searchParams.delete("start_date");
-      }
-
-      if (endDate.value) {
-        url.searchParams.set("end_date", endDate.value);
-      } else {
-        url.searchParams.delete("end_date");
-      }
-
-      // Use history.pushState to update URL without reload
-      history.pushState(null, "", url);
-      updateTableVisibility?.();  // Make sure this filters your table if you already use it
-    }
-
-    startDate.addEventListener("change", updateDateParams);
-    endDate.addEventListener("change", updateDateParams);
-  });
-</script>
