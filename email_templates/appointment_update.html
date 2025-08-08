@@ -1,0 +1,58 @@
+<html>
+<body dir="rtl" style="margin:0; padding:30px; background: #eef2f7; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #2e3a59;">
+
+  <div style="max-width: 720px; margin: auto; background: #fff; border-radius: 14px; box-shadow: 0 6px 20px rgba(0,0,0,0.12); overflow: hidden;">
+    
+    <!-- Header -->
+    <div style="background: linear-gradient(90deg, #4caf50, #388e3c); padding: 20px 30px; color: white; text-align: center; font-weight: 700; font-size: 22px; letter-spacing: 1px; text-transform: uppercase;">
+      עדכוני תורים
+    </div>
+    
+    <div style="padding: 25px 40px;">
+      <p style="font-size: 16px; margin-bottom: 25px;">
+        נמצאו <strong>{{ count }}</strong>  תורים המתאימים להגדרות המסנן שבחרת :
+      </p>
+
+      <table style="width: 100%; border-collapse: separate; border-spacing: 0 8px; font-size: 15px; color: #39404a;">
+        <thead>
+          <tr style="background: #4caf50; color: white; text-transform: uppercase; font-weight: 700;">
+            <th style="padding: 14px 20px; border-top-left-radius: 8px;">שם הסניף</th>
+            <th style="padding: 14px 20px; border-top-right-radius: 8px; text-align: left;">תאריך</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% set ns = namespace(last_branch=None) %}
+          {% for entry in entries %}
+            {% set is_first_for_branch = entry.branch_name != ns.last_branch %}
+            <tr style="
+              background: {% if is_first_for_branch %}linear-gradient(90deg, #c8e6c9, #a5d6a7){% else %}#f8fafc{% endif %};
+              font-weight: {% if is_first_for_branch %}700{% else %}400{% endif %};
+              border-right: {% if is_first_for_branch %}8px solid #388e3c{% else %}none{% endif %};
+              box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+              border-radius: 6px;
+              transition: background 0.3s ease;
+              "
+              onmouseover="this.style.background='linear-gradient(90deg, #dcedc8, #b9e1a5)';"
+              onmouseout="this.style.background='{{ 'linear-gradient(90deg, #c8e6c9, #a5d6a7)' if is_first_for_branch else '#f8fafc' }}';"
+            >
+              <td style="padding: 14px 20px; border-radius: 6px 0 0 6px;">{{ entry.branch_name }}</td>
+              <td style="padding: 14px 20px; text-align: left; border-radius: 0 6px 6px 0;">{{ entry.formatted_date }}</td>
+            </tr>
+            {% set ns.last_branch = entry.branch_name %}
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <p style="margin-top: 30px; font-size: 14px; color: #6b7280; text-align: center;">
+        אם ברצונך לבטל את המנוי לקבלת מיילים אלו, לחץ 
+        <a href="{{ unsubscribe_url }}" style="color: #4caf50; font-weight: 600; text-decoration: none;">כאן</a>.
+      </p>
+    </div>
+
+    <div style="background: #f0f4f8; text-align: center; padding: 12px 20px; font-size: 12px; color: #9ca3af;">
+    </div>
+    
+  </div>
+
+</body>
+</html>

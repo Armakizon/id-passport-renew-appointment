@@ -9,7 +9,7 @@ load_dotenv()  # Load environment variables from .env file
 
 def APIcall(token, csv_file_path="appointment_site/Branch_id.csv"):
     govisit_url = "https://govisit.gov.il/API/appointment/api/appointmentScheduling/getDates?authorityId=262"
-    your_server_url = "https://govpoitment.onrender.com/add"
+    your_server_url = "https://bookgov.onrender.com/add"
 
     headers = {
         "X-GoVisit-Token": token,
