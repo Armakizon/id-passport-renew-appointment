@@ -1,6 +1,6 @@
 /* General body styling */
 body {
-  background-color: #f4f7fb;
+  background-color: #c4d0df; /* Darker background */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #344054;
   margin: 0;
@@ -62,23 +62,21 @@ h2 {
   margin-bottom: 24px;
 }
 
-
 /* Text alignment */
 .text-right {
   text-align: right;
 }
 
-/* Filter drawer */
-.filter-drawer {
-  background-color: #f9fafb;
-  padding: 24px;
-  border-radius: 12px;
-  margin-bottom: 28px;
-  box-shadow: 0 2px 16px rgb(100 116 139 / 0.1);
-  font-size: 1rem;
+/* Filter drawer background - targeting the offcanvas with id #filterDrawer */
+#filterDrawer {
+  background-color: #e3f2fd !important; /* lighter blue shade */
   color: #475569;
   direction: rtl;
   text-align: right;
+  padding: 24px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 16px rgb(100 116 139 / 0.1);
+  margin-bottom: 28px !important;
 }
 
 /* Offcanvas adjustments for right side drawer */
@@ -93,7 +91,6 @@ h2 {
   border-left: none;
   border-right: 8px solid #2563eb;
 }
-
 
 /* Confirmation Modal */
 #confirmationModal {
