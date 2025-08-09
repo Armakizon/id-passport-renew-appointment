@@ -79,7 +79,7 @@ function getFilteredEntries(startDate, endDate, activeBranchIds) {
         const dateStr = row.children[2]?.innerText?.trim(); // Adjust index if needed
         if (!dateStr) return false;
 
-        const rowDate = new Date(dateStr);
+        const rowDate = parseDateDMY(dateStr);
 
         if (start && rowDate < start) return false;
         if (end && rowDate > end) return false;

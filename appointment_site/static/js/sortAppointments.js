@@ -1,3 +1,9 @@
+// Helper to parse DD/MM/YYYY to Date object
+function parseDateDMY(dateStr) {
+  const [day, month, year] = dateStr.split("/").map(Number);
+  return new Date(year, month - 1, day);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const table = document.getElementById("appointmentsTable");
   const headers = table.querySelectorAll("th.sortable");
@@ -5,13 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentSortAsc = true;
 
   headers.forEach((th, index) => {
-    // Save original label for reset
-	if (!th.querySelector(".sort-indicator")) {
-	  const arrowSpan = document.createElement("span");
-	  arrowSpan.className = "sort-indicator";
-	  arrowSpan.textContent = "";
-	  th.appendChild(arrowSpan);
-	}
+    // Add sort indicator span if missing
+    if (!th.querySelector(".sort-indicator")) {
+      const arrowSpan = document.createElement("span");
+      arrowSpan.className = "sort-indicator";
+      arrowSpan.textContent = "";
+      th.appendChild(arrowSpan);
+    }
 
     th.addEventListener("click", () => {
       const column = index;
@@ -23,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       currentSortColumn = column;
 
+      // Reset indicators
       headers.forEach((header) => {
         header.dataset.sorted = "";
         header.querySelector(".sort-indicator").textContent = "";
@@ -46,8 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (column === 2) {
-          const dateA = new Date(valA);
-          const dateB = new Date(valB);
+          const dateA = parseDateDMY(valA);
+          const dateB = parseDateDMY(valB);
           if (!isNaN(dateA) && !isNaN(dateB)) {
             return currentSortAsc ? dateA - dateB : dateB - dateA;
           }
