@@ -5,34 +5,32 @@
 </div>
 
 <script>
-  let showEarliestOnly = true;
+	let showEarliestOnly = true;  // start showing earliest only
 
-  function initToggleEarliest() {
-    const earliestBtn = document.getElementById("toggleEarliestBtn");
+	function initToggleEarliest() {
+	  const earliestBtn = document.getElementById("toggleEarliestBtn");
 
-    earliestBtn?.addEventListener("click", () => {
-      showEarliestOnly = !showEarliestOnly;
-      earliestBtn.textContent = showEarliestOnly
-        ? "Show All Dates"
-        : "Show Earliest Date per Branch";
+	  // Set initial button text based on initial state
+	  earliestBtn.textContent = showEarliestOnly
+		? "Show All Dates"
+		: "Show Earliest Date per Branch";
+
+	  earliestBtn?.addEventListener("click", () => {
+		showEarliestOnly = !showEarliestOnly;
+		earliestBtn.textContent = showEarliestOnly
+		  ? "Show All Dates"
+		  : "Show Earliest Date per Branch";
+
 		if (typeof updateTableVisibility === "function") {
 		  updateTableVisibility(showEarliestOnly);
 		}
-    });
+	  });
 
-    if (typeof updateTableVisibility === "function") {
-      updateTableVisibility();  // Run once on load
-    }
-  }
+	  if (typeof updateTableVisibility === "function") {
+		updateTableVisibility(showEarliestOnly);  // Run once on load with correct state
+	  }
+	}
 
-  // Wait until DOM and updateTableVisibility are ready
-  function waitForVisibilityAndInit() {
-    if (typeof updateTableVisibility === "function") {
-      initToggleEarliest();
-    } else {
-      setTimeout(waitForVisibilityAndInit, 50);
-    }
-  }
+	window.addEventListener("DOMContentLoaded", initToggleEarliest);
 
-  window.addEventListener("DOMContentLoaded", waitForVisibilityAndInit);
 </script>
