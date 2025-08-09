@@ -1,0 +1,102 @@
+/* Appointment Table - Clean Modern Style */
+#appointmentsTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  font-size: 16px;
+  color: #2c3e50;
+  box-sizing: border-box;
+  user-select: none;
+  direction: rtl;
+  text-align: right;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#appointmentsTable thead tr {
+  background-color: #1d4ed8; /* Strong blue */
+  color: white;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  border-radius: 12px 12px 0 0;
+  user-select: none;
+}
+
+#appointmentsTable thead th {
+  padding: 14px 20px;
+  cursor: pointer;
+  position: relative;
+  direction: rtl;
+  text-align: right;
+  border-bottom: none;
+  white-space: nowrap; /* prevent wrapping */
+}
+
+/* Header hover */
+#appointmentsTable thead th:hover {
+  background-color: #a3c4f3; /* softer blue */
+  color: #1e293b;            /* darker text */
+}
+
+/* Sort arrow styling */
+.sort-indicator {
+  font-size: 1.5rem;       /* bigger */
+  margin-right: 6px;
+  vertical-align: middle;
+  color: #a67c00;          /* golden brown */
+  direction: ltr;
+  user-select: none;
+  display: inline-block;
+  width: 1.2em;
+}
+
+/* Table body rows */
+#appointmentsTable tbody tr {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+  direction: rtl;
+  text-align: right;
+  border-left: none;
+  border-right: 6px solid transparent;
+}
+
+/* Hover effect on rows */
+#appointmentsTable tbody tr:hover {
+  background-color: #f0f5ff;
+  box-shadow: 0 6px 15px rgb(37 99 235 / 0.2);
+  border-right-color: #3b82f6; /* lighter blue border */
+}
+
+/* Highlighted row style */
+#appointmentsTable tbody tr.highlighted {
+  background: linear-gradient(90deg, #93c5fd 0%, #bfdbfe 100%);
+  font-weight: 700;
+  border-right: 8px solid #2563eb;
+  color: #1e40af;
+  box-shadow: 0 6px 20px rgb(37 99 235 / 0.35);
+}
+
+/* Table cells */
+#appointmentsTable tbody td {
+  padding: 14px 20px;
+  vertical-align: middle;
+  border: none;
+  font-size: 1rem;
+  color: #374151;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #appointmentsTable thead tr {
+    font-size: 0.8rem;
+  }
+
+  #appointmentsTable tbody td {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+}

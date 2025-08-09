@@ -62,56 +62,6 @@ h2 {
   margin-bottom: 24px;
 }
 
-/* Appointment Table */
-#appointmentsTable {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 12px;
-  font-size: 16px;
-  color: #475569;
-  box-sizing: border-box;
-  user-select: none;
-  direction: rtl; /* RTL for table */
-}
-
-#appointmentsTable thead tr {
-  background-color: #2563eb;
-  color: white;
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  font-size: 0.85rem;
-}
-
-#appointmentsTable thead th {
-  padding: 16px 24px;
-  border-radius: 12px 12px 0 0;
-  direction: rtl;
-  text-align: right;
-}
-
-#appointmentsTable tbody tr {
-  background-color: white;
-  box-shadow: 0 2px 8px rgb(100 116 139 / 0.1);
-  border-radius: 12px;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  cursor: default;
-  direction: rtl;
-  text-align: right;
-}
-
-#appointmentsTable tbody tr:hover {
-  background-color: #eff6ff;
-  box-shadow: 0 6px 20px rgb(37 99 235 / 0.15);
-}
-
-#appointmentsTable tbody tr.highlighted {
-  background: linear-gradient(90deg, #bfdbfe 0%, #93c5fd 100%);
-  font-weight: 700;
-  border-right: 8px solid #2563eb; /* Adjusted from border-left to border-right for RTL */
-  color: #1e40af;
-  box-shadow: 0 6px 20px rgb(37 99 235 / 0.3);
-}
 
 /* Text alignment */
 .text-right {
@@ -144,13 +94,6 @@ h2 {
   border-right: 8px solid #2563eb;
 }
 
-/* Misc */
-.sort-indicator {
-  margin-left: 0.4em;
-  font-size: 1rem;
-  vertical-align: middle;
-  direction: rtl;
-}
 
 /* Confirmation Modal */
 #confirmationModal {

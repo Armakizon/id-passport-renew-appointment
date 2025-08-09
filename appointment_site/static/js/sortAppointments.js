@@ -1,51 +1,72 @@
-// sortAppointments.js
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("#appointmentsTable th.sortable").forEach(th => {
-    th.dataset.label = th.textContent.trim();
+  const table = document.getElementById("appointmentsTable");
+  const headers = table.querySelectorAll("th.sortable");
+  let currentSortColumn = -1;
+  let currentSortAsc = true;
+
+  headers.forEach((th, index) => {
+    // Save original label for reset
+	if (!th.querySelector(".sort-indicator")) {
+	  const arrowSpan = document.createElement("span");
+	  arrowSpan.className = "sort-indicator";
+	  arrowSpan.textContent = "";
+	  th.appendChild(arrowSpan);
+	}
 
     th.addEventListener("click", () => {
-      const column = th.cellIndex;
-      const table = document.getElementById("appointmentsTable");
-      const rows = Array.from(table.querySelector("tbody").rows);
-      const isAscending = th.dataset.sorted !== "asc";
+      const column = index;
 
-      // Clear previous sort indicators and states
-      document.querySelectorAll("#appointmentsTable th.sortable").forEach(header => {
-        header.innerHTML = header.dataset.label;
-        delete header.dataset.sorted;
+      if (currentSortColumn === column) {
+        currentSortAsc = !currentSortAsc;
+      } else {
+        currentSortAsc = true;
+      }
+      currentSortColumn = column;
+
+      headers.forEach((header) => {
+        header.dataset.sorted = "";
+        header.querySelector(".sort-indicator").textContent = "";
       });
 
-      th.dataset.sorted = isAscending ? "asc" : "desc";
-      th.innerHTML = `${th.dataset.label} <span class="sort-indicator">${isAscending ? "↑" : "↓"}</span>`;
+      th.dataset.sorted = currentSortAsc ? "asc" : "desc";
+      th.querySelector(".sort-indicator").textContent = currentSortAsc ? "↑" : "↓";
 
-      const sorted = rows.sort((a, b) => {
+      const rows = Array.from(table.tBodies[0].rows);
+
+      const sortedRows = rows.sort((a, b) => {
         let valA = a.cells[column].textContent.trim();
         let valB = b.cells[column].textContent.trim();
 
-        const numA = parseFloat(valA.replace(",", ""));
-        const numB = parseFloat(valB.replace(",", ""));
-        const isDateColumn = column === 2;
+        if (column === 3) {
+          valA = valA === "-" ? Number.POSITIVE_INFINITY : parseFloat(valA.replace(",", ""));
+          valB = valB === "-" ? Number.POSITIVE_INFINITY : parseFloat(valB.replace(",", ""));
+          if (isNaN(valA)) valA = Number.POSITIVE_INFINITY;
+          if (isNaN(valB)) valB = Number.POSITIVE_INFINITY;
+          return currentSortAsc ? valA - valB : valB - valA;
+        }
 
-        if (isDateColumn) {
+        if (column === 2) {
           const dateA = new Date(valA);
           const dateB = new Date(valB);
           if (!isNaN(dateA) && !isNaN(dateB)) {
-            return isAscending ? dateA - dateB : dateB - dateA;
+            return currentSortAsc ? dateA - dateB : dateB - dateA;
           }
         }
 
+        const numA = parseFloat(valA.replace(",", ""));
+        const numB = parseFloat(valB.replace(",", ""));
         if (!isNaN(numA) && !isNaN(numB)) {
-          return isAscending ? numA - numB : numB - numA;
+          return currentSortAsc ? numA - numB : numB - numA;
         }
 
-        return isAscending
-          ? valA.localeCompare(valB, undefined, { numeric: true })
-          : valB.localeCompare(valA, undefined, { numeric: true });
+        return currentSortAsc
+          ? valA.localeCompare(valB, undefined, { numeric: true, sensitivity: "base" })
+          : valB.localeCompare(valA, undefined, { numeric: true, sensitivity: "base" });
       });
 
-      const tbody = table.querySelector("tbody");
+      const tbody = table.tBodies[0];
       tbody.innerHTML = "";
-      sorted.forEach(row => tbody.appendChild(row));
+      sortedRows.forEach(row => tbody.appendChild(row));
     });
   });
 });

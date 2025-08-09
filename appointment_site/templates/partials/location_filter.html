@@ -10,7 +10,22 @@
   </select>
 </form>
 
-<!-- Selected Location Buttons -->
+<!-- Email form -->
+<form id="notifyForm" method="POST" action="/subscribe">
+  <div class="mb-3">
+    <label for="email" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="email" name="email" required>
+  </div>
+
+  <!-- Hidden inputs -->
+  <input type="hidden" name="locations" id="locationsInput">
+  <input type="hidden" name="fromdate" id="fromDateInput">
+  <input type="hidden" name="todate" id="toDateInput">
+
+  <button type="submit" class="btn btn-primary">Notify Me</button>
+</form>
+
+<!-- Selected Location Buttons — now below email form -->
 <div id="locationButtons" class="mb-3 d-flex flex-wrap">
   {% include "partials/location_buttons.html" %}
 </div>

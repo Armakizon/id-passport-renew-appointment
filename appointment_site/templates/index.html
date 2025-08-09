@@ -18,18 +18,17 @@
 {% endblock %}
 
 {% block styles %}
-  <link href="{{ url_for('static', filename='css/distanceFilter.css') }}" rel="stylesheet">
+  {{ super() }}
+  <link href="{{ url_for('static', filename='css/distanceFilter.css') }}" rel="stylesheet" />
 {% endblock %}
 
 {% block scripts %}
+  {{ super() }}
   <script>
-    // Pass dynamic data to JS as globals
     window.branch_map = {{ branch_map | tojson }};
     window.userLat = null;
     window.userLon = null;
   </script>
-
   <script src="{{ url_for('static', filename='js/distanceFilter.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   <script src="{{ url_for('static', filename='js/email_field.js') }}"></script>
 {% endblock %}
