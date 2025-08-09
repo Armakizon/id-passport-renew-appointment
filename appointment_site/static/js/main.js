@@ -14,18 +14,7 @@ const branchNames = [...new Set(allRows.map(row => {
   return `${id}|${name}`;
 }))];
 
-function applyAlternatingRowColors() {
-  const rows = Array.from(document.querySelectorAll("#appointmentsTable tbody tr"))
-    .filter(row => row.style.display !== "none");
 
-  rows.forEach((row, index) => {
-    if (index % 2 === 0) {
-	row.style.backgroundColor = "#fafafa"; // even row color: very light gray
-	} else {
-	row.style.backgroundColor = "#f5f7fa"; // odd row color: very light bluish-gray
-    }
-  });
-}
 // Helper to parse DD/MM/YYYY to Date object
 function parseDateDMY(dateStr) {
   const [day, month, year] = dateStr.split("/").map(Number);
@@ -70,9 +59,8 @@ function updateTableVisibility(showEarliestOnly = false) {
       }
     }
   }
-
-  applyAlternatingRowColors();
 }
+
 function getFilteredEntries(startDate, endDate, activeBranchIds) {
   const grouped = {};
   allRows.forEach(row => {
