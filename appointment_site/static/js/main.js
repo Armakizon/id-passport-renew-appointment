@@ -20,11 +20,16 @@ function applyAlternatingRowColors() {
 
   rows.forEach((row, index) => {
     if (index % 2 === 0) {
-      row.style.backgroundColor = "#fff"; // even row color
-    } else {
-      row.style.backgroundColor = "#f9fbff"; // odd row color (lighter tint)
+	row.style.backgroundColor = "#fafafa"; // even row color: very light gray
+	} else {
+	row.style.backgroundColor = "#f5f7fa"; // odd row color: very light bluish-gray
     }
   });
+}
+// Helper to parse DD/MM/YYYY to Date object
+function parseDateDMY(dateStr) {
+  const [day, month, year] = dateStr.split("/").map(Number);
+  return new Date(year, month - 1, day);
 }
 
 function updateTableVisibility(showEarliestOnly = false) {
@@ -43,10 +48,10 @@ function updateTableVisibility(showEarliestOnly = false) {
   for (const [branchId, rows] of Object.entries(grouped)) {
     if (window.activeBranchIds.length === 0 || window.activeBranchIds.includes(branchId)) {
       const filteredRows = rows.filter(row => {
-        const dateStr = row.children[2]?.innerText?.trim();  // Adjust index if needed
+        const dateStr = row.children[2]?.innerText?.trim();
         if (!dateStr) return false;
 
-        const rowDate = new Date(dateStr);
+        const rowDate = parseDateDMY(dateStr);
         const start = startDate ? new Date(startDate) : null;
         const end = endDate ? new Date(endDate) : null;
 
@@ -57,19 +62,17 @@ function updateTableVisibility(showEarliestOnly = false) {
       });
 
       if (showEarliestOnly) {
-        filteredRows.sort((a, b) =>
-          new Date(a.children[2].innerText) - new Date(b.children[2].innerText)
-        )[0]?.style && (filteredRows[0].style.display = "");
+        filteredRows
+          .sort((a, b) => parseDateDMY(a.children[2].innerText) - parseDateDMY(b.children[2].innerText))
+          [0]?.style && (filteredRows[0].style.display = "");
       } else {
         filteredRows.forEach(row => row.style.display = "");
       }
     }
   }
 
-  // Call the alternating row colors function after visibility updates
   applyAlternatingRowColors();
 }
-
 function getFilteredEntries(startDate, endDate, activeBranchIds) {
   const grouped = {};
   allRows.forEach(row => {
