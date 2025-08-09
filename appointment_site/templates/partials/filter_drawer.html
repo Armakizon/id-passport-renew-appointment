@@ -1,11 +1,5 @@
-<style>
-  .offcanvas.offcanvas-start {
-    width: 300px !important;
-  }
-</style>
-
 <!-- Filter Drawer -->
-<div class="offcanvas offcanvas-start"
+<div class="offcanvas offcanvas-end"
      tabindex="-1"
      id="filterDrawer"
      aria-labelledby="filterDrawerLabel"
@@ -17,9 +11,8 @@
   </div>
   <div class="offcanvas-body">
     {% include "partials/date_filter.html" %}
-	{% include "partials/distance_filter.html" %}
-	{% include "partials/location_filter.html" %}
-	{% include "partials/email_field.html" %}
-
+    {% include "partials/distance_filter.html" %}
+    {% include "partials/location_filter.html" %}
+    {% include "partials/email_field.html" %}
   </div>
 </div>

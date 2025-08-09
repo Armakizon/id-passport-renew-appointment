@@ -1,5 +1,3 @@
-// notifyForm.js
-
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("notifyForm");
   const modal = document.getElementById("confirmationModal");
@@ -15,26 +13,28 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("fromDateInput").value = document.getElementById("startDate")?.value || "";
     document.getElementById("toDateInput").value = document.getElementById("endDate")?.value || "";
 
-    // Get branch names from buttons
+    // Get branch names from buttons (only name part, no address)
     const locationButtons = document.getElementById("locationButtons");
     const branchNames = [];
     if (locationButtons) {
       locationButtons.querySelectorAll("button.location-btn").forEach(btn => {
-        branchNames.push(btn.textContent.trim());
+        const fullText = btn.textContent.trim();
+        const branchName = fullText.split(" - ")[0]; // extract name before " - "
+        branchNames.push(branchName);
       });
     }
 
-    // Build branch list string with max 3 shown + "and x other branches"
+    // Build branch list string with max 3 shown + "and x other branches", each on a new line
     const maxBranchesToShow = 3;
     let displayedBranches = "";
     if (branchNames.length === 0) {
       displayedBranches = "no branches selected";
     } else if (branchNames.length <= maxBranchesToShow) {
-      displayedBranches = branchNames.join(", ");
+      displayedBranches = branchNames.join("<br>");
     } else {
-      const firstThree = branchNames.slice(0, maxBranchesToShow).join(", ");
+      const firstThree = branchNames.slice(0, maxBranchesToShow).join("<br>");
       const othersCount = branchNames.length - maxBranchesToShow;
-      displayedBranches = `${firstThree} and ${othersCount} other branch${othersCount > 1 ? "es" : ""}`;
+      displayedBranches = `${firstThree}<br>and ${othersCount} other branch${othersCount > 1 ? "es" : ""}`;
     }
 
     // Set confirmation message HTML with line breaks
