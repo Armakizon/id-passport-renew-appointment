@@ -25,6 +25,7 @@ function applyAlternatingRowColors() {
       row.style.backgroundColor = "#f9fbff"; // odd row color (lighter tint)
     }
   });
+}
 
 function updateTableVisibility(showEarliestOnly = false) {
   const grouped = {};
