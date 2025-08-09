@@ -14,6 +14,18 @@ const branchNames = [...new Set(allRows.map(row => {
   return `${id}|${name}`;
 }))];
 
+function applyAlternatingRowColors() {
+  const rows = Array.from(document.querySelectorAll("#appointmentsTable tbody tr"))
+    .filter(row => row.style.display !== "none");
+
+  rows.forEach((row, index) => {
+    if (index % 2 === 0) {
+      row.style.backgroundColor = "#fff"; // even row color
+    } else {
+      row.style.backgroundColor = "#f9fbff"; // odd row color (lighter tint)
+    }
+  });
+
 function updateTableVisibility(showEarliestOnly = false) {
   const grouped = {};
   allRows.forEach(row => {
@@ -52,6 +64,9 @@ function updateTableVisibility(showEarliestOnly = false) {
       }
     }
   }
+
+  // Call the alternating row colors function after visibility updates
+  applyAlternatingRowColors();
 }
 
 function getFilteredEntries(startDate, endDate, activeBranchIds) {

@@ -13,7 +13,7 @@
             <tr data-branch-id="{{ entry.branch_id }}" data-lat="{{ entry.lat }}" data-lon="{{ entry.lon }}">
                 <td>{{ entry.branch_name }}</td>
                 <td>{{ entry.address }}</td>
-                <td>{{ entry.date }}</td>
+                <td>{{ entry.date.strftime('%d/%m/%Y') }}</td>
                 <td>{% if entry.distance %}{{ entry.distance }}{% else %}-{% endif %}</td>
             </tr>
             {% endfor %}

@@ -6,7 +6,7 @@
   font-size: 16px;
   color: #2c3e50;
   box-sizing: border-box;
-  user-select: none;
+  user-select: text;
   direction: rtl;
   text-align: right;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -20,7 +20,7 @@
   text-transform: uppercase;
   letter-spacing: 0.07em;
   border-radius: 12px 12px 0 0;
-  user-select: none;
+  user-select: text;
 }
 
 #appointmentsTable thead th {
@@ -46,14 +46,13 @@
   vertical-align: middle;
   color: #a67c00;          /* golden brown */
   direction: ltr;
-  user-select: none;
+  user-select: text;
   display: inline-block;
   width: 1.2em;
 }
 
 /* Table body rows */
 #appointmentsTable tbody tr {
-  background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
