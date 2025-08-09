@@ -15,9 +15,9 @@
       earliestBtn.textContent = showEarliestOnly
         ? "Show All Dates"
         : "Show Earliest Date per Branch";
-      if (typeof updateTableVisibility === "function") {
-        updateTableVisibility();
-      }
+		if (typeof updateTableVisibility === "function") {
+		  updateTableVisibility(showEarliestOnly);
+		}
     });
 
     if (typeof updateTableVisibility === "function") {
