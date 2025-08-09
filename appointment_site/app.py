@@ -110,7 +110,9 @@ def all_branches():
     ])
 
 register_api_routes(app, db, Entry, set_last_updated)
-
+@app.route('/about')
+def about():
+    return render_template('about.html')
 @app.route("/filter_entries", methods=["GET"])
 def filter_entries():
     start_date = request.args.get("startDate")  # e.g. "2025-01-01"

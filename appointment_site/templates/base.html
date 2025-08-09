@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="rtl">
+<html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <title>{% block title %}My App{% endblock %}</title>
@@ -12,9 +12,47 @@
   <link href="{{ url_for('static', filename='css/appointments_table.css') }}" rel="stylesheet" />
   <link href="{{ url_for('static', filename='css/distanceFilter.css') }}" rel="stylesheet" />
 
+  <style>
+    .navbar-nav .nav-link {
+      font-size: 1.3rem; /* Bigger font */
+      font-weight: 500;
+    }
+    .navbar-nav {
+      margin: 0 auto; /* Center horizontally */
+    }
+  </style>
+
   {% block styles %}{% endblock %}
 </head>
 <body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4 sticky-top" style="direction: rtl;">
+  <div class="container-fluid d-flex align-items-center" style="direction: ltr; justify-content: space-between;">
+    <!-- Brand on left -->
+    <a class="navbar-brand" href="{{ url_for('index') }}">BookGov</a>
+
+    <!-- Nav links centered -->
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav" style="direction: rtl;">
+      <ul class="navbar-nav d-flex align-items-center" style="gap: 2rem;">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('index') }}">בית</a>
+        </li>
+        <!-- Vertical divider -->
+        <li style="border-left: 1px solid #888; height: 24px; margin: 0 1rem;"></li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('about') }}">אודות</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Hamburger toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+
   <div class="container mt-4">
     {% block content %}{% endblock %}
   </div>

@@ -10,6 +10,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
   direction: rtl; /* Enable RTL */
   text-align: right; /* Align text right */
+  height: 100%; /* Ensure full height */
+}
+
+/* Make html and body 100% height for full viewport usage */
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /* Page title */
@@ -67,7 +75,7 @@ h2 {
   text-align: right;
 }
 
-/* Filter drawer background - targeting the offcanvas with id #filterDrawer */
+/* Filter drawer background and sizing - targeting the offcanvas with id #filterDrawer */
 #filterDrawer {
   background-color: #e3f2fd !important; /* lighter blue shade */
   color: #475569;
@@ -77,6 +85,16 @@ h2 {
   border-radius: 12px !important;
   box-shadow: 0 2px 16px rgb(100 116 139 / 0.1);
   margin-bottom: 28px !important;
+
+  height: 100vh !important;        /* Full viewport height */
+  top: 0 !important;               /* start from top */
+  bottom: 0 !important;            /* stretch to bottom */
+  overflow-y: auto !important;    /* scroll if content overflow */
+  position: fixed !important;      /* ensure fixed position */
+  right: 0 !important;
+  left: auto !important;
+  width: 300px !important;
+  z-index: 1040;                   /* ensure above other content but below navbar if needed */
 }
 
 /* Offcanvas adjustments for right side drawer */
@@ -84,6 +102,12 @@ h2 {
   width: 300px !important;
   right: 0;
   left: auto;
+  height: 100vh !important;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+  position: fixed;
+  z-index: 1040;
 }
 
 /* Remove left border and add right border for highlighted rows in RTL */
@@ -225,4 +249,50 @@ h2 {
   background-color: #0056b3;
   color: white;
   border-color: #004085;
+}
+
+/* About page styles */
+.about-page {
+  background-color: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  direction: rtl;
+  text-align: right;
+  max-width: 800px;
+  margin: auto;
+}
+
+.about-page h2 {
+  color: #1e293b;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.about-page p {
+  color: #475569;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+/* Permanent filter sidebar (optional if you want a fixed sidebar alternative) */
+.filter-sidebar {
+  position: fixed;
+  top: 56px; /* Height of navbar */
+  right: 0;
+  width: 300px;
+  height: calc(100% - 56px);
+  background-color: #e3f2fd; /* or your preferred color */
+  padding: 24px;
+  overflow-y: auto;
+  box-shadow: -2px 0 6px rgb(0 0 0 / 0.1);
+  direction: rtl;
+  text-align: right;
+  z-index: 1040; /* just below navbar */
+}
+
+/* Brand left alignment fix */
+.brand-left {
+  margin-right: auto !important; /* Pushes the brand to the left in an RTL container */
+  direction: ltr; /* Keep brand text LTR */
 }
