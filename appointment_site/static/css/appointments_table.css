@@ -99,10 +99,3 @@
     font-size: 0.9rem;
   }
 }
-/* Add these to your CSS */
-.even-row {
-  background-color: #fafafa !important;  /* very light gray */
-}
-.odd-row {
-  background-color: #f5f7fa !important;  /* very light bluish-gray */
-}
