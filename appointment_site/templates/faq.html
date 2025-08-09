@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}שאלות נפוצות{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">שאלות נפוצות</h2>
+
+  <div class="accordion" id="faqAccordion">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          בטעות נרשמתי לרשימת התפוצה עם פרטים לא נכונים, מה לעשות
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          להירשם שוב לרשימת התפוצה מבטל את הרישום הקודם על אותו המייל. כמו כן, במידה ונרשמים בלי לבחור לשכות בכלל, אתם יכולים להוריד את המייל שלכם מרשימת התפוצה של האתר.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          איך האתר עובד?
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          בקצרה, האתר עושה אוטומציה לתאריך הכניסה לאתר פעם בשעה על מנת לקחת "סיסמא" שנותנת לי להעתיק את כל התורים מהאתר ולשים אותם באתר שלי. לאחר מכן האתר שלי עובר על כל
+          המיילים ברשימת התפוצה ושולח מייל במידה וקיימים תורים המתאימים להגדרות הסנן של כל מייל, נשלח אליהם מייל עם התורים הפנויים.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingThree">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          מצאתי תור באתר זה או במייל אך שנכנסתי לאתר הממשלה הוא לא הופיע
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          האתר מראה רק את כל התורים המוצעים לי. כלומר יכול להיות שלי מוצע תור אך משום מה אותו התור לא מוצע לאנשים אחרים. כמו כן יכול להיות שהתור נתפס מרגע שהוא מופיע באתר
+          ועד שנכנסתם לאתר של הממשלה. באתר מוצג מתי הוא עודכן לאחרונה, ככל שהוא עודכן יותר לאחרונה ככה גם התורים בו יותר מהימנים.
+          גם עבור אימיילים, ככל שהמייל יותר חדש ככה יש יותר סיכוי שהתור עדיין קיים.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingFour">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+          אז למה בכלל להשתמש באתר הזה?
+        </button>
+      </h2>
+      <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          מכיוון שכל פעם שרוצים לראות תורים באתר הממשלה צריך לעבור ווידוא, והוידוא מחזיק למספר דקות לפני שצריך להיכנס שוב
+          ויותר חשוב, לפעמים תורים שווים מופיעים בשעות רנדומליות. בן אדם אחר מבטל תור, תור נפתח בבוקר של אותו היום...
+          לדעתי זה מגוחך שעל מנת למצוא תור החודש או תור באזור המרכז אנחנו מצופים להיות כל היום מול האתר ולרענן את הדף עד שמופיע תור שאנחנו רוצים
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingFive">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+          מה אם תורים אחרים למשרד האוכלוסין וההגירה?
+        </button>
+      </h2>
+      <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          האתר בודק את התורות שלו לפי חידוש דרכון ותעודת הזהות שלי. וכבר זה לא מבטיח שהתורות שמופיעים פה יופיעו גם אצלכם. אך יכול להיות שחלק מהתורים לחידוש תעודות זהות
+          ודרכון זהים לתורים אחרים במשרד האוכלוסין וההגירה. אתם יותר ממוזמנים לנסות לבד ולכתוב לי אם האתר הזה עזר לכם גם עבור תורים אחרים.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingSix">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+          מה הקאטצ'?
+        </button>
+      </h2>
+      <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          האמת היא... שאין. אני המפתח היחיד של האתר ואני נושא בכל ההוצאות שלו.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingSeven">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+          כיצד ניתן לתמוך?
+        </button>
+      </h2>
+      <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">
+          תשתפו את האתר עבור מי שצריך, תכתבו לי פידבק למייל.
+          כמו כן אני מחפש עבודה בתחום ההייטק, בדגש על automation engineering אז אם אתם מכירים מישהו או נמצאים איפשהו שמחפש, צרו איתי קשר
+        </div>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

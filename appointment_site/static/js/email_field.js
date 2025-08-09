@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const maxBranchesToShow = 3;
     let displayedBranches = "";
     if (branchNames.length === 0) {
-      displayedBranches = "no branches selected";
+      displayedBranches = "לא נבחרו לשכות";
     } else if (branchNames.length <= maxBranchesToShow) {
       displayedBranches = branchNames.join("<br>");
     } else {
@@ -39,10 +39,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Set confirmation message HTML with line breaks
     messageEl.innerHTML = `
-      You are about to sign up to get notified for these branches:<br><strong>${displayedBranches}</strong><br><br>
-      From: <strong>${document.getElementById("startDate")?.value || "any date"}</strong><br>
-      To: <strong>${document.getElementById("endDate")?.value || "any date"}</strong>.<br><br>
-      Proceed?
+       אתם עומדים להירשם לרשימת התפוצה עבור הלשכות הבאות :<br><strong>${displayedBranches}</strong><br><br>
+      מתאריך: <strong>${document.getElementById("startDate")?.value || "כל תאריך"}</strong><br>
+      עד תאריך: <strong>${document.getElementById("endDate")?.value || "כל תאריך"}</strong>.<br><br>
+      המשך?
     `;
 
     modal.style.display = "flex";

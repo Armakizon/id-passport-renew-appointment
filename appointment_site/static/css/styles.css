@@ -268,7 +268,16 @@ h2 {
   margin-bottom: 16px;
   font-weight: 700;
 }
+.accordion-button {
+  font-weight: 700;           /* Bold text */
+  background-color: #f0f8ff;  /* Light blue background, change as you like */
+  color: #003366;             /* Dark blue text color, change as you like */
+}
 
+.accordion-button:not(.collapsed) {
+  background-color: #cce5ff;  /* Background when expanded */
+  color: #002244;
+}
 .about-page p {
   color: #475569;
   margin-bottom: 12px;

@@ -12,14 +12,14 @@
 
 	  // Set initial button text based on initial state
 	  earliestBtn.textContent = showEarliestOnly
-		? "Show All Dates"
-		: "Show Earliest Date per Branch";
+		? "הצג את כל התאריכים"
+		: "הצג את התאריך המוקדם ביותר בכל לשכה";
 
 	  earliestBtn?.addEventListener("click", () => {
 		showEarliestOnly = !showEarliestOnly;
 		earliestBtn.textContent = showEarliestOnly
-		  ? "Show All Dates"
-		  : "Show Earliest Date per Branch";
+		  ? "הצג את כל התאריכים"
+		  : "הצג את התאריך המוקדם ביותר בכל לשכה";
 
 		if (typeof updateTableVisibility === "function") {
 		  updateTableVisibility(showEarliestOnly);

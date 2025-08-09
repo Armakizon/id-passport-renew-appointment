@@ -6,10 +6,13 @@
      data-bs-backdrop="false"
      data-bs-scroll="true">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="filterDrawerLabel">Filters</h5>
+    <h5 class="offcanvas-title" id="filterDrawerLabel">מסננים</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
+    <p style="font-weight: 700; margin-bottom: 1rem;">
+      3. בחרו תאריכים ומקומות שאותם תרצו לראות או עליהם לקבל התראות
+    </p>
     {% include "partials/date_filter.html" %}
     {% include "partials/distance_filter.html" %}
     {% include "partials/location_filter.html" %}

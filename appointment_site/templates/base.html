@@ -33,16 +33,22 @@
 
     <!-- Nav links centered -->
     <div class="collapse navbar-collapse justify-content-center" id="navbarNav" style="direction: rtl;">
-      <ul class="navbar-nav d-flex align-items-center" style="gap: 2rem;">
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('index') }}">בית</a>
-        </li>
-        <!-- Vertical divider -->
-        <li style="border-left: 1px solid #888; height: 24px; margin: 0 1rem;"></li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('about') }}">אודות</a>
-        </li>
-      </ul>
+		<ul class="navbar-nav d-flex align-items-center" style="gap: 2rem;">
+		  <li class="nav-item">
+			<a class="nav-link" href="{{ url_for('index') }}">בית</a>
+		  </li>
+		  <!-- Vertical divider -->
+		  <li style="border-left: 1px solid #888; height: 24px; margin: 0 1rem;"></li>
+		  <li class="nav-item">
+			<a class="nav-link" href="{{ url_for('faq') }}">שאלות נפוצות</a>
+		  </li>
+		  <!-- Vertical divider -->
+		  <li style="border-left: 1px solid #888; height: 24px; margin: 0 1rem;"></li>
+		  <li class="nav-item">
+			<a class="nav-link" href="{{ url_for('about') }}">אודות</a>
+		  </li>
+		</ul>
+
     </div>
 
     <!-- Hamburger toggler -->
@@ -62,8 +68,8 @@
     <div class="modal-overlay"></div>
     <div class="modal-content">
       <p id="confirmationMessage"></p>
-      <button id="confirmBtn" class="btn btn-success">Confirm</button>
-      <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
+      <button id="confirmBtn" class="btn btn-success">אשר</button>
+      <button id="cancelBtn" class="btn btn-secondary">בטל</button>
     </div>
   </div>
 

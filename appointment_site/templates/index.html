@@ -2,18 +2,45 @@
 {% block title %}Appointment Dates{% endblock %}
 
 {% block content %}
-  <h2 class="mb-4">Appointment Dates</h2>
+  <h2 class="mb-4">תורים לחידוש דרכון ות"ז</h2>
+  <p><strong>עודכן לאחרונה:</strong> {{ last_updated }} ({{ time_since }})</p>
+  
+  <p style="font-weight: 600; margin-bottom: 1rem;">
+    אני מחפש עבודה בעולם ההייטק, לעוד מידע תלחצו על 
+    <a href="{{ url_for('about') }}" style="text-decoration: underline;">"אודות"</a>.
+  </p>
 
-  <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterDrawer" aria-controls="filterDrawer">
-    Open Filter
+  <p>1. לחצו על כפתור "המיקום שלי" או בחר מיקום מן הרשימה שמייצג בערך את המיקום שלך (על מנת לחשב מרחק)</p>
+  <div class="d-flex gap-3 align-items-center mb-3">
+    {% include "partials/getLocationButton.html" %}
+    <span style="font-weight: 700; font-size: 1.2rem;">או</span>
+    {% include "partials/location_dropdown.html" %}
+  </div>
+
+  <p>2. לחצו על הגדר מסננים</p>
+  <button class="btn btn-primary mb-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterDrawer" aria-controls="filterDrawer">
+    הגדר מסננים
   </button>
 
-  <p><strong>Last Updated:</strong> {{ last_updated }} ({{ time_since }})</p>
-
   {% include "partials/filter_drawer.html" %}
-  {% include "partials/getLocationButton.html" %}
-  {% include "partials/location_dropdown.html" %}
-  {% include "partials/toggle_button.html" %}
+
+  <div style="margin-bottom: 2rem;">
+    {% include "partials/toggle_button.html" %}
+  </div>
+
+  <!-- Notes above appointment table -->
+  <div class="mb-3" style="font-weight: 600; color: #444;">
+    <p>
+      הערה: האתר מתריע רק על תורים שנפתחים, על מנת לתפוס אותם עליכם ללכת 
+      <a href="https://govisit.gov.il/he/home" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">
+        לאתר הממשלה
+      </a>
+    </p>
+    <p>
+      הערה: הופעת תור באתר לא מבטיחה שהתור עדיין זמין
+    </p>
+  </div>
+
   {% include "partials/appointments_table.html" %}
 {% endblock %}
 

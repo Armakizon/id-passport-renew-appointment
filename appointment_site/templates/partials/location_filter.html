@@ -1,7 +1,7 @@
 <!-- Location Dropdown -->
 <form id="locationSelectForm" class="mb-3">
   <select id="filterLocationDropdown" class="form-select">
-    <option selected disabled>Choose a branch you are interested to see</option>
+    <option selected disabled>בחר לשכה שתרצה לראות</option>
     {% for id, info in branch_map.items() %}
       <option value="{{ id }}" data-lat="{{ info.lat }}" data-lon="{{ info.lon }}">
         {{ info.name }} - {{ info.address }}
@@ -10,10 +10,15 @@
   </select>
 </form>
 
+<!-- Explanation text before email form -->
+<p style="font-weight: 600; margin-bottom: 1rem;">
+  4. הכניסו את המייל שלכם על מנת לקבל התראות כאשר תורים עם הגדרות המסנן שלכם מופיעים
+</p>
+
 <!-- Email form -->
 <form id="notifyForm" method="POST" action="/subscribe">
   <div class="mb-3">
-    <label for="email" class="form-label">Email address</label>
+    <label for="email" class="form-label">כתובת מייל</label>
     <input type="email" class="form-control" id="email" name="email" required>
   </div>
 
@@ -22,7 +27,7 @@
   <input type="hidden" name="fromdate" id="fromDateInput">
   <input type="hidden" name="todate" id="toDateInput">
 
-  <button type="submit" class="btn btn-primary">Notify Me</button>
+  <button type="submit" class="btn btn-primary">הוסף אותי לרשימת התפוצה</button>
 </form>
 
 <!-- Selected Location Buttons — now below email form -->
