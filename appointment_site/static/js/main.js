@@ -19,6 +19,17 @@ function applyAlternatingRowColors() {
     .filter(row => row.style.display !== "none");
 
   rows.forEach((row, index) => {
+    row.classList.remove("even-row", "odd-row");
+    if (index % 2 === 0) {
+      row.classList.add("even-row");
+    } else {
+      row.classList.add("odd-row");
+    }
+  });
+}
+
+
+  rows.forEach((row, index) => {
     if (index % 2 === 0) {
 	row.style.backgroundColor = "#fafafa"; // even row color: very light gray
 	} else {
