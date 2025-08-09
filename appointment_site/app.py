@@ -8,8 +8,6 @@ import smtplib
 from email.mime.text import MIMEText
 from api import register_api_routes, api
 
-
-
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///local.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -75,11 +73,17 @@ def index():
     entries_with_coords = []
     for entry in entries:
         branch = BRANCH_MAP.get(entry.branch_id, {})
+        # Convert entry.date string to datetime and format as DD/MM/YYYY
+        try:
+            formatted_date = datetime.strptime(entry.date, "%Y-%m-%d").strftime("%d/%m/%Y")
+        except Exception:
+            formatted_date = entry.date  # fallback if parsing fails
+
         entries_with_coords.append({
             "branch_id": entry.branch_id,
             "branch_name": branch.get("name", entry.branch_id),
             "address": branch.get("address", "-"),
-            "date": entry.date,
+            "date": formatted_date,
             "lat": branch.get("lat"),
             "lon": branch.get("lon")
         })
@@ -91,6 +95,7 @@ def index():
         time_since=time_since,
         branch_map=BRANCH_MAP
     )
+
 @app.route("/all_branches")
 def all_branches():
     return jsonify([
@@ -103,7 +108,6 @@ def all_branches():
         }
         for branch_id, info in BRANCH_MAP.items()
     ])
-
 
 register_api_routes(app, db, Entry, set_last_updated)
 
@@ -134,11 +138,16 @@ def filter_entries():
     results = []
     for entry in query.all():
         branch = BRANCH_MAP.get(entry.branch_id, {})
+        try:
+            formatted_date = datetime.strptime(entry.date, "%Y-%m-%d").strftime("%d/%m/%Y")
+        except Exception:
+            formatted_date = entry.date
+
         results.append({
             "branch_id": entry.branch_id,
             "branch_name": branch.get("name", entry.branch_id),
             "address": branch.get("address", "-"),
-            "date": entry.date,
+            "date": formatted_date,
             "lat": branch.get("lat"),
             "lon": branch.get("lon")
         })
