@@ -1,0 +1,184 @@
+/* Mobile Navigation Overrides */
+/* This file contains mobile-specific styles that override the default navigation */
+
+@media (max-width: 768px) {
+  /* Mobile Navigation Container */
+  .navbar-nav {
+    flex-direction: column !important;
+    gap: 0.05rem !important;
+    align-items: center !important;
+    padding: 0.25rem 0 !important;
+  }
+
+  /* Mobile Navigation Items */
+  .navbar-nav .nav-item {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Mobile Navigation Links */
+  .navbar-nav .nav-link {
+    padding: 0.75rem 1rem !important;
+    font-size: 1.1rem !important;
+    border-radius: var(--radius-md) !important;
+    transition: all var(--transition-smooth) !important;
+    background: rgba(37, 99, 235, 0.1) !important;
+    border: 1px solid rgba(37, 99, 235, 0.2) !important;
+    color: var(--charcoal) !important;
+    text-align: center !important;
+    min-width: 200px !important;
+  }
+
+  .navbar-nav .nav-link:hover {
+    background: rgba(37, 99, 235, 0.2) !important;
+    border-color: var(--gold) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-md) !important;
+  }
+
+  /* Horizontal Dividers - Override vertical borders */
+  .navbar-nav li[style*="border-left"] {
+    border-left: none !important;
+    border-top: 1px solid rgba(37, 99, 235, 0.3) !important;
+    background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.5), transparent) !important;
+    margin: 0.05rem 0 !important;
+    padding: 0.05rem 0 !important;
+    height: 8px !important;
+  }
+
+  /* Mobile Navigation Collapse */
+  .navbar-collapse {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    border-radius: var(--radius-lg) !important;
+    margin-top: 0.1rem !important; /* Reduced from 0.5rem to 0.1rem */
+    box-shadow: var(--shadow-lg) !important;
+    border: 1px solid rgba(37, 99, 235, 0.1) !important;
+  }
+
+  /* Mobile Container Adjustments */
+  .container-fluid {
+    padding: 0.5rem 1rem !important;
+  }
+
+  /* Hamburger Menu Positioning */
+  .navbar-toggler {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+    z-index: 1031 !important; /* Ensure it's above the collapsed menu */
+  }
+
+  /* Ensure proper spacing between navbar elements */
+  .navbar > .container-fluid {
+    gap: 1rem !important;
+  }
+
+  /* Mobile Brand/Logo Adjustments */
+  .navbar-brand {
+    font-size: 1.3rem !important;
+    padding: 0.5rem 0 !important;
+  }
+
+  /* Mobile Toggle Button Styling */
+  .navbar-toggler {
+    border: 1px solid rgba(37, 99, 235, 0.3) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 0.5rem 0.75rem !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(5px) !important;
+  }
+
+  .navbar-toggler:focus {
+    box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25) !important;
+    border-color: var(--gold) !important;
+  }
+
+  /* Mobile Navigation Animation */
+  .navbar-collapse.collapsing,
+  .navbar-collapse.show {
+    animation: slideDown 0.3s ease-out !important;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Extra Small Mobile Devices */
+@media (max-width: 480px) {
+  .navbar-nav {
+    gap: 0.02rem !important;
+  }
+
+  .navbar-nav .nav-link {
+    min-width: 180px !important;
+    font-size: 1rem !important;
+    padding: 0.6rem 0.8rem !important;
+  }
+
+  .navbar-nav li[style*="border-left"] {
+    margin: 0.02rem 0 !important;
+    padding: 0.02rem 0 !important;
+    height: 4px !important;
+  }
+
+  .container-fluid {
+    padding: 0.3rem 0.8rem !important;
+  }
+
+  .navbar-brand {
+    font-size: 1.2rem !important;
+  }
+}
+
+/* Dark Mode Mobile Overrides */
+@media (max-width: 768px) {
+  html.dark .navbar-collapse {
+    background: rgba(15, 23, 42, 0.95) !important;
+    border-color: rgba(37, 99, 235, 0.3) !important;
+  }
+
+  html.dark .navbar-nav .nav-link {
+    background: rgba(37, 99, 235, 0.1) !important;
+    border-color: rgba(37, 99, 235, 0.2) !important;
+    color: white !important;
+  }
+
+  html.dark .navbar-nav .nav-link:hover {
+    background: rgba(37, 99, 235, 0.2) !important;
+    border-color: var(--gold) !important;
+  }
+
+  html.dark .navbar-nav li[style*="border-left"] {
+    border-top-color: rgba(37, 99, 235, 0.4) !important;
+    background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.5), transparent) !important;
+  }
+
+  html.dark .navbar-toggler {
+    background: rgba(15, 23, 42, 0.9) !important;
+    border-color: rgba(37, 99, 235, 0.4) !important;
+    color: white !important;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .navbar-nav .nav-link {
+    min-height: 44px !important; /* iOS touch target minimum */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .navbar-toggler {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+}

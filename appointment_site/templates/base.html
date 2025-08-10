@@ -30,6 +30,8 @@
   <link href="{{ url_for('static', filename='css/faq.css') }}" rel="stylesheet" />
   <!-- Filter Drawer CSS - loads after FAQ to ensure it overrides all other styles -->
   <link href="{{ url_for('static', filename='css/filter_drawer.css') }}" rel="stylesheet" />
+  <!-- Mobile CSS - loads last to ensure mobile overrides work properly -->
+  <link href="{{ url_for('static', filename='css/mobile.css') }}" rel="stylesheet" />
 
   <!-- Force dark mode styles to load after all other CSS -->
   <style>

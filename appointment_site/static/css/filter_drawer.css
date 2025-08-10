@@ -271,12 +271,14 @@
 }
 
 /* Responsive Design */
-@media (max-width: 576px) {
+@media (max-width: 500px) {
   .luxury-filter-drawer {
     width: 100vw !important;
     max-width: 100vw !important;
   }
-  
+}
+
+@media (max-width: 576px) {
   .luxury-filter-drawer .offcanvas-header {
     padding: 0.5rem var(--space-md);
     min-height: 62px;
@@ -308,6 +310,26 @@ html.dark body .luxury-filter-drawer,
 html.dark html .luxury-filter-drawer {
   background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(29, 78, 216, 0.05) 100%) !important;
   border-left: 1px solid rgba(37, 99, 235, 0.3) !important;
+}
+
+/* Mobile Dark Mode - Make Filter Drawer Fully Opaque */
+@media (max-width: 768px) {
+  html.dark body .luxury-filter-drawer,
+  html.dark html .luxury-filter-drawer {
+    background: #1e293b !important; /* Solid dark background, no transparency */
+    border-left: 1px solid rgba(37, 99, 235, 0.5) !important;
+  }
+  
+  html.dark body .luxury-filter-drawer .offcanvas-header,
+  html.dark html .luxury-filter-drawer .offcanvas-header {
+    background: #1e40af !important; /* Solid blue background, no transparency */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
+  }
+  
+  html.dark body .luxury-filter-drawer .offcanvas-body,
+  html.dark html .luxury-filter-drawer .offcanvas-body {
+    background: #1e293b !important; /* Solid dark background, no transparency */
+  }
 }
 
 html.dark body .luxury-filter-drawer .offcanvas-title,
