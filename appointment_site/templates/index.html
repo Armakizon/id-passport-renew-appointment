@@ -2,46 +2,42 @@
 {% block title %}Appointment Dates{% endblock %}
 
 {% block content %}
-  <h2 class="mb-4">תורים לחידוש דרכון ות"ז</h2>
-  <p><strong>עודכן לאחרונה:</strong> {{ last_updated }} ({{ time_since }})</p>
-  
-  <p style="font-weight: 600; margin-bottom: 1rem;">
-    אני מחפש עבודה בעולם ההייטק, לעוד מידע תלחצו על 
-    <a href="{{ url_for('about') }}" style="text-decoration: underline;">"אודות"</a>.
-  </p>
+  <header class="mb-4">
+    <h1 class="mb-2">תורים לחידוש דרכון ות"ז</h1>
+    <p class="text-muted" style="margin:0;">עודכן לאחרונה: {{ last_updated }} ({{ time_since }})</p>
+  </header>
 
-  <p>1. לחצו על כפתור "המיקום שלי" או בחר מיקום מן הרשימה שמייצג בערך את המיקום שלך (על מנת לחשב מרחק)</p>
-  <div class="d-flex gap-3 align-items-center mb-3">
-    {% include "partials/getLocationButton.html" %}
-    <span style="font-weight: 700; font-size: 1.2rem;">או</span>
-    {% include "partials/location_dropdown.html" %}
-  </div>
+  <main>
+    <section class="card-surface p-3 mb-4">
+      <div class="d-flex flex-column gap-3">
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <span class="step-badge">1</span>
+          <div class="section-heading">בחרו מיקום לחישוב מרחקים</div>
+        </div>
+        <div class="d-flex gap-3 align-items-center flex-wrap">
+          {% include "partials/getLocationButton.html" %}
+          <span style="font-weight:700;">או</span>
+          {% include "partials/location_dropdown.html" %}
+        </div>
+      </div>
+    </section>
 
-  <p>2. לחצו על הגדר מסננים</p>
-  <button class="btn btn-primary mb-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterDrawer" aria-controls="filterDrawer">
-    הגדר מסננים
-  </button>
+    <section class="card-surface p-3 mb-4">
+      <div class="d-flex align-items-center gap-2 mb-2"><span class="step-badge">2</span><div class="section-heading">הגדרת מסננים</div></div>
+      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterDrawer" aria-controls="filterDrawer">הגדר מסננים</button>
+    </section>
 
-  {% include "partials/filter_drawer.html" %}
+    {% include "partials/filter_drawer.html" %}
 
-  <div style="margin-bottom: 2rem;">
-    {% include "partials/toggle_button.html" %}
-  </div>
-
-  <!-- Notes above appointment table -->
-  <div class="mb-3" style="font-weight: 600; color: #444;">
-    <p>
-      הערה: האתר מתריע רק על תורים שנפתחים, על מנת לתפוס אותם עליכם ללכת 
-      <a href="https://govisit.gov.il/he/home" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">
-        לאתר הממשלה
-      </a>
-    </p>
-    <p>
-      הערה: הופעת תור באתר לא מבטיחה שהתור עדיין זמין
-    </p>
-  </div>
-
-  {% include "partials/appointments_table.html" %}
+    <section class="card-surface p-3 mb-4">
+      <div class="d-flex align-items-center gap-2 mb-2"><span class="step-badge">3</span><div class="section-heading">תצוגת תורים</div></div>
+      <div class="mb-2">{% include "partials/toggle_button.html" %}</div>
+      <div class="alert alert-info" role="note" style="margin-bottom:1rem;">
+        האתר מתריע רק על תורים שנפתחים. לתיאום בפועל עברו ל<a href="https://govisit.gov.il/he/home" target="_blank" rel="noopener noreferrer">אתר הממשלה</a>. הופעת תור אינה מבטיחה זמינות.
+      </div>
+      {% include "partials/appointments_table.html" %}
+    </section>
+  </main>
 {% endblock %}
 
 {% block styles %}

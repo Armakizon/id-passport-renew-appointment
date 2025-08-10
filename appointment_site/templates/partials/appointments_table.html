@@ -1,22 +1,23 @@
 <div class="table-responsive">
-    <table class="table table-striped table-bordered" id="appointmentsTable">
-        <thead>
-            <tr>
-                <th class="sortable" data-label="Branch Name">שם הלשכה</th>
-                <th class="sortable" data-label="Address">כתובת</th>
-                <th class="sortable" data-label="Date">תאריך</th>
-                <th class="sortable" data-label="Distance (km)">מרחק (ק"מ)</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for entry in entries %}
-            <tr data-branch-id="{{ entry.branch_id }}" data-lat="{{ entry.lat }}" data-lon="{{ entry.lon }}">
-                <td>{{ entry.branch_name }}</td>
-                <td>{{ entry.address }}</td>
-                <td>{{ entry.date }}</td>
-                <td>{% if entry.distance %}{{ entry.distance }}{% else %}-{% endif %}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+  <table class="table table-striped table-bordered align-middle" id="appointmentsTable" aria-describedby="appointmentsCaption">
+    <caption id="appointmentsCaption" class="text-muted" style="caption-side: top;">רשימת תורים מסוננת לפי ההגדרות שבחרת</caption>
+    <thead>
+      <tr>
+        <th class="sortable" scope="col" data-label="Branch Name">שם הלשכה</th>
+        <th class="sortable" scope="col" data-label="Address">כתובת</th>
+        <th class="sortable" scope="col" data-label="Date">תאריך</th>
+        <th class="sortable" scope="col" data-label="Distance (km)">מרחק (ק"מ)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for entry in entries %}
+      <tr data-branch-id="{{ entry.branch_id }}" data-lat="{{ entry.lat }}" data-lon="{{ entry.lon }}">
+        <td>{{ entry.branch_name }}</td>
+        <td>{{ entry.address }}</td>
+        <td>{{ entry.date }}</td>
+        <td>{% if entry.distance %}{{ entry.distance }}{% else %}-{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>

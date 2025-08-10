@@ -13,7 +13,7 @@
 }
 
 #appointmentsTable thead tr {
-  background-color: #1d4ed8; /* Strong blue */
+  background-color: hsl(var(--primary));
   color: white;
   font-weight: 700;
   font-size: 0.9rem;
@@ -35,8 +35,8 @@
 
 /* Header hover */
 #appointmentsTable thead th:hover {
-  background-color: #a3c4f3; /* softer blue */
-  color: #1e293b;            /* darker text */
+  background-color: color-mix(in srgb, hsl(var(--primary)), white 50%);
+  color: hsl(var(--text));
 }
 
 /* Sort arrow styling */
@@ -72,11 +72,11 @@
 
 /* Highlighted row style */
 #appointmentsTable tbody tr.highlighted {
-  background: linear-gradient(90deg, #93c5fd 0%, #bfdbfe 100%);
+  background: linear-gradient(90deg, #bfdbfe 0%, #93c5fd 100%);
   font-weight: 700;
-  border-right: 8px solid #2563eb;
+  border-right: 8px solid hsl(var(--primary-600));
   color: #1e40af;
-  box-shadow: 0 6px 20px rgb(37 99 235 / 0.35);
+  box-shadow: 0 6px 20px color-mix(in srgb, hsl(var(--primary)), transparent 65%);
 }
 
 /* Table cells */
@@ -90,12 +90,7 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  #appointmentsTable thead tr {
-    font-size: 0.8rem;
-  }
-
-  #appointmentsTable tbody td {
-    padding: 10px 12px;
-    font-size: 0.9rem;
-  }
+  #appointmentsTable thead tr { font-size: 0.8rem; }
+  #appointmentsTable tbody td { padding: 10px 12px; font-size: 0.95rem; }
+  #appointmentsTable { font-size: 15px; }
 }

@@ -1,8 +1,8 @@
-/* General body styling */
+/* General body styling (overridden by theme tokens) */
 body {
-  background-color: #c4d0df; /* Darker background */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #344054;
+  background-color: hsl(var(--bg));
+  font-family: 'Heebo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: hsl(var(--text));
   margin: 0;
   padding: 24px 30px;
   line-height: 1.6;
@@ -33,35 +33,35 @@ h2 {
 
 /* Buttons */
 .btn-primary {
-  background-color: #2563eb;
-  border-color: #2563eb;
-  color: white;
+  background-color: hsl(var(--primary));
+  border-color: hsl(var(--primary));
+  color: #fff;
   font-weight: 600;
-  padding: 0.5rem 1.25rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 10px rgb(37 99 235 / 0.3);
+  padding: 0.6rem 1.25rem;
+  border-radius: 0.6rem;
+  box-shadow: 0 4px 10px color-mix(in srgb, hsl(var(--primary)), transparent 70%);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
 .btn-primary:hover {
-  background-color: #1d4ed8;
-  border-color: #1d4ed8;
-  box-shadow: 0 6px 15px rgb(29 78 216 / 0.4);
+  background-color: hsl(var(--primary-600));
+  border-color: hsl(var(--primary-600));
+  box-shadow: 0 6px 15px color-mix(in srgb, hsl(var(--primary-600)), transparent 60%);
 }
 
-/* Secondary buttons (location buttons) */
+/* Secondary buttons */
 .btn-secondary {
-  background-color: #e0e7ff;
-  color: #4338ca;
+  background-color: color-mix(in srgb, hsl(var(--primary)), white 85%);
+  color: hsl(var(--primary-600));
   font-weight: 600;
-  padding: 0.35rem 0.8rem;
-  border-radius: 0.4rem;
-  border: none;
+  padding: 0.4rem 0.85rem;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(var(--border));
   margin: 0 4px 4px 0;
   transition: background-color 0.25s ease;
 }
 .btn-secondary:hover {
-  background-color: #c7d2fe;
+  background-color: color-mix(in srgb, hsl(var(--primary)), white 75%);
   cursor: pointer;
 }
 
@@ -298,6 +298,25 @@ h2 {
   direction: rtl;
   text-align: right;
   z-index: 1040; /* just below navbar */
+}
+
+/* Navbar improvements */
+.navbar.sticky-top {
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.08);
+  backdrop-filter: saturate(1.2) blur(6px);
+}
+.navbar-brand {
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+.navbar-nav .nav-link {
+  transition: color 0.2s ease, background-color 0.2s ease;
+  border-radius: 8px;
+  padding: 0.35rem 0.75rem;
+}
+.navbar-nav .nav-link:hover {
+  background-color: #e8edf5;
+  color: #1e293b;
 }
 
 /* Brand left alignment fix */

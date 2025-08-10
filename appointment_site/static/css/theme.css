@@ -1,0 +1,104 @@
+/* Theme enhancements: light/dark tokens, refined colors, responsive tweaks */
+
+/* Color tokens (HSL) */
+:root {
+  --bg: 213 36% 95%;           /* #eef2f7 */
+  --surface: 0 0% 100%;        /* #ffffff */
+  --text: 215 28% 17%;         /* #1f2937 */
+  --muted-text: 215 20% 34%;   /* #475569 */
+  --primary: 221 83% 54%;      /* #2563eb */
+  --primary-600: 221 72% 49%;  /* #1d4ed8 */
+  --accent: 207 88% 94%;       /* #e3f2fd */
+  --border: 220 14% 93%;       /* #e5e7eb */
+  --shadow: rgba(2,6,23,0.08);
+
+  /* Extras */
+  --success: 158 64% 52%;
+  --warning: 35 92% 56%;
+  --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-600)));
+}
+
+.dark {
+  --bg: 220 47% 8%;            /* #0b1220 */
+  --surface: 215 28% 10%;      /* #111827 */
+  --text: 220 14% 92%;         /* #e5e7eb */
+  --muted-text: 214 32% 82%;   /* #cbd5e1 */
+  --primary: 217 92% 70%;      /* #60a5fa */
+  --primary-600: 217 91% 60%;  /* #3b82f6 */
+  --accent: 210 72% 15%;       /* #0b2540 */
+  --border: 215 28% 17%;       /* #1f2937 */
+  --shadow: rgba(0,0,0,0.45);
+}
+
+/* Base */
+html, body { transition: background-color .25s ease, color .25s ease; }
+body { background-color: var(--bg) !important; color: var(--text) !important; }
+h2 { color: var(--text) !important; }
+
+/* Links */
+a { color: var(--primary); }
+a:hover { color: var(--primary-600); }
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 10px color-mix(in srgb, var(--primary), transparent 70%);
+}
+.btn-primary:hover {
+  background-color: var(--primary-600) !important;
+  border-color: var(--primary-600) !important;
+}
+/* Secondary buttons - adapt in dark mode */
+.btn-secondary { color: var(--primary) !important; }
+.dark .btn-secondary { background-color: rgba(96,165,250,.18) !important; color: #bfdbfe !important; }
+
+/* Navbar */
+.navbar.bg-light { background-color: var(--surface) !important; }
+.navbar.sticky-top { box-shadow: 0 6px 18px var(--shadow) !important; backdrop-filter: saturate(1.2) blur(6px); }
+.navbar .nav-link { color: var(--text) !important; }
+.navbar .nav-link:hover { background-color: rgba(148,163,184,0.15) !important; color: var(--text) !important; }
+.navbar .navbar-brand { color: var(--text) !important; }
+
+/* Filter Drawer (Offcanvas) */
+#filterDrawer { background-color: var(--accent) !important; color: var(--text) !important; box-shadow: 0 2px 16px var(--shadow) !important; }
+.offcanvas.offcanvas-end { background-color: var(--accent) !important; color: var(--text) !important; }
+
+/* Modal */
+.modal-content { background: var(--surface) !important; color: var(--text) !important; box-shadow: 0 0 24px var(--shadow) !important; }
+.modal-content button.cancel { background-color: color-mix(in srgb, var(--text) 8%, var(--surface)) !important; color: var(--muted-text) !important; }
+
+/* Cards / About */
+.about-page { background-color: var(--surface) !important; box-shadow: 0 2px 12px var(--shadow) !important; }
+.about-page h2 { color: var(--text) !important; }
+
+/* Forms */
+.form-control, .form-select { background-color: var(--surface) !important; color: var(--text) !important; border-color: var(--border) !important; }
+.form-control::placeholder { color: color-mix(in srgb, var(--text) 50%, transparent) !important; }
+.dark .form-control::placeholder { color: #94a3b8 !important; }
+
+/* Table highlights */
+#appointmentsTable tbody tr.highlighted { border-right: 8px solid var(--primary) !important; }
+
+/* Get Location Button */
+#getLocationBtn { background-color: var(--primary) !important; }
+#getLocationBtn:hover, #getLocationBtn:focus { background-color: var(--primary-600) !important; }
+
+/* UI helpers: cards, steps, dropdowns, tables */
+.card-surface { background-color: hsl(var(--surface)) !important; color: hsl(var(--text)) !important; border: 1px solid hsl(var(--border)) !important; border-radius: 14px; box-shadow: 0 6px 18px var(--shadow) !important; }
+.section-heading { font-weight: 700; font-size: 1.1rem; color: hsl(var(--text)); margin-bottom: .5rem; }
+.step-badge { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 9999px; background: var(--gradient-primary); color: #fff; font-weight: 700; font-size: .9rem; box-shadow: 0 6px 16px color-mix(in srgb, hsl(var(--primary)), transparent 70%); }
+.dropdown-menu { background-color: hsl(var(--surface)) !important; color: hsl(var(--text)) !important; border: 1px solid hsl(var(--border)) !important; z-index: 1060; }
+
+/* Sticky table header */
+#appointmentsTable thead th { position: sticky; top: 0; z-index: 2; }
+
+/* Responsive improvements */
+@media (max-width: 576px) {
+  body { padding: 16px 16px !important; }
+  #filterDrawer, .offcanvas.offcanvas-end { width: 100vw !important; }
+  h1, h2 { font-size: 1.5rem !important; }
+  #toggleEarliestBtn, #getLocationBtn, #notifyForm button[type="submit"] { width: 100%; }
+  .navbar-nav { gap: 1rem !important; }
+}
