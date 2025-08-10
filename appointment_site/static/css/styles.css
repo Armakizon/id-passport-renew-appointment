@@ -1,326 +1,1522 @@
-/* General body styling (overridden by theme tokens) */
-body {
-  background-color: hsl(var(--bg));
-  font-family: 'Heebo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: hsl(var(--text));
-  margin: 0;
-  padding: 24px 30px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  direction: rtl; /* Enable RTL */
-  text-align: right; /* Align text right */
-  height: 100%; /* Ensure full height */
+/* High-End Restaurant Style Design System */
+/* Inspired by luxury dining experiences with sophisticated typography and refined aesthetics */
+
+/* Import premium fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* CSS Custom Properties for the luxury design system */
+:root {
+  /* Color Palette - Inspired by modern blue aesthetics */
+  --champagne: #e0f2fe;
+  --cream: #f0f9ff;
+  --ivory: #f8fafc;
+  --gold: #2563eb;
+  --gold-light: #3b82f6;
+  --gold-dark: #1d4ed8;
+  --copper: #1e40af;
+  --copper-light: #60a5fa;
+  --burgundy: #1e3a8a;
+  --burgundy-light: #2563eb;
+  --charcoal: #1e293b;
+  --charcoal-light: #334155;
+  --slate: #475569;
+  --sage: #64748b;
+  --mist: #e2e8f0;
+  
+  /* Typography Scale */
+  --font-display: 'Heebo', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Hebrew', 'Open Sans Hebrew', sans-serif;
+  --font-body: 'Heebo', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Hebrew', 'Open Sans Hebrew', sans-serif;
+  
+  /* Spacing Scale */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(37, 99, 235, 0.08);
+  --shadow-md: 0 8px 32px rgba(37, 99, 235, 0.12);
+  --shadow-lg: 0 16px 64px rgba(37, 99, 235, 0.16);
+  --shadow-gold: 0 8px 32px rgba(37, 99, 235, 0.15);
+  
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  
+  /* Transitions */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-elegant: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Make html and body 100% height for full viewport usage */
+/* Dark theme for sophisticated blue aesthetics */
+.dark {
+  --champagne: #0f172a;
+  --cream: #020617;
+  --ivory: #0f172a;
+  --gold: #3b82f6;
+  --gold-light: #60a5fa;
+  --gold-dark: #2563eb;
+  --copper: #1e40af;
+  --copper-light: #3b82f6;
+  --burgundy: #1e3a8a;
+  --burgundy-light: #2563eb;
+  --charcoal: #f8fafc;
+  --charcoal-light: #e2e8f0;
+  --slate: #cbd5e1;
+  --sage: #94a3b8;
+  --mist: #1e293b;
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+}
+
 html {
-  height: 100%;
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background: linear-gradient(135deg, var(--champagne) 0%, var(--cream) 50%, var(--mist) 100%);
+  color: var(--charcoal);
   margin: 0;
   padding: 0;
-}
-
-/* Page title */
-h2 {
-  color: #1e293b;
-  margin-bottom: 2rem;
-  font-weight: 700;
-  font-size: 2rem;
-  letter-spacing: 0.03em;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   direction: rtl;
   text-align: right;
-}
-
-/* Buttons */
-.btn-primary {
-  background-color: hsl(var(--primary));
-  border-color: hsl(var(--primary));
-  color: #fff;
-  font-weight: 600;
-  padding: 0.6rem 1.25rem;
-  border-radius: 0.6rem;
-  box-shadow: 0 4px 10px color-mix(in srgb, hsl(var(--primary)), transparent 70%);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-.btn-primary:hover {
-  background-color: hsl(var(--primary-600));
-  border-color: hsl(var(--primary-600));
-  box-shadow: 0 6px 15px color-mix(in srgb, hsl(var(--primary-600)), transparent 60%);
-}
-
-/* Secondary buttons */
-.btn-secondary {
-  background-color: color-mix(in srgb, hsl(var(--primary)), white 85%);
-  color: hsl(var(--primary-600));
-  font-weight: 600;
-  padding: 0.4rem 0.85rem;
-  border-radius: 0.5rem;
-  border: 1px solid hsl(var(--border));
-  margin: 0 4px 4px 0;
-  transition: background-color 0.25s ease;
-}
-.btn-secondary:hover {
-  background-color: color-mix(in srgb, hsl(var(--primary)), white 75%);
-  cursor: pointer;
-}
-
-/* Filter toggle button */
-.filter-toggle-btn {
-  margin-bottom: 24px;
-}
-
-/* Text alignment */
-.text-right {
-  text-align: right;
-}
-
-/* Filter drawer background and sizing - targeting the offcanvas with id #filterDrawer */
-#filterDrawer {
-  background-color: #e3f2fd !important; /* lighter blue shade */
-  color: #475569;
-  direction: rtl;
-  text-align: right;
-  padding: 24px !important;
-  border-radius: 12px !important;
-  box-shadow: 0 2px 16px rgb(100 116 139 / 0.1);
-  margin-bottom: 28px !important;
-
-  height: 100vh !important;        /* Full viewport height */
-  top: 0 !important;               /* start from top */
-  bottom: 0 !important;            /* stretch to bottom */
-  overflow-y: auto !important;    /* scroll if content overflow */
-  position: fixed !important;      /* ensure fixed position */
-  right: 0 !important;
-  left: auto !important;
-  width: 300px !important;
-  z-index: 1040;                   /* ensure above other content but below navbar if needed */
-}
-
-/* Offcanvas adjustments for right side drawer */
-.offcanvas.offcanvas-end {
-  width: 300px !important;
-  right: 0;
-  left: auto;
-  height: 100vh !important;
-  top: 0;
-  bottom: 0;
-  overflow-y: auto;
-  position: fixed;
-  z-index: 1040;
-}
-
-/* Remove left border and add right border for highlighted rows in RTL */
-#appointmentsTable tbody tr.highlighted {
-  border-left: none;
-  border-right: 8px solid #2563eb;
-}
-
-/* Confirmation Modal */
-#confirmationModal {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1100;
-  background: rgba(0, 0, 0, 0.15);
-  direction: rtl;
-}
-
-.modal-overlay {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(3px);
-}
-
-.modal-content {
+  min-height: 100vh;
+  transition: background var(--transition-elegant), color var(--transition-elegant);
   position: relative;
-  background: white;
-  padding: 30px 36px;
-  border-radius: 12px;
-  box-shadow: 0 0 24px rgba(0, 0, 0, 0.15);
-  max-width: 280px;
-  z-index: 1101;
-  text-align: right;
+  overflow-x: hidden;
+}
+
+/* Main content spacing to prevent filter drawer overlap */
+.main-content {
+  margin-right: 0;
+  padding-right: 0;
+  transition: all var(--transition-smooth);
+  width: 100%;
+}
+
+/* When filter drawer is open, adjust main content */
+body.offcanvas-open .main-content {
+  margin-right: 500px;
+  width: calc(100% - 500px);
+}
+
+/* Override Bootstrap container constraints when drawer is open */
+body.offcanvas-open .container {
+  max-width: none !important;
+  width: 100% !important;
+}
+
+/* Ensure content inside main-content expands to fill available space */
+body.offcanvas-open .main-content > * {
+  width: 100%;
+  max-width: none;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .main-content {
+    margin-right: 0;
+    padding-right: 0;
+    width: 100%;
+  }
+
+  /* On mobile, filter drawer should not affect main content layout */
+  body.offcanvas-open .main-content {
+    margin-right: 0;
+    width: 100%;
+  }
+
+  body.offcanvas-open .main-content > * {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+/* Background Gradients */
+.background-gradients {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.gradient-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.12;
+  transition: opacity var(--transition-elegant);
+}
+
+.gradient-1 {
+  background: linear-gradient(135deg, 
+    transparent 0%, 
+    var(--light-accent-2) 25%, 
+    transparent 50%, 
+    var(--light-accent-3) 75%, 
+    transparent 100%
+  );
+  clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+}
+
+.gradient-2 {
+  background: linear-gradient(45deg, 
+    transparent 0%, 
+    var(--light-accent) 30%, 
+    transparent 60%, 
+    var(--light-accent-2) 90%, 
+    transparent 100%
+  );
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.gradient-3 {
+  background: linear-gradient(225deg, 
+    transparent 0%, 
+    var(--sage) 40%, 
+    transparent 70%, 
+    var(--charcoal) 100%
+  );
+  clip-path: polygon(0 0, 80% 0, 100% 100%, 0 100%);
+}
+
+.gradient-4 {
+  background: linear-gradient(315deg, 
+    transparent 0%, 
+    var(--light-accent) 20%, 
+    var(--light-accent-2) 45%, 
+    transparent 70%, 
+    var(--light-accent-3) 90%, 
+    transparent 100%
+  );
+  clip-path: polygon(0 0, 100% 0, 100% 60%, 60% 100%, 0 100%);
+}
+
+.gradient-5 {
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--sage) 15%, 
+    var(--light-accent) 35%, 
+    transparent 55%, 
+    var(--light-accent-2) 75%, 
+    var(--charcoal) 95%, 
+    transparent 100%
+  );
+  clip-path: polygon(40% 0, 100% 0, 100% 100%, 0 100%, 0 40%);
+}
+
+.texture-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(37,99,235,0.03) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, rgba(59,130,246,0.02) 1px, transparent 1px);
+  background-size: 50px 50px, 30px 30px;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+}
+
+/* Dark theme gradient adjustments */
+.dark .gradient-layer {
+  opacity: 0.12;
+}
+
+.dark .gradient-1 {
+  background: linear-gradient(135deg, 
+    transparent 0%, 
+    var(--gold-light) 25%, 
+    transparent 50%, 
+    var(--copper-light) 75%, 
+    transparent 100%
+  );
+}
+
+.dark .gradient-2 {
+  background: linear-gradient(45deg, 
+    transparent 0%, 
+    var(--burgundy-light) 30%, 
+    transparent 60%, 
+    var(--charcoal-light) 90%, 
+    transparent 100%
+  );
+}
+
+.dark .gradient-3 {
+  background: linear-gradient(225deg, 
+    transparent 0%, 
+    var(--mist) 40%, 
+    transparent 70%, 
+    var(--gold) 100%
+  );
+}
+
+.dark .gradient-4 {
+  background: linear-gradient(315deg, 
+    transparent 0%, 
+    var(--gold-light) 20%, 
+    var(--copper-light) 45%, 
+    transparent 70%, 
+    var(--mist) 90%, 
+    transparent 100%
+  );
+}
+
+.dark .gradient-5 {
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--burgundy-light) 15%, 
+    var(--gold-light) 35%, 
+    transparent 55%, 
+    var(--copper-light) 75%, 
+    var(--charcoal-light) 95%, 
+    transparent 100%
+  );
+}
+
+.dark .texture-overlay {
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(255,255,255,0.03) 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, rgba(59,130,246,0.02) 1px, transparent 1px);
+  opacity: 0.4;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .gradient-layer {
+    opacity: 0.06;
+  }
+  
+  .dark .gradient-layer {
+    opacity: 0.09;
+  }
+  
+  .texture-overlay {
+    background-size: 40px 40px, 25px 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gradient-layer {
+    opacity: 0.04;
+  }
+  
+  .dark .gradient-layer {
+    opacity: 0.07;
+  }
+  
+  .texture-overlay {
+    background-size: 30px 30px, 20px 20px;
+  }
+}
+
+/* Typography System */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 var(--space-md) 0;
+  color: var(--charcoal);
+  letter-spacing: -0.02em;
+  transition: color var(--transition-smooth);
+}
+
+/* Dark mode overrides for headings */
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  color: var(--ivory) !important;
+}
+
+h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-lg);
+}
+
+h2 {
+  font-size: 2.5rem;
+  color: var(--charcoal);
+  margin-bottom: var(--space-md);
+  position: relative;
+  transition: color var(--transition-smooth);
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--copper) 100%);
+  border-radius: 2px;
+}
+
+h3 {
+  font-size: 1.75rem;
+  color: var(--charcoal-light);
+  margin-bottom: var(--space-sm);
+  transition: color var(--transition-smooth);
+}
+
+p {
+  margin: 0 0 var(--space-md) 0;
+  color: var(--slate);
   font-size: 1.1rem;
-  color: #1e293b;
-  font-weight: 600;
-  user-select: text;
-  transition: transform 0.3s ease;
+  line-height: 1.8;
+  transition: color var(--transition-smooth);
 }
 
-/* Modal content paragraph */
-.modal-content p {
-  margin-bottom: 24px;
+/* Dark mode override for paragraphs */
+.dark p {
+  color: var(--ivory) !important;
+}
+
+/* Hero Header Styling */
+.hero-header {
+  text-align: center;
+  padding: var(--space-xl) 0;
+  position: relative;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-lg);
+  text-shadow: 0 4px 20px rgba(212, 175, 55, 0.1);
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: var(--slate);
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  transition: color var(--transition-smooth);
 }
 
-/* Modal buttons */
-.modal-content button {
-  margin: 0 12px;
-  padding: 8px 18px;
-  border-radius: 8px;
+/* Dark mode override for hero subtitle */
+.dark .hero-subtitle {
+  color: var(--ivory) !important;
+}
+
+.update-icon {
+  font-size: 1.4rem;
+  opacity: 0.8;
+}
+
+/* Step Section Styling */
+.step-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.step-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--copper) 100%);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.step-content {
+  padding: var(--space-md) 0;
+}
+
+.location-options {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  height: 1px;
+  width: 30px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.divider-text {
+  padding: 0 var(--space-sm);
+  font-weight: 700;
+  color: var(--gold);
+  font-size: 0.9rem;
+  transition: color var(--transition-smooth);
+}
+
+/* Enhanced Button System */
+.btn {
+  font-family: var(--font-body);
+  font-weight: 500;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
   border: none;
-  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.25s ease;
-}
-
-.modal-content button.confirm {
-  background-color: #2563eb;
-  color: white;
-}
-
-.modal-content button.confirm:hover {
-  background-color: #1d4ed8;
-}
-
-.modal-content button.cancel {
-  background-color: #e2e8f0;
-  color: #475569;
-}
-
-.modal-content button.cancel:hover {
-  background-color: #cbd5e1;
-}
-
-/* Location Select Form */
-#locationSelectForm {
-  margin-bottom: 1rem;
-  direction: rtl;
-  text-align: right;
-}
-
-/* Location Dropdown */
-#locationDropdown {
-  max-width: 350px;
-  direction: rtl;
-  text-align: right;
-}
-
-/* Get Location Button container */
-#getLocationButton {
-  margin-bottom: 1rem;
-  direction: rtl;
-  text-align: right;
-}
-
-/* Get Location Button */
-#getLocationBtn {
-  background-color: #0069d9;
-  border: none;
-  color: white;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all var(--transition-smooth);
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  gap: var(--space-xs);
+  position: relative;
+  overflow: hidden;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
 }
 
-#getLocationBtn:hover,
-#getLocationBtn:focus {
-  background-color: #0053ba;
-  outline: none;
-}
-
-/* Location Buttons */
-.location-btn {
-  margin: 2px;
-  direction: rtl;
-}
-
-/* Toggle Earliest Button */
-#toggleEarliestBtn {
-  margin-bottom: 1rem;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  direction: rtl;
-  text-align: center;
-  display: block;
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
   width: 100%;
-  max-width: 300px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left var(--transition-smooth);
 }
 
-#toggleEarliestBtn:hover {
-  background-color: #0056b3;
-  color: white;
-  border-color: #004085;
+.btn:hover::before {
+  left: 100%;
 }
 
-/* About page styles */
-.about-page {
-  background-color: white;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-  direction: rtl;
-  text-align: right;
-  max-width: 800px;
-  margin: auto;
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%);
+  color: var(--ivory);
+  box-shadow: var(--shadow-gold);
+  transform: translateY(-2px);
 }
 
-.about-page h2 {
-  color: #1e293b;
-  margin-bottom: 16px;
-  font-weight: 700;
-}
-.accordion-button {
-  font-weight: 700;           /* Bold text */
-  background-color: #f0f8ff;  /* Light blue background, change as you like */
-  color: #003366;             /* Dark blue text color, change as you like */
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--copper-light) 100%);
+  box-shadow: 0 12px 40px rgba(212, 175, 55, 0.25);
+  transform: translateY(-4px);
 }
 
-.accordion-button:not(.collapsed) {
-  background-color: #cce5ff;  /* Background when expanded */
-  color: #002244;
-}
-.about-page p {
-  color: #475569;
-  margin-bottom: 12px;
-  line-height: 1.6;
+.btn-secondary {
+  background: var(--ivory);
+  color: var(--charcoal);
+  border: 2px solid var(--mist);
+  box-shadow: var(--shadow-sm);
 }
 
-/* Permanent filter sidebar (optional if you want a fixed sidebar alternative) */
-.filter-sidebar {
-  position: fixed;
-  top: 56px; /* Height of navbar */
+.btn-secondary:hover {
+  background: var(--mist);
+  border-color: var(--gold);
+  color: var(--charcoal);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--gold);
+  border: 2px solid var(--gold);
+  position: relative;
+  z-index: 1;
+}
+
+.btn-outline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
   right: 0;
-  width: 300px;
-  height: calc(100% - 56px);
-  background-color: #e3f2fd; /* or your preferred color */
-  padding: 24px;
-  overflow-y: auto;
-  box-shadow: -2px 0 6px rgb(0 0 0 / 0.1);
-  direction: rtl;
-  text-align: right;
-  z-index: 1040; /* just below navbar */
+  bottom: 0;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--transition-smooth);
+  z-index: -1;
 }
 
-/* Navbar improvements */
-.navbar.sticky-top {
-  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.08);
-  backdrop-filter: saturate(1.2) blur(6px);
-}
-.navbar-brand {
-  font-weight: 800;
-  letter-spacing: 0.2px;
-}
-.navbar-nav .nav-link {
-  transition: color 0.2s ease, background-color 0.2s ease;
-  border-radius: 8px;
-  padding: 0.35rem 0.75rem;
-}
-.navbar-nav .nav-link:hover {
-  background-color: #e8edf5;
-  color: #1e293b;
+.btn-outline:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
-/* Brand left alignment fix */
-.brand-left {
-  margin-right: auto !important; /* Pushes the brand to the left in an RTL container */
-  direction: ltr; /* Keep brand text LTR */
+.btn-outline:hover {
+  color: var(--ivory);
+  border-color: var(--gold);
+}
+
+.filter-btn {
+  font-size: 1.1rem;
+  padding: var(--space-md) var(--space-xl);
+}
+
+.btn-icon {
+  font-size: 1.2rem;
+}
+
+/* Card styling simplified */
+.card-surface {
+  background: var(--ivory);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+/* Step Badge System */
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%);
+  color: var(--ivory);
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: var(--shadow-gold);
+  position: relative;
+  margin-left: var(--space-sm);
+}
+
+.step-badge::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%);
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* Section Headings */
+.section-heading {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: var(--charcoal);
+  margin-bottom: var(--space-sm);
+  position: relative;
+  display: inline-block;
+  transition: color var(--transition-smooth);
+}
+
+.section-heading::before {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  right: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+  border-radius: 1px;
+}
+
+/* Luxury Form Elements */
+.form-control, .form-select {
+  background: var(--ivory);
+  border: 2px solid var(--mist);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  font-size: 1rem;
+  color: var(--charcoal);
+  transition: all var(--transition-smooth);
+  font-family: var(--font-body);
+}
+
+.form-control:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  transform: translateY(-1px);
+}
+
+.form-control::placeholder {
+  color: var(--sage);
+  font-style: italic;
+}
+
+/* Enhanced Alert Styling */
+.info-alert {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(184, 147, 31, 0.05) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.info-alert::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--gold);
+}
+
+.alert-icon {
+  font-size: 1.2rem;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+.alert-info {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(184, 147, 31, 0.05) 100%);
+  color: var(--charcoal);
+  border-left: 4px solid var(--gold);
+}
+
+.alert-info a {
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px solid var(--gold);
+  transition: all var(--transition-fast);
+}
+
+.alert-info a:hover {
+  color: var(--copper);
+  border-bottom-color: var(--copper);
+}
+
+/* Ensure links inside info-alert use luxury-link styling */
+.info-alert a.luxury-link {
+  color: #0066cc !important;
+  text-decoration: underline !important;
+  font-weight: normal !important;
+  transition: color 0.2s ease !important;
+}
+
+.info-alert a.luxury-link:hover {
+  color: #0052a3 !important;
+  text-decoration: underline !important;
+}
+
+/* Dark mode form controls */
+.dark .form-control, .dark .form-select {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(37, 99, 235, 0.08) 100%) !important;
+  color: var(--ivory) !important;
+  border-color: rgba(59, 130, 246, 0.4) !important;
+}
+
+.dark .form-control:focus, .dark .form-select:focus {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25) !important;
+}
+
+.dark .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Additional text visibility fixes for dark mode */
+.dark label,
+.dark .form-label,
+.dark .form-check-label {
+  color: var(--ivory) !important;
+}
+
+.dark .text-muted,
+.dark .text-secondary {
+  color: var(--charcoal-light) !important;
+}
+
+.dark .navbar-nav .nav-link {
+  color: var(--ivory) !important;
+}
+
+.dark .navbar-brand {
+  color: var(--gold-light) !important;
+}
+
+/* FAQ accordion styling moved to dedicated faq.css file */
+
+/* Dark mode buttons */
+.dark .btn {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%) !important;
+  color: var(--ivory) !important;
+  border-color: var(--gold) !important;
+}
+
+.dark .btn:hover {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--copper-light) 100%) !important;
+}
+
+.dark .btn-primary {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%) !important;
+  color: var(--ivory) !important;
+  border-color: var(--gold) !important;
+}
+
+.dark .btn-primary:hover {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--copper-light) 100%) !important;
+}
+
+.dark .btn-secondary {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.15) 100%) !important;
+  color: var(--ivory) !important;
+  border-color: rgba(59, 130, 246, 0.4) !important;
+}
+
+.dark .btn-secondary:hover {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(37, 99, 235, 0.25) 100%) !important;
+}
+
+/* Dark mode outline buttons */
+.dark .btn-outline {
+  background: transparent !important;
+  color: var(--gold) !important;
+  border-color: var(--gold) !important;
+}
+
+.dark .btn-outline:hover {
+  background: var(--gold) !important;
+  color: var(--ivory) !important;
+}
+
+.dark .btn-outline-primary {
+  background: transparent !important;
+  color: var(--gold) !important;
+  border-color: var(--gold) !important;
+}
+
+.dark .btn-outline-primary:hover {
+  background: var(--gold) !important;
+  color: var(--ivory) !important;
+}
+
+.dark .btn-outline-secondary {
+  background: transparent !important;
+  color: var(--gold-light) !important;
+  border-color: var(--gold-light) !important;
+}
+
+.dark .btn-outline-secondary:hover {
+  background: var(--gold-light) !important;
+  color: var(--ivory) !important;
+}
+
+/* Ensure small outline buttons are visible in dark mode */
+.dark .btn-outline-secondary.btn-sm {
+  color: var(--gold-light) !important;
+  border-color: var(--gold-light) !important;
+}
+
+.dark .btn-outline-secondary.btn-sm:hover {
+  background: var(--gold-light) !important;
+  color: var(--ivory) !important;
+}
+
+/* Theme toggle button specific styling for dark mode */
+.dark #themeToggle,
+.dark .btn-outline-secondary.btn-sm,
+.dark [data-bs-theme="dark"] #themeToggle,
+.dark [data-bs-theme="dark"] .btn-outline-secondary.btn-sm {
+  background: var(--gold) !important;
+  color: var(--ivory) !important;
+  border-color: var(--gold) !important;
+}
+
+.dark #themeToggle:hover,
+.dark .btn-outline-secondary.btn-sm:hover,
+.dark [data-bs-theme="dark"] #themeToggle:hover,
+.dark [data-bs-theme="dark"] .btn-outline-secondary.btn-sm:hover {
+  background: var(--gold-light) !important;
+  color: var(--ivory) !important;
+  border-color: var(--gold-light) !important;
+}
+
+/* Dark mode form labels */
+.dark .form-label {
+  color: var(--ivory) !important;
+  font-weight: 600 !important;
+}
+
+/* Dark mode text elements */
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  color: var(--ivory) !important;
+}
+
+.dark p {
+  color: var(--ivory) !important;
+}
+
+.dark .hero-subtitle {
+  color: var(--charcoal-light) !important;
+}
+
+.dark .divider-text {
+  color: var(--gold-light) !important;
+}
+
+.dark .section-heading {
+  color: var(--ivory) !important;
+}
+
+/* Ensure text elements are visible in dark mode without breaking buttons */
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6,
+.dark p, .dark .hero-subtitle, .dark .divider-text, .dark .section-heading,
+.dark .form-control, .dark .form-select, .dark label, .dark .form-label,
+.dark .text-muted, .dark .text-secondary {
+  color: var(--ivory) !important;
+}
+
+/* Keep buttons readable in dark mode */
+.dark .btn {
+  color: var(--ivory) !important;
+}
+
+.dark .step-badge {
+  color: var(--ivory) !important;
+}
+
+/* Dark mode info alerts */
+.dark .info-alert {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(37, 99, 235, 0.08) 100%) !important;
+  border-color: rgba(59, 130, 246, 0.25) !important;
+  color: var(--ivory) !important;
+}
+
+.dark .alert-info {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(37, 99, 235, 0.08) 100%) !important;
+  color: var(--ivory) !important;
+}
+
+.dark .alert-info a {
+  color: var(--gold-light) !important;
+  border-bottom-color: var(--gold-light) !important;
+}
+
+.dark .alert-info a:hover {
+  color: var(--gold) !important;
+  border-bottom-color: var(--gold) !important;
+}
+
+/* Dark mode overrides for luxury-link inside info-alert */
+.dark .info-alert a.luxury-link {
+  color: #0066cc !important;
+  text-decoration: underline !important;
+  font-weight: normal !important;
+}
+
+.dark .info-alert a.luxury-link:hover {
+  color: #0052a3 !important;
+  text-decoration: underline !important;
+}
+
+/* Simple Link Styling */
+.luxury-link {
+  color: #0066cc;
+  text-decoration: underline;
+  font-weight: normal;
+  transition: color 0.2s ease;
+}
+
+.luxury-link:hover {
+  color: #0052a3;
+  text-decoration: underline;
+}
+
+/* Highlight text styling removed for simplicity */
+
+/* FAQ styles moved to dedicated faq.css file */
+
+/* FAQ Accordion styles moved to dedicated faq.css file */
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h1 { font-size: 2.5rem; }
+  .hero-title { font-size: 3rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.5rem; }
+  
+  .card-surface {
+    padding: var(--space-sm);
+    margin-bottom: var(--space-sm);
+  }
+  
+  .btn {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.95rem;
+  }
+  
+  .location-options {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  
+  .divider {
+    flex-direction: row;
+  }
+  
+  .divider::before,
+  .divider::after {
+    width: 20px;
+  }
+  
+  body {
+    padding: var(--space-md);
+  }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 2rem; }
+  .hero-title { font-size: 2.5rem; }
+  h2 { font-size: 1.75rem; }
+  
+  .card-surface {
+    padding: var(--space-xs);
+  }
+  
+  .step-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+  
+  .hero-header {
+    padding: var(--space-lg) 0;
+  }
+}
+
+/* Luxury Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Card animations removed */
+
+.step-section:nth-child(1) { animation-delay: 0.1s; }
+.step-section:nth-child(2) { animation-delay: 0.2s; }
+.step-section:nth-child(3) { animation-delay: 0.3s; }
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--mist);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--copper-light) 100%);
+}
+
+/* Navbar and Bootstrap element fixes for dark mode */
+.dark .navbar {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.1) 100%) !important;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.3) !important;
+}
+
+.dark .navbar-light {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.1) 100%) !important;
+}
+
+.dark .navbar-light .navbar-nav .nav-link {
+  color: var(--ivory) !important;
+}
+
+.dark .navbar-light .navbar-brand {
+  color: var(--gold-light) !important;
+}
+
+.dark .navbar-light .navbar-toggler {
+  border-color: rgba(37, 99, 235, 0.3) !important;
+}
+
+.dark .navbar-light .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(59, 130, 246, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* Ensure icons and images are visible in dark mode */
+.dark .navbar img,
+.dark .navbar svg,
+.dark .navbar .icon,
+.dark .navbar .navbar-brand img,
+.dark .navbar .navbar-brand svg {
+  filter: brightness(0) invert(1) !important;
+}
+
+/* Card and container fixes for dark mode */
+.dark .card,
+.dark .card-body,
+.dark .card-header {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(37, 99, 235, 0.08) 100%) !important;
+  color: var(--ivory) !important;
+  border-color: rgba(59, 130, 246, 0.25) !important;
+}
+
+.dark .bg-light {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(37, 99, 235, 0.08) 100%) !important;
+}
+
+.dark .text-dark {
+  color: var(--ivory) !important;
+}
+
+/* Additional text visibility fixes for dark mode */
+.dark .text-black,
+.dark .text-body,
+.dark .text-body-secondary {
+  color: var(--ivory) !important;
+}
+
+.dark .text-muted {
+  color: var(--charcoal-light) !important;
+}
+
+/* Additional Bootstrap utility class fixes for dark mode */
+.dark .bg-white {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+.dark .bg-light {
+  background-color: rgba(59, 130, 246, 0.12) !important;
+}
+
+.dark .bg-dark {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+}
+
+.dark .border {
+  border-color: rgba(59, 130, 246, 0.25) !important;
+}
+
+/* Comprehensive dark mode text styling for all elements */
+.dark .text-muted,
+.dark .text-secondary,
+.dark .text-body-secondary {
+  color: var(--charcoal-light) !important;
+}
+
+.dark .text-dark,
+.dark .text-black,
+.dark .text-body {
+  color: var(--ivory) !important;
+}
+
+.dark .text-danger {
+  color: #fca5a5 !important;
+}
+
+.dark .text-warning {
+  color: #fde047 !important;
+}
+
+.dark .text-success {
+  color: #86efac !important;
+}
+
+.dark .text-info {
+  color: #93c5fd !important;
+}
+
+.dark .text-primary {
+  color: var(--gold-light) !important;
+}
+
+/* Dark mode table styling */
+.dark .table {
+  color: var(--ivory) !important;
+}
+
+.dark .table th {
+  color: var(--ivory) !important;
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+.dark .table td {
+  color: var(--ivory) !important;
+  border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+.dark .table-striped > tbody > tr:nth-of-type(odd) > td {
+  background-color: rgba(59, 130, 246, 0.08) !important;
+}
+
+.dark .table-striped > tbody > tr:nth-of-type(even) > td {
+  background-color: rgba(59, 130, 246, 0.12) !important;
+}
+
+.dark .table-bordered {
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+.dark .table-hover > tbody > tr:hover > td {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+/* Dark mode caption styling */
+.dark caption,
+.dark .text-muted {
+  color: var(--charcoal-light) !important;
+}
+
+/* Dark mode for any remaining text elements */
+.dark span,
+.dark div,
+.dark td,
+.dark th,
+.dark caption,
+.dark label,
+.dark small,
+.dark strong,
+.dark em,
+.dark b,
+.dark i {
+  color: var(--ivory) !important;
+}
+
+/* Exception for buttons and interactive elements */
+.dark .btn,
+.dark .btn-primary,
+.dark .btn-secondary,
+.dark .btn-outline,
+.dark .btn-outline-primary,
+.dark .btn-outline-secondary {
+  color: var(--ivory) !important;
+}
+
+.dark .step-badge {
+  color: var(--ivory) !important;
+}
+
+/* Dark mode for form elements */
+.dark input,
+.dark select,
+.dark textarea,
+.dark option {
+  color: var(--ivory) !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Dark mode for any custom text classes */
+.dark [class*="text-"] {
+  color: var(--ivory) !important;
+}
+
+/* Keep specific utility colors visible */
+.dark .text-danger {
+  color: #fca5a5 !important;
+}
+
+html.dark .text-danger {
+  color: #fca5a5 !important;
+}
+
+.dark .text-warning {
+  color: #fde047 !important;
+}
+
+html.dark .text-warning {
+  color: #fde047 !important;
+}
+
+.dark .text-success {
+  color: #86efac !important;
+}
+
+html.dark .text-success {
+  color: #86efac !important;
+}
+
+.dark .text-info {
+  color: #93c5fd !important;
+}
+
+html.dark .text-info {
+  color: #93c5fd !important;
+}
+
+.dark .text-primary {
+  color: var(--gold-light) !important;
+}
+
+html.dark .text-primary {
+  color: var(--gold-light) !important;
+}
+
+.dark .text-muted {
+  color: var(--charcoal-light) !important;
+}
+
+html.dark .text-muted {
+  color: var(--charcoal-light) !important;
+}
+
+/* Exception for gradient text elements */
+.dark h1,
+.dark .hero-title {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+/* Also apply to html.dark for maximum specificity */
+html.dark h1,
+html.dark .hero-title {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+/* Final comprehensive dark mode override - ensures ALL text is visible */
+.dark * {
+  color: var(--ivory) !important;
+}
+
+/* Also target html.dark specifically for maximum specificity */
+html.dark * {
+  color: var(--ivory) !important;
+}
+
+/* Exception for buttons and interactive elements that should keep their styling */
+.dark .btn,
+.dark .btn-primary,
+.dark .btn-secondary,
+.dark .btn-outline,
+.dark .btn-outline-primary,
+.dark .btn-outline-secondary,
+.dark .step-badge,
+.dark .action-btn,
+.dark .table-action-btn,
+.dark .distance-btn {
+  color: var(--ivory) !important;
+}
+
+/* Also apply to html.dark for maximum specificity */
+html.dark .btn,
+html.dark .btn-primary,
+html.dark .btn-secondary,
+html.dark .btn-outline,
+html.dark .btn-outline-primary,
+html.dark .btn-outline-secondary,
+html.dark .step-badge,
+html.dark .action-btn,
+html.dark .table-action-btn,
+html.dark .distance-btn {
+  color: var(--ivory) !important;
+}
+
+/* Exception for icons that should keep their colors */
+.dark .appointments-icon,
+.dark .distance-filter-icon,
+.dark .distance-info-icon,
+.dark .filter-icon,
+.dark .alert-icon {
+  color: var(--gold-light) !important;
+}
+
+/* Also apply to html.dark for maximum specificity */
+html.dark .appointments-icon,
+html.dark .distance-filter-icon,
+html.dark .distance-info-icon,
+html.dark .filter-icon,
+html.dark .alert-icon {
+  color: var(--gold-light) !important;
+}
+
+/* Exception for availability status colors */
+.dark .availability-status.available {
+  color: #86efac !important;
+}
+
+html.dark .availability-status.available {
+  color: #86efac !important;
+}
+
+.dark .availability-status.limited {
+  color: #fde047 !important;
+}
+
+html.dark .availability-status.limited {
+  color: #fde047 !important;
+}
+
+.dark .availability-status.unavailable {
+  color: #fca5a5 !important;
+}
+
+html.dark .availability-status.unavailable {
+  color: #fca5a5 !important;
+}
+
+/* Simple test - force all text to be white in dark mode */
+html.dark * {
+  color: white !important;
+}
+
+/* Test specific elements */
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6,
+html.dark p,
+html.dark span,
+html.dark div,
+html.dark label {
+  color: white !important;
+}
+
+/* Specific overrides for elements that use var(--charcoal) and var(--slate) */
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6,
+html.dark p,
+html.dark .hero-subtitle,
+html.dark .section-heading,
+html.dark .divider-text,
+html.dark .step-header,
+html.dark .step-content,
+html.dark .location-options,
+html.dark .info-alert,
+html.dark .alert-info,
+html.dark .highlight-text,
+html.dark .faq-container,
+html.dark .navbar-nav .nav-link,
+html.dark .navbar-brand,
+html.dark .form-label,
+html.dark .text-muted,
+html.dark .text-dark,
+html.dark .text-black,
+html.dark .text-body,
+html.dark .text-secondary,
+html.dark .text-body-secondary,
+html.dark .bg-white,
+html.dark .bg-light,
+html.dark .bg-dark,
+html.dark .border,
+html.dark .card,
+html.dark .card-body,
+html.dark .table,
+html.dark .table th,
+html.dark .table td,
+html.dark .table-striped > tbody > tr:nth-of-type(odd) > td,
+html.dark .table-striped > tbody > tr:nth-of-type(even) > td,
+html.dark .table-bordered,
+html.dark .table-hover > tbody > tr:hover > td,
+html.dark caption,
+html.dark span,
+html.dark div,
+html.dark label,
+html.dark input,
+html.dark input::placeholder,
+html.dark [class*="text-"],
+html.dark .text-danger,
+html.dark .text-warning,
+html.dark .text-success,
+html.dark .text-info,
+html.dark .text-primary,
+html.dark .text-muted,
+html.dark .luxury-text-charcoal,
+html.dark .luxury-text-slate {
+  color: white !important;
+}
+
+/* Force override for any remaining text elements */
+html.dark *:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-outline):not(.btn-outline-primary):not(.btn-outline-secondary):not(.step-badge):not(.action-btn):not(.table-action-btn):not(.distance-btn):not(.appointments-icon):not(.distance-filter-icon):not(.distance-info-icon):not(.filter-icon):not(.alert-icon):not(.availability-status.available):not(.availability-status.limited):not(.availability-status.unavailable):not(h1):not(.hero-title):not(.luxury-link) {
+  color: white !important;
+}
+
+/* Filter drawer styles moved to filter_drawer.css for complete decoupling */
+
+/* Ensure luxury-link maintains blue color in dark mode */
+html.dark .luxury-link {
+  color: #0066cc !important;
+  text-decoration: underline !important;
+}
+
+html.dark .luxury-link:hover {
+  color: #0052a3 !important;
+  text-decoration: underline !important;
+}
+
+/* HTML.dark overrides for luxury-link inside info-alert */
+html.dark .info-alert a.luxury-link {
+  color: #0066cc !important;
+  text-decoration: underline !important;
+  font-weight: normal !important;
+}
+
+html.dark .info-alert a.luxury-link:hover {
+  color: #0052a3 !important;
+  text-decoration: underline !important;
 }

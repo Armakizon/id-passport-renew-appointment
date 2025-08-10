@@ -1,26 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div style="direction: rtl; max-width: 700px; margin: 40px auto; padding: 30px; background: #fafafa; border: 1px solid #ccc; border-radius: 12px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #444; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: right;">
-    <h2 style="font-size: 28px; margin-bottom: 20px; color: #333;">אודות</h2>
-    <p style="font-size: 17px; line-height: 1.6; margin-bottom: 18px;">
-        האתר הוא אתר <strong style="color: #d33;">לא רשמי</strong> אשר מציג ומודיע על תורים ממשלתיים לחידוש דרכון ותעודת זהות.
+<div class="card-surface about-page" style="max-width: 800px; margin: 0 auto;">
+  <h2 class="mb-4">אודות</h2>
+  
+  <div class="about-content">
+    <p class="mb-4">
+      האתר הוא אתר <strong class="highlight-text">לא רשמי</strong> אשר מציג ומודיע על תורים ממשלתיים לחידוש דרכון ותעודת זהות.
     </p>
-    <p style="font-size: 17px; line-height: 1.6; margin-bottom: 18px;">
-        האתר הוא הפרוייקט הראשון שלי ופותח בידי בלבד (ומעט עזרה של LLM).
+    
+    <p class="mb-4">
+      האתר הוא הפרוייקט הראשון שלי ופותח בידי בלבד (ומעט עזרה של LLM).
     </p>
-    <p style="font-size: 17px; line-height: 1.6; margin-bottom: 18px;">
-        הפרוייקט המלא הוא open source וניתן למצוא אותו ואת כל תוכנות העזר אשר בניתי שעוזרות לי לעשות את ההליך לאוטומטי ב־
-        <a href="https://github.com/Armakizon/id-passport-renew-appointment" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-weight: 600; text-decoration: underline;">GitHub</a>
+    
+    <p class="mb-4">
+      הפרוייקט המלא הוא open source וניתן למצוא אותו ואת כל תוכנות העזר אשר בניתי שעוזרות לי לעשות את ההליך לאוטומטי ב־
+      <a href="https://github.com/Armakizon/id-passport-renew-appointment" target="_blank" rel="noopener noreferrer" class="luxury-link">GitHub</a>
     </p>
-    <p style="font-size: 17px; line-height: 1.6; margin-bottom: 18px;">
-        אני מחפש עבודה! מוזמנים ליצור איתי קשר דרך 
-        <a href="https://www.linkedin.com/in/shaked-diba-8a843b2a3/" target="_blank" rel="noopener noreferrer" style="color: #007bff; font-weight: 600; text-decoration: underline;">LinkedIn</a> או במייל 
-        <a href="mailto:shake901@gmail.com" style="color: #007bff; font-weight: 600; text-decoration: underline;">shake901@gmail.com</a>
+    
+    <p class="mb-4">
+      אני מחפש עבודה! מוזמנים ליצור איתי קשר דרך 
+      <a href="https://www.linkedin.com/in/shaked-diba-8a843b2a3/" target="_blank" rel="noopener noreferrer" class="luxury-link">LinkedIn</a> או במייל 
+      <a href="mailto:shake901@gmail.com" class="luxury-link">shake901@gmail.com</a>
     </p>
-    <p style="font-size: 17px; line-height: 1.6;">
-        כמו כן מוזמנים ליצור איתי קשר עבור הערות, הצעות לשיפור או סתם תמונות של בעלי החיים שלכם במייל 
-        <a href="mailto:shake901@gmail.com" style="color: #007bff; font-weight: 600; text-decoration: underline;">shake901@gmail.com</a>
+    
+    <p class="mb-4">
+      כמו כן מוזמנים ליצור איתי קשר עבור הערות, הצעות לשיפור או סתם תמונות של בעלי החיים שלכם במייל 
+      <a href="mailto:shake901@gmail.com" class="luxury-link">shake901@gmail.com</a>
     </p>
+  </div>
 </div>
 {% endblock %}

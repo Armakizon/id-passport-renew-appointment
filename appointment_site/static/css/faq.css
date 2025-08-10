@@ -1,0 +1,206 @@
+/* FAQ Accordion - Completely Decoupled Styling */
+/* This file contains ONLY the styles needed for the FAQ accordion */
+
+/* Reset all Bootstrap accordion styles for FAQ */
+.faq-container .luxury-accordion {
+  /* Remove all Bootstrap defaults */
+  --bs-accordion-border-width: 0;
+  --bs-accordion-border-radius: 0;
+  --bs-accordion-inner-border-radius: 0;
+  --bs-accordion-btn-padding-x: 0;
+  --bs-accordion-btn-padding-y: 0;
+  --bs-accordion-btn-color: transparent;
+  --bs-accordion-btn-bg: transparent;
+  --bs-accordion-btn-border: none;
+  --bs-accordion-btn-border-radius: 0;
+  --bs-accordion-btn-focus-border-color: none;
+  --bs-accordion-btn-focus-box-shadow: none;
+  --bs-accordion-body-padding-x: 0;
+  --bs-accordion-body-padding-y: 0;
+  --bs-accordion-active-color: transparent;
+  --bs-accordion-active-bg: transparent;
+}
+
+/* FAQ Container */
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* FAQ Title */
+.faq-container h1 {
+  background: linear-gradient(135deg, #1e3a8a, #1e40af);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 32px rgba(30, 58, 138, 0.3);
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Force override any Bootstrap accordion styles */
+.faq-container .luxury-accordion .accordion-item {
+  border: none !important;
+  border-radius: 12px !important;
+  margin-bottom: 1rem !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+
+.faq-container .luxury-accordion .accordion-header {
+  background: transparent !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.faq-container .luxury-accordion .accordion-button {
+  background: linear-gradient(135deg, #1e40af, #2563eb) !important;
+  color: white !important;
+  border: none !important;
+  padding: 1.5rem 2rem !important;
+  font-weight: 600 !important;
+  font-size: 1.1rem !important;
+  text-align: right !important;
+  position: relative;
+  transition: all 0.3s ease !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 16px rgba(30, 64, 175, 0.2) !important;
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+/* Active/Expanded state - darker blue */
+.faq-container .luxury-accordion .accordion-button:not(.collapsed) {
+  background: linear-gradient(135deg, #1e3a8a, #1e40af) !important;
+  color: white !important;
+  box-shadow: 0 6px 24px rgba(30, 58, 138, 0.4) !important;
+  transform: translateY(-2px);
+}
+
+/* Hover state - slightly lighter blue */
+.faq-container .luxury-accordion .accordion-button:hover {
+  background: linear-gradient(135deg, #2563eb, #3b82f6) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3) !important;
+}
+
+/* Focus state */
+.faq-container .luxury-accordion .accordion-button:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3) !important;
+  outline: none !important;
+}
+
+/* Remove Bootstrap button styling */
+.faq-container .luxury-accordion .accordion-button::after {
+  display: none !important;
+}
+
+.faq-container .luxury-accordion .accordion-button:not(.collapsed)::after {
+  display: none !important;
+}
+
+/* Accordion body - white background with dark text */
+.faq-container .luxury-accordion .accordion-body {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  padding: 2rem !important;
+  border: none !important;
+  border-radius: 0 0 12px 12px !important;
+  margin: 0 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+  font-size: 1rem !important;
+  line-height: 1.6 !important;
+  text-align: right !important;
+}
+
+/* FAQ Icon */
+.faq-container .faq-icon {
+  display: none !important;
+}
+
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .faq-container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .faq-container h1 {
+    font-size: 2rem;
+    padding: 1.5rem;
+  }
+  
+  .faq-container .luxury-accordion .accordion-button {
+    padding: 1.25rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
+  
+  .faq-container .luxury-accordion .accordion-body {
+    padding: 1.5rem !important;
+  }
+  
+
+}
+
+
+
+/* Dark mode overrides with maximum specificity */
+html.dark body .faq-container .luxury-accordion .accordion-body,
+html.dark html .faq-container .luxury-accordion .accordion-body,
+html.dark #faqAccordion .accordion-body,
+html.dark .faq-container #faqAccordion .accordion-body {
+  background: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-top: 1px solid #334155 !important;
+}
+
+html.dark body .faq-container .luxury-accordion .accordion-button,
+html.dark html .faq-container .luxury-accordion .accordion-button,
+html.dark #faqAccordion .accordion-button,
+html.dark .faq-container #faqAccordion .accordion-button {
+  background: linear-gradient(135deg, #0f172a, #1e293b) !important;
+  color: #f8fafc !important;
+  border: 1px solid #334155 !important;
+}
+
+html.dark body .faq-container .luxury-accordion .accordion-button:not(.collapsed),
+html.dark html .faq-container .luxury-accordion .accordion-button:not(.collapsed),
+html.dark #faqAccordion .accordion-button:not(.collapsed),
+html.dark .faq-container #faqAccordion .accordion-button:not(.collapsed) {
+  background: linear-gradient(135deg, #020617, #0f172a) !important;
+  color: #f8fafc !important;
+  border: 1px solid #475569 !important;
+}
+
+html.dark body .faq-container .luxury-accordion .accordion-button:hover,
+html.dark html .faq-container .luxury-accordion .accordion-button:hover,
+html.dark #faqAccordion .accordion-button:hover,
+html.dark .faq-container #faqAccordion .accordion-button:hover {
+  background: linear-gradient(135deg, #1e293b, #334155) !important;
+  color: #f8fafc !important;
+  border: 1px solid #475569 !important;
+}
+
+html.dark body .faq-container h1,
+html.dark html .faq-container h1 {
+  background: linear-gradient(135deg, #020617, #0f172a) !important;
+  color: #f8fafc !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
+  border: 1px solid #334155 !important;
+}
+
+html.dark body .faq-container .faq-icon,
+html.dark html .faq-container .faq-icon {
+  color: #f87171 !important;
+  background: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid #475569 !important;
+}

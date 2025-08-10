@@ -1,6 +1,6 @@
 <form id="locationSelectForm" class="mb-3">
   <select id="locationDropdown" class="form-select">
-    <option selected disabled>📍 בחר לשכה</option>
+    <option selected disabled>בחר לשכה</option>
     {% for id, info in branch_map.items() %}
       <option value="{{ info.lat }},{{ info.lon }}">
         {{ info.name }} - {{ info.address }}

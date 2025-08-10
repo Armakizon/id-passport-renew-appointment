@@ -2,40 +2,61 @@
 {% block title %}Appointment Dates{% endblock %}
 
 {% block content %}
-  <header class="mb-4">
-    <h1 class="mb-2">תורים לחידוש דרכון ות"ז</h1>
-    <p class="text-muted" style="margin:0;">עודכן לאחרונה: {{ last_updated }} ({{ time_since }})</p>
+  <header class="hero-header mb-5">
+    <h1 class="hero-title mb-3">תורים לחידוש דרכון ות"ז</h1>
+    <p class="hero-subtitle">
+      עודכן לאחרונה: {{ last_updated }} ({{ time_since }})
+    </p>
   </header>
 
-  <main>
-    <section class="card-surface p-3 mb-4">
-      <div class="d-flex flex-column gap-3">
-        <div class="d-flex align-items-center gap-2 flex-wrap">
-          <span class="step-badge">1</span>
-          <div class="section-heading">בחרו מיקום לחישוב מרחקים</div>
-        </div>
-        <div class="d-flex gap-3 align-items-center flex-wrap">
+  <main class="main-content">
+    <section class="card-surface step-section mb-4">
+      <div class="step-header">
+        <span class="step-badge">1</span>
+        <div class="section-heading">בחרו מיקום לחישוב מרחקים</div>
+      </div>
+      <div class="step-content">
+        <div class="location-options">
           {% include "partials/getLocationButton.html" %}
-          <span style="font-weight:700;">או</span>
+          <div class="divider">
+            <span class="divider-text">או</span>
+          </div>
           {% include "partials/location_dropdown.html" %}
         </div>
       </div>
     </section>
 
-    <section class="card-surface p-3 mb-4">
-      <div class="d-flex align-items-center gap-2 mb-2"><span class="step-badge">2</span><div class="section-heading">הגדרת מסננים</div></div>
-      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterDrawer" aria-controls="filterDrawer">הגדר מסננים</button>
+    <section class="card-surface step-section mb-4">
+      <div class="step-header">
+        <span class="step-badge">2</span>
+        <div class="section-heading">הגדרת מסננים</div>
+      </div>
+      <div class="step-content">
+        <button type="button" class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#filterDrawer" aria-controls="filterDrawer">
+            <span class="btn-icon"></span>
+            חפש תורים
+        </button>
+      </div>
     </section>
 
     {% include "partials/filter_drawer.html" %}
 
-    <section class="card-surface p-3 mb-4">
-      <div class="d-flex align-items-center gap-2 mb-2"><span class="step-badge">3</span><div class="section-heading">תצוגת תורים</div></div>
-      <div class="mb-2">{% include "partials/toggle_button.html" %}</div>
-      <div class="alert alert-info" role="note" style="margin-bottom:1rem;">
-        האתר מתריע רק על תורים שנפתחים. לתיאום בפועל עברו ל<a href="https://govisit.gov.il/he/home" target="_blank" rel="noopener noreferrer">אתר הממשלה</a>. הופעת תור אינה מבטיחה זמינות.
+    <section class="card-surface step-section mb-4">
+      <div class="step-header">
+        <span class="step-badge">3</span>
+        <div class="section-heading">תצוגת תורים</div>
       </div>
-      {% include "partials/appointments_table.html" %}
+      <div class="step-content">
+        <div class="view-controls mb-3">
+          {% include "partials/toggle_button.html" %}
+        </div>
+        <div class="info-alert" role="note">
+          האתר מתריע רק על תורים שנפתחים. לתיאום בפועל עברו ל<a href="https://govisit.gov.il/he/home" target="_blank" rel="noopener noreferrer" class="luxury-link">אתר הממשלה</a>. הופעת תור אינה מבטיחה זמינות.
+        </div>
+        <div class="appointments-container">
+          {% include "partials/appointments_table.html" %}
+        </div>
+      </div>
     </section>
   </main>
 {% endblock %}

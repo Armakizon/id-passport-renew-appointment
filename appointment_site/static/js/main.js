@@ -101,3 +101,19 @@ function getFilteredEntries(startDate, endDate, activeBranchIds) {
 
 // Initialize display on page load
 updateTableVisibility();
+
+// Filter drawer event handling
+document.addEventListener('DOMContentLoaded', function() {
+  const filterDrawer = document.getElementById('filterDrawer');
+  if (filterDrawer) {
+    filterDrawer.addEventListener('show.bs.offcanvas', function() {
+      document.body.classList.add('offcanvas-open');
+    });
+
+    filterDrawer.addEventListener('hide.bs.offcanvas', function() {
+      document.body.classList.remove('offcanvas-open');
+    });
+  }
+});
+
+// Dark mode functionality is handled by CSS

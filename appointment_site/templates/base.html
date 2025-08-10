@@ -26,20 +26,198 @@
   <link href="{{ url_for('static', filename='css/appointments_table.css') }}" rel="stylesheet" />
   <link href="{{ url_for('static', filename='css/distanceFilter.css') }}" rel="stylesheet" />
   <link href="{{ url_for('static', filename='css/theme.css') }}" rel="stylesheet" />
+  <!-- FAQ CSS - loads last to ensure it overrides all other styles -->
+  <link href="{{ url_for('static', filename='css/faq.css') }}" rel="stylesheet" />
+  <!-- Filter Drawer CSS - loads after FAQ to ensure it overrides all other styles -->
+  <link href="{{ url_for('static', filename='css/filter_drawer.css') }}" rel="stylesheet" />
 
+  <!-- Force dark mode styles to load after all other CSS -->
   <style>
     .navbar-nav .nav-link { font-size: 1.1rem; font-weight: 500; }
     .navbar-nav { margin: 0 auto; }
+    
+    /* Test dark mode styles inline */
+    html.dark * {
+      color: white !important;
+    }
+    
+    html.dark h1,
+    html.dark h2,
+    html.dark h3,
+    html.dark h4,
+    html.dark h5,
+    html.dark h6,
+    html.dark p,
+    html.dark span,
+    html.dark div,
+    html.dark label {
+      color: white !important;
+    }
+    
+    
+    /* Test with hardcoded colors */
+    html.dark .navbar-brand,
+    html.dark .nav-link,
+    html.dark .navbar-nav,
+    html.dark .container,
+    html.dark .card,
+    html.dark .card-body,
+    html.dark .table,
+    html.dark .table th,
+    html.dark .table td {
+      color: #ffffff !important;
+    }
+
+    /* Force all text to be white */
+    html.dark * {
+      color: #ffffff !important;
+    }
+
+    /* Specific overrides for all text elements */
+    html.dark h1,
+    html.dark h2,
+    html.dark h3,
+    html.dark h4,
+    html.dark h5,
+    html.dark h6,
+    html.dark p,
+    html.dark span,
+    html.dark div,
+    html.dark label,
+    html.dark .hero-subtitle,
+    html.dark .section-heading,
+    html.dark .divider-text,
+    html.dark .step-header,
+    html.dark .step-content,
+    html.dark .location-options,
+    html.dark .info-alert,
+    html.dark .alert-info,
+    html.dark .highlight-text,
+    html.dark .faq-container,
+    html.dark .navbar-nav .nav-link,
+    html.dark .navbar-brand,
+
+    html.dark .form-label,
+    html.dark .text-muted,
+    html.dark .text-dark,
+    html.dark .text-black,
+    html.dark .text-body,
+    html.dark .text-secondary,
+    html.dark .text-body-secondary,
+    html.dark .bg-white,
+    html.dark .bg-light,
+    html.dark .bg-dark,
+    html.dark .border,
+    html.dark .card,
+    html.dark .card-body,
+    html.dark .table,
+    html.dark .table th,
+    html.dark .table td,
+    html.dark .table-striped > tbody > tr:nth-of-type(odd) > td,
+    html.dark .table-striped > tbody > tr:nth-of-type(even) > td,
+    html.dark .table-bordered,
+    html.dark .table-hover > tbody > tr:hover > td,
+    html.dark caption,
+    html.dark input,
+    html.dark input::placeholder,
+    html.dark [class*="text-"],
+    html.dark .text-danger,
+    html.dark .text-warning,
+    html.dark .text-success,
+    html.dark .text-info,
+    html.dark .text-primary,
+    html.dark .luxury-text-charcoal,
+    html.dark .luxury-text-slate {
+      color: #ffffff !important;
+    }
+
+    /* Force override for any remaining text elements with maximum specificity */
+    html.dark *:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-outline):not(.btn-outline-primary):not(.btn-outline-secondary):not(.step-badge):not(.action-btn):not(.table-action-btn):not(.distance-btn):not(.appointments-icon):not(.distance-filter-icon):not(.distance-info-icon):not(.filter-icon):not(.alert-icon):not(.availability-status.available):not(.availability-status.limited):not(.availability-status.unavailable):not(h1):not(.hero-title) {
+      color: #ffffff !important;
+    }
+
+    /* Additional specificity for common elements */
+    html.dark .container *,
+    html.dark .row *,
+    html.dark .col *,
+    html.dark .card *,
+    html.dark .navbar *,
+    html.dark .nav *,
+    html.dark .table *,
+    html.dark .form * {
+      color: #ffffff !important;
+    }
+
+    /* HTML.dark filter drawer overrides */
+    html.dark .luxury-filter-drawer {
+              background: linear-gradient(135deg, rgba(30, 58, 138, 0.1) 0%, rgba(15, 23, 42, 0.05) 100%) !important;
+      border-left: 1px solid rgba(37, 99, 235, 0.3);
+    }
+
+    html.dark .luxury-filter-drawer .offcanvas-title {
+      color: #ffffff !important;
+    }
+
+    html.dark .luxury-filters-accordion .accordion-button {
+      color: #ffffff !important;
+    }
+
+    html.dark .luxury-filters-accordion .accordion-button:not(.collapsed) {
+      color: #ffffff !important;
+    }
+
+    html.dark .luxury-filters-accordion .accordion-body {
+      color: #ffffff !important;
+    }
+
+    html.dark .filter-section-title {
+      color: #ffffff !important;
+    }
+
+    /* Make the "המיקום שלי" button text white in dark mode */
+    html.dark #getLocationBtn {
+      color: #ffffff !important;
+    }
+
+    /* Make the theme toggle button text white in dark mode */
+    html.dark #themeToggle {
+      color: #ffffff !important;
+    }
+
+    /* Make the "הצג את כל התאריכים" button background the same as the "חפש תורים" button */
+    #toggleEarliestBtn.btn-outline-primary {
+      background: #0d6efd !important;
+      border-color: #0d6efd !important;
+      color: #ffffff !important;
+    }
+
+    /* Dark mode specific styling for the button */
+    html.dark #toggleEarliestBtn.btn-outline-primary {
+      color: #ffffff !important;
+    }
   </style>
 
   {% block styles %}{% endblock %}
 </head>
 <body>
 
+<!-- Background Gradients -->
+<div class="background-gradients">
+  <div class="gradient-layer gradient-1"></div>
+  <div class="gradient-layer gradient-2"></div>
+  <div class="gradient-layer gradient-3"></div>
+  <div class="gradient-layer gradient-4"></div>
+  <div class="gradient-layer gradient-5"></div>
+  <div class="texture-overlay"></div>
+</div>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4 sticky-top" style="direction: rtl;">
   <div class="container-fluid d-flex align-items-center" style="direction: ltr; justify-content: space-between;">
-    <!-- Brand on left -->
-    <a class="navbar-brand" href="{{ url_for('index') }}">BookGov</a>
+    <!-- Brand and theme toggle on left -->
+    <div class="d-flex align-items-center gap-3">
+      <a class="navbar-brand" href="{{ url_for('index') }}">BookGov</a>
+      <button id="themeToggle" class="btn btn-outline-secondary btn-sm" type="button" aria-label="Toggle theme">מצב כהה</button>
+    </div>
 
     <!-- Nav links centered -->
     <div class="collapse navbar-collapse justify-content-center" id="navbarNav" style="direction: rtl;">
@@ -61,7 +239,6 @@
 
     </div>
 
-    <button id="themeToggle" class="btn btn-outline-secondary btn-sm ms-2" type="button" aria-label="Toggle theme">מצב כהה</button>
     <!-- Hamburger toggler -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,6 +274,8 @@
       const btn = document.getElementById('themeToggle');
       function apply(labelOnly=false){
         const isDark = document.documentElement.classList.contains('dark');
+        console.log('Theme toggle - isDark:', isDark);
+        console.log('HTML classes:', document.documentElement.classList.toString());
         if(btn) btn.textContent = isDark ? 'מצב בהיר' : 'מצב כהה';
         if(!labelOnly){
           try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch(e) {}
@@ -104,7 +283,9 @@
       }
       if(btn){
         btn.addEventListener('click', () => {
+          console.log('Theme toggle clicked');
           document.documentElement.classList.toggle('dark');
+          console.log('After toggle - HTML classes:', document.documentElement.classList.toString());
           apply();
         });
         apply(true);

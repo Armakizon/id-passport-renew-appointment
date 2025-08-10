@@ -1,26 +1,27 @@
 <html>
-  <body dir="rtl" style="margin:0; padding:30px; background: #eef2f7; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1f2937;">
-    <div style="max-width: 720px; margin: auto; background: #ffffff; border-radius: 14px; box-shadow: 0 6px 20px rgba(0,0,0,0.12); overflow: hidden;">
+  <body dir="rtl" style="margin:0; padding:30px; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); font-family: 'Heebo', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Hebrew', 'Open Sans Hebrew', sans-serif; color: #f8fafc; min-height: 100vh;">
+    <div style="max-width: 720px; margin: auto; background: linear-gradient(135deg, #1f2937 0%, #111827 100%); border-radius: 14px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); overflow: hidden; border: 2px solid rgba(59, 130, 246, 0.4);">
       <!-- Header -->
-      <div style="background: linear-gradient(135deg, #2563eb, #1d4ed8); padding: 20px 30px; color: white; text-align: center; font-weight: 800; font-size: 22px; letter-spacing: .5px;">
-        תורים עבור חידוש דרכון ותעודת זהות
+      <div style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%); padding: 25px 30px; color: white; text-align: center; font-weight: 800; font-size: 22px; letter-spacing: .5px; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent); opacity: 0.6;"></div>
+        <div style="position: relative; z-index: 1;">תורים עבור חידוש דרכון ותעודת זהות</div>
       </div>
 
       <!-- Note below header -->
-      <p style="margin: 16px 40px 0; font-size: 14px; color: #b45309; font-weight: 600; text-align: center;">
+      <p style="margin: 16px 40px 0; font-size: 14px; color: #fbbf24; font-weight: 600; text-align: center; background: rgba(251, 191, 36, 0.1); padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(251, 191, 36, 0.3);">
         הערה: זהו מייל לא רשמי שאינו נשלח מטעם ממשלת ישראל.
       </p>
 
-      <div style="padding: 10px 40px 25px;">
-        <p style="font-size: 16px; margin-bottom: 16px;">
-          נמצאו <strong>{{ count }}</strong> תורים המתאימים להגדרות המסנן שבחרת:
+      <div style="padding: 25px 40px 30px;">
+        <p style="font-size: 16px; margin-bottom: 20px; color: #e2e8f0; background: rgba(59, 130, 246, 0.1); padding: 16px; border-radius: 8px; border-left: 4px solid #3b82f6;">
+          נמצאו <strong style="color: #60a5fa;">{{ count }}</strong> תורים המתאימים להגדרות המסנן שבחרת:
         </p>
 
-        <table style="width: 100%; border-collapse: separate; border-spacing: 0 8px; font-size: 15px; color: #374151;">
+        <table style="width: 100%; border-collapse: separate; border-spacing: 0 12px; font-size: 15px; color: #e2e8f0;">
           <thead>
-            <tr style="background: #2563eb; color: #ffffff; text-transform: uppercase; font-weight: 700;">
-              <th style="padding: 14px 20px; border-top-right-radius: 8px;">שם הסניף</th>
-              <th style="padding: 14px 20px; border-top-left-radius: 8px; text-align: left;">תאריך</th>
+            <tr style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #ffffff; text-transform: uppercase; font-weight: 700; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);">
+              <th style="padding: 16px 20px; border-top-right-radius: 10px; text-align: center;">שם הסניף</th>
+              <th style="padding: 16px 20px; border-top-left-radius: 10px; text-align: center;">תאריך</th>
             </tr>
           </thead>
           <tbody>
@@ -28,31 +29,34 @@
             {% for entry in entries %}
               {% set is_first_for_branch = entry.branch_name != ns.last_branch %}
               <tr style="
-                background: {% if is_first_for_branch %}linear-gradient(90deg, #bfdbfe, #93c5fd){% else %}#f8fafc{% endif %};
+                background: {% if is_first_for_branch %}linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.1) 100%){% else %}rgba(30, 41, 59, 0.8){% endif %};
                 font-weight: {% if is_first_for_branch %}700{% else %}400{% endif %};
-                border-right: {% if is_first_for_branch %}8px solid #1d4ed8{% else %}none{% endif %};
-                box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-                border-radius: 6px;
+                border-right: {% if is_first_for_branch %}4px solid #3b82f6{% else %}none{% endif %};
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                border-radius: 10px;
+                border: 1px solid {% if is_first_for_branch %}rgba(59, 130, 246, 0.3){% else %}rgba(59, 130, 246, 0.1){% endif %};
               ">
-                <td style="padding: 14px 20px; border-radius: 6px 0 0 6px;">{{ entry.branch_name }}</td>
-                <td style="padding: 14px 20px; text-align: left; border-radius: 0 6px 6px 0;">{{ entry.formatted_date }}</td>
+                <td style="padding: 16px 20px; border-radius: 10px 0 0 10px; color: {% if is_first_for_branch %}#60a5fa{% else %}#e2e8f0{% endif %}; text-align: center;">{{ entry.branch_name }}</td>
+                <td style="padding: 16px 20px; text-align: center; border-radius: 0 10px 10px 10px; color: {% if is_first_for_branch %}#60a5fa{% else %}#e2e8f0{% endif %};">{{ entry.formatted_date }}</td>
               </tr>
               {% set ns.last_branch = entry.branch_name %}
             {% endfor %}
           </tbody>
         </table>
 
-        <p style="margin-top: 24px; font-size: 14px; color: #6b7280; text-align: center;">
-          אתם רואים מייל זה מכיוון שנרשמתם ל
-          <a href="https://bookgov.onrender.com/" style="color: #2563eb; font-weight: 600; text-decoration: underline;">האתר</a>.
-        </p>
-        <p style="margin-top: 6px; font-size: 14px; color: #6b7280; text-align: center;">
-          לביטול המנוי, לחץ <a href="{{ unsubscribe_url }}" style="color: #2563eb; font-weight: 600; text-decoration: underline;">כאן</a>.
-        </p>
+        <div style="margin-top: 30px; background: rgba(59, 130, 246, 0.05); padding: 20px; border-radius: 10px; border: 1px solid rgba(59, 130, 246, 0.2);">
+          <p style="margin: 0 0 12px 0; font-size: 14px; color: #94a3b8; text-align: center;">
+            אתם רואים מייל זה מכיוון שנרשמתם ל
+            <a href="https://bookgov.onrender.com/" style="color: #60a5fa; font-weight: 600; text-decoration: none; border-bottom: 1px solid #60a5fa;">האתר</a>.
+          </p>
+          <p style="margin: 0; font-size: 14px; color: #94a3b8; text-align: center;">
+            לביטול המנוי, לחץ <a href="{{ unsubscribe_url }}" style="color: #60a5fa; font-weight: 600; text-decoration: none; border-bottom: 1px solid #60a5fa;">כאן</a>.
+          </p>
+        </div>
       </div>
 
-      <div style="background: #e3f2fd; text-align: center; padding: 12px 20px; font-size: 12px; color: #64748b;">
-        © BookGov
+      <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%); text-align: center; padding: 16px 20px; font-size: 12px; color: #64748b; border-top: 1px solid rgba(59, 130, 246, 0.2);">
+        <span style="color: #60a5fa; font-weight: 600;">© BookGov</span>
       </div>
     </div>
   </body>

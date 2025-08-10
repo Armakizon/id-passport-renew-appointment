@@ -1,0 +1,513 @@
+/* Filter Drawer - Completely Decoupled Styling */
+/* This file contains ONLY the styles needed for the filter drawer */
+
+/* Reset all Bootstrap accordion styles for filter drawer */
+.luxury-filter-drawer .luxury-filters-accordion {
+  /* Remove all Bootstrap defaults */
+  --bs-accordion-border-width: 0;
+  --bs-accordion-border-radius: 0;
+  --bs-accordion-inner-border-radius: 0;
+  --bs-accordion-btn-padding-x: 0;
+  --bs-accordion-btn-padding-y: 0;
+  --bs-accordion-btn-color: transparent;
+  --bs-accordion-btn-bg: transparent;
+  --bs-accordion-btn-border: none;
+  --bs-accordion-btn-border-radius: 0;
+  --bs-accordion-btn-focus-border-color: none;
+  --bs-accordion-btn-focus-box-shadow: none;
+  --bs-accordion-body-padding-x: 0;
+  --bs-accordion-body-padding-y: 0;
+  --bs-accordion-active-color: transparent;
+  --bs-accordion-active-bg: transparent;
+}
+
+/* Luxury Filter Drawer Container */
+.luxury-filter-drawer {
+  background: linear-gradient(135deg, var(--champagne) 0%, var(--cream) 100%);
+  border-left: 1px solid var(--gold);
+  box-shadow: var(--shadow-xl);
+  width: 500px !important;
+  max-width: 500px !important;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  z-index: 1050;
+}
+
+/* Filter Drawer Header */
+.luxury-filter-drawer .offcanvas-header {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(184, 147, 31, 0.02) 100%);
+  border-bottom: 2px solid rgba(212, 175, 55, 0.1);
+  padding: 0.75rem var(--space-lg);
+  min-height: 79px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+.luxury-filter-drawer .offcanvas-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--charcoal);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+}
+
+/* Filter Icon */
+.filter-icon {
+  font-size: 1.3rem;
+  color: var(--gold);
+}
+
+/* Custom Close Button */
+.luxury-filter-drawer .custom-close-btn {
+  background: transparent;
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  transition: all var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  position: absolute;
+  left: var(--space-lg);
+  z-index: 1;
+}
+
+.luxury-filter-drawer .custom-close-btn:hover {
+  background: var(--gold);
+  transform: scale(1.1);
+}
+
+.luxury-filter-drawer .close-icon {
+  color: var(--gold);
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1;
+  transition: color var(--transition-smooth);
+}
+
+.luxury-filter-drawer .custom-close-btn:hover .close-icon {
+  color: white;
+}
+
+/* Filter Drawer Body */
+.luxury-filter-drawer .offcanvas-body {
+  padding: var(--space-lg);
+}
+
+/* Luxury Filters Accordion */
+.luxury-filters-accordion .accordion-item {
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-smooth);
+}
+
+.luxury-filters-accordion .accordion-item:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.luxury-filters-accordion .accordion-button {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(184, 147, 31, 0.02) 100%);
+  color: var(--charcoal);
+  border: none;
+  font-weight: 600;
+  padding: var(--space-md) var(--space-lg);
+  transition: all var(--transition-smooth);
+  font-size: 1rem;
+}
+
+.luxury-filters-accordion .accordion-button:not(.collapsed) {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(184, 147, 31, 0.05) 100%);
+  color: var(--charcoal);
+  box-shadow: none;
+}
+
+.luxury-filters-accordion .accordion-button:focus {
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+.luxury-filters-accordion .accordion-body {
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--charcoal);
+  padding: var(--space-md) var(--space-lg);
+}
+
+/* Filter Section Header */
+.filter-section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.filter-section-icon {
+  font-size: 1.2rem;
+  color: var(--gold);
+  opacity: 0.9;
+}
+
+.filter-section-title {
+  font-weight: 600;
+  color: var(--charcoal);
+  margin: 0;
+}
+
+/* Location Buttons */
+.luxury-filter-drawer .location-btn {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(29, 78, 216, 0.05) 100%);
+  color: var(--charcoal);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  margin: 0.25rem;
+  transition: all var(--transition-smooth);
+  font-weight: 500;
+}
+
+.luxury-filter-drawer .location-btn:hover {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.2) 0%, rgba(29, 78, 216, 0.1) 100%);
+  border-color: var(--gold);
+  transform: translateY(-1px);
+}
+
+/* Form Controls */
+.luxury-filter-drawer .form-control,
+.luxury-filter-drawer .form-select {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: var(--radius-md);
+  color: var(--charcoal);
+  transition: all var(--transition-smooth);
+}
+
+.luxury-filter-drawer .form-control:focus,
+.luxury-filter-drawer .form-select:focus {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+/* Input Groups */
+.luxury-filter-drawer .input-group-text {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(184, 147, 31, 0.05) 100%);
+  color: var(--charcoal);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: var(--radius-md);
+}
+
+/* Buttons */
+.luxury-filter-drawer .btn {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%);
+  color: var(--ivory);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  font-weight: 500;
+  transition: all var(--transition-smooth);
+  box-shadow: var(--shadow-gold);
+}
+
+.luxury-filter-drawer .btn:hover {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--copper-light) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+}
+
+/* Tables */
+.luxury-filter-drawer .table {
+  color: var(--charcoal);
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.luxury-filter-drawer .table th,
+.luxury-filter-drawer .table td {
+  color: var(--charcoal);
+  border-color: rgba(212, 175, 55, 0.1);
+  padding: var(--space-sm);
+}
+
+.luxury-filter-drawer .table-striped > tbody > tr:nth-of-type(odd) > td {
+  background-color: rgba(212, 175, 55, 0.05);
+}
+
+.luxury-filter-drawer .table-striped > tbody > tr:nth-of-type(even) > td {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Text Elements */
+.luxury-filter-drawer .text-muted {
+  color: rgba(30, 41, 59, 0.7) !important;
+}
+
+.luxury-filter-drawer .text-center {
+  color: var(--charcoal) !important;
+}
+
+.luxury-filter-drawer .text-start {
+  color: var(--charcoal) !important;
+}
+
+.luxury-filter-drawer .text-end {
+  color: var(--charcoal) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+  .luxury-filter-drawer {
+    width: 100vw !important;
+    max-width: 100vw !important;
+  }
+  
+  .luxury-filter-drawer .offcanvas-header {
+    padding: 0.5rem var(--space-md);
+    min-height: 62px;
+  }
+}
+
+@media (max-width: 768px) {
+  .luxury-filter-drawer .offcanvas-header {
+    padding: 0.75rem var(--space-md);
+    min-height: 70px;
+  }
+  
+  .luxury-filter-drawer .offcanvas-body {
+    padding: var(--space-md);
+  }
+  
+  .luxury-filters-accordion .accordion-button {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.9rem;
+  }
+  
+  .luxury-filters-accordion .accordion-body {
+    padding: var(--space-sm) var(--space-md);
+  }
+}
+
+/* Dark Mode Overrides with Maximum Specificity */
+html.dark body .luxury-filter-drawer,
+html.dark html .luxury-filter-drawer {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(29, 78, 216, 0.05) 100%) !important;
+  border-left: 1px solid rgba(37, 99, 235, 0.3) !important;
+}
+
+html.dark body .luxury-filter-drawer .offcanvas-title,
+html.dark html .luxury-filter-drawer .offcanvas-title {
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer .luxury-filters-accordion .accordion-button,
+html.dark html .luxury-filter-drawer .luxury-filters-accordion .accordion-button {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer .luxury-filters-accordion .accordion-button:not(.collapsed),
+html.dark html .luxury-filter-drawer .luxury-filters-accordion .accordion-button:not(.collapsed) {
+  background: #1d4ed8 !important;
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer .luxury-filters-accordion .accordion-body,
+html.dark html .luxury-filter-drawer .luxury-filters-accordion .accordion-body {
+  background: #1f2937 !important;
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer .filter-section-title,
+html.dark html .luxury-filter-drawer .filter-section-title {
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer .offcanvas-header,
+html.dark html .luxury-filter-drawer .offcanvas-header {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(29, 78, 216, 0.08) 100%) !important;
+  border-bottom: 2px solid rgba(37, 99, 235, 0.3) !important;
+}
+
+html.dark body .luxury-filter-drawer .offcanvas-body,
+html.dark html .luxury-filter-drawer .offcanvas-body {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(29, 78, 216, 0.02) 100%) !important;
+}
+
+html.dark body .luxury-filter-drawer .accordion-header,
+html.dark html .luxury-filter-drawer .accordion-header {
+  background: transparent !important;
+}
+
+html.dark body .luxury-filter-drawer .accordion-collapse,
+html.dark html .luxury-filter-drawer .accordion-collapse {
+  background: transparent !important;
+}
+
+html.dark body .luxury-filter-drawer .collapse,
+html.dark html .luxury-filter-drawer .collapse {
+  background: transparent !important;
+}
+
+html.dark body .luxury-filter-drawer .collapse.show,
+html.dark html .luxury-filter-drawer .collapse.show {
+  background: transparent !important;
+}
+
+html.dark body .luxury-filter-drawer .form-control,
+html.dark html .luxury-filter-drawer .form-control,
+html.dark body .luxury-filter-drawer .form-select,
+html.dark html .luxury-filter-drawer .form-select,
+html.dark body .luxury-filter-drawer .btn,
+html.dark html .luxury-filter-drawer .btn,
+html.dark body .luxury-filter-drawer .accordion-button,
+html.dark html .luxury-filter-drawer .accordion-button,
+html.dark body .luxury-filter-drawer .accordion-body,
+html.dark html .luxury-filter-drawer .accordion-body,
+html.dark body .luxury-filter-drawer .filter-section-title,
+html.dark html .luxury-filter-drawer .filter-section-title,
+html.dark body .luxury-filter-drawer .filter-section-icon,
+html.dark html .luxury-filter-drawer .filter-section-icon {
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer .table,
+html.dark html .luxury-filter-drawer .table {
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer .table th,
+html.dark html .luxury-filter-drawer .table th,
+html.dark body .luxury-filter-drawer .table td,
+html.dark html .luxury-filter-drawer .table td {
+  color: white !important;
+  border-color: rgba(37, 99, 235, 0.2) !important;
+}
+
+html.dark body .luxury-filter-drawer .table-striped > tbody > tr:nth-of-type(odd) > td,
+html.dark html .luxury-filter-drawer .table-striped > tbody > tr:nth-of-type(odd) > td {
+  background-color: rgba(37, 99, 235, 0.05) !important;
+}
+
+html.dark body .luxury-filter-drawer .table-striped > tbody > tr:nth-of-type(even) > td,
+html.dark html .luxury-filter-drawer .table-striped > tbody > tr:nth-of-type(even) > td {
+  background-color: rgba(37, 99, 235, 0.02) !important;
+}
+
+html.dark body .luxury-filter-drawer .text-muted,
+html.dark html .luxury-filter-drawer .text-muted {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+html.dark body .luxury-filter-drawer .text-center,
+html.dark html .luxury-filter-drawer .text-center {
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer .text-start,
+html.dark html .luxury-filter-drawer .text-start {
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer .text-end,
+html.dark html .luxury-filter-drawer .text-end {
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer .align-middle,
+html.dark html .luxury-filter-drawer .align-middle {
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer .table-responsive,
+html.dark html .luxury-filter-drawer .table-responsive {
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer .form-group,
+html.dark html .luxury-filter-drawer .form-group {
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer .input-group,
+html.dark html .luxury-filter-drawer .input-group {
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer .input-group-text,
+html.dark html .luxury-filter-drawer .input-group-text {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(29, 78, 216, 0.08) 100%) !important;
+  color: white !important;
+  border-color: rgba(37, 99, 235, 0.3) !important;
+}
+
+html.dark body .luxury-filter-drawer .location-btn,
+html.dark html .luxury-filter-drawer .location-btn {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(29, 78, 216, 0.08) 100%) !important;
+  color: white !important;
+  border-color: rgba(37, 99, 235, 0.3) !important;
+}
+
+html.dark body .luxury-filter-drawer .location-btn:hover,
+html.dark html .luxury-filter-drawer .location-btn:hover {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(29, 78, 216, 0.15) 100%) !important;
+  border-color: var(--gold) !important;
+}
+
+html.dark body .luxury-filter-drawer p[style*="font-weight: 600"],
+html.dark html .luxury-filter-drawer p[style*="font-weight: 600"] {
+  color: white !important;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(29, 78, 216, 0.05) 100%) !important;
+  padding: 0.75rem !important;
+  border-radius: var(--radius-md) !important;
+  border-left: 3px solid var(--gold) !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Ensure all text in filter drawer is readable in dark mode */
+html.dark body .luxury-filter-drawer *,
+html.dark html .luxury-filter-drawer * {
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer input,
+html.dark html .luxury-filter-drawer input,
+html.dark body .luxury-filter-drawer select,
+html.dark html .luxury-filter-drawer select,
+html.dark body .luxury-filter-drawer option,
+html.dark html .luxury-filter-drawer option,
+html.dark body .luxury-filter-drawer textarea,
+html.dark html .luxury-filter-drawer textarea {
+  color: white !important;
+}
+
+html.dark body .luxury-filter-drawer input::placeholder,
+html.dark html .luxury-filter-drawer input::placeholder,
+html.dark body .luxury-filter-drawer textarea::placeholder,
+html.dark html .luxury-filter-drawer textarea::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+html.dark body .luxury-filter-drawer input:focus,
+html.dark html .luxury-filter-drawer input:focus,
+html.dark body .luxury-filter-drawer select:focus,
+html.dark html .luxury-filter-drawer select:focus,
+html.dark body .luxury-filter-drawer textarea:focus,
+html.dark html .luxury-filter-drawer textarea:focus {
+  color: white !important;
+}

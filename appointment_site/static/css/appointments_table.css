@@ -1,96 +1,912 @@
-/* Appointment Table - Clean Modern Style */
-#appointmentsTable {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0 10px;
-  font-size: 16px;
-  color: #2c3e50;
-  box-sizing: border-box;
-  user-select: text;
-  direction: rtl;
-  text-align: right;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+/* Luxury Appointments Table Styling */
+/* Sophisticated table design with refined typography and elegant interactions */
 
-#appointmentsTable thead tr {
-  background-color: hsl(var(--primary));
-  color: white;
-  font-weight: 700;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  border-radius: 12px 12px 0 0;
-  user-select: text;
-}
-
-#appointmentsTable thead th {
-  padding: 14px 20px;
-  cursor: pointer;
+.appointments-container {
+  background: var(--ivory);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  overflow: hidden;
   position: relative;
-  direction: rtl;
-  text-align: right;
-  border-bottom: none;
-  white-space: nowrap; /* prevent wrapping */
+  margin-bottom: var(--space-lg);
 }
 
-/* Header hover */
-#appointmentsTable thead th:hover {
-  background-color: color-mix(in srgb, hsl(var(--primary)), white 50%);
-  color: hsl(var(--text));
+.appointments-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--copper) 100%);
 }
 
-/* Sort arrow styling */
-.sort-indicator {
-  font-size: 1.5rem;       /* bigger */
-  margin-right: 6px;
-  vertical-align: middle;
-  color: #a67c00;          /* golden brown */
-  direction: ltr;
-  user-select: text;
-  display: inline-block;
-  width: 1.2em;
+.appointments-header {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(184, 147, 31, 0.02) 100%);
+  padding: var(--space-lg);
+  border-bottom: 2px solid rgba(212, 175, 55, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
 }
 
-/* Table body rows */
-#appointmentsTable tbody tr {
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 0.05);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  cursor: default;
-  direction: rtl;
-  text-align: right;
-  border-left: none;
-  border-right: 6px solid transparent;
+.appointments-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--charcoal);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
 }
 
-/* Hover effect on rows */
-#appointmentsTable tbody tr:hover {
-  background-color: #f0f5ff;
-  box-shadow: 0 6px 15px rgb(37 99 235 / 0.2);
-  border-right-color: #3b82f6; /* lighter blue border */
+.appointments-icon {
+  font-size: 1.4rem;
+  color: var(--gold);
+  opacity: 0.9;
 }
 
-/* Highlighted row style */
-#appointmentsTable tbody tr.highlighted {
-  background: linear-gradient(90deg, #bfdbfe 0%, #93c5fd 100%);
+.appointments-count {
+  background: var(--gold);
+  color: var(--ivory);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
   font-weight: 700;
-  border-right: 8px solid hsl(var(--primary-600));
-  color: #1e40af;
-  box-shadow: 0 6px 20px color-mix(in srgb, hsl(var(--primary)), transparent 65%);
+  min-width: 40px;
+  text-align: center;
 }
 
-/* Table cells */
-#appointmentsTable tbody td {
-  padding: 14px 20px;
-  vertical-align: middle;
-  border: none;
+.appointments-actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: var(--space-sm) var(--space-md);
+  border: 2px solid var(--gold);
+  background: transparent;
+  color: var(--gold);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  position: relative;
+  overflow: hidden;
+}
+
+.action-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--gold);
+  transition: left var(--transition-smooth);
+  z-index: -1;
+}
+
+.action-btn:hover::before {
+  left: 0;
+}
+
+.action-btn:hover {
+  color: var(--ivory);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.action-btn.active {
+  background: var(--gold);
+  color: var(--ivory);
+  box-shadow: var(--shadow-gold);
+}
+
+.action-btn.active:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+.action-icon {
+  font-size: 1.1rem;
+}
+
+/* Enhanced Table Styling */
+.appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--ivory);
+  font-family: var(--font-body);
+}
+
+.appointments-table thead {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(184, 147, 31, 0.04) 100%);
+}
+
+.appointments-table th {
+  padding: var(--space-md) var(--space-lg);
+  text-align: right;
+  font-weight: 600;
+  color: var(--charcoal);
+  border-bottom: 2px solid rgba(212, 175, 55, 0.1);
   font-size: 1rem;
-  color: #374151;
+  position: relative;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  #appointmentsTable thead tr { font-size: 0.8rem; }
-  #appointmentsTable tbody td { padding: 10px 12px; font-size: 0.95rem; }
-  #appointmentsTable { font-size: 15px; }
+.appointments-table th::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--copper) 100%);
+  transform: scaleX(0);
+  transition: transform var(--transition-smooth);
 }
+
+.appointments-table th:hover::after {
+  transform: scaleX(1);
+}
+
+.appointments-table td {
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.05);
+  color: var(--slate);
+  transition: all var(--transition-smooth);
+  vertical-align: middle;
+}
+
+.appointments-table tbody tr {
+  transition: all var(--transition-smooth);
+  position: relative;
+}
+
+.appointments-table tbody tr::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.02) 0%, rgba(184, 147, 31, 0.01) 100%);
+  opacity: 0;
+  transition: opacity var(--transition-smooth);
+}
+
+.appointments-table tbody tr:hover::before {
+  opacity: 1;
+}
+
+.appointments-table tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.appointments-table tbody tr:hover td {
+  color: var(--charcoal);
+}
+
+/* Column Specific Styling */
+.branch-name {
+  font-weight: 600;
+  color: var(--charcoal);
+  position: relative;
+}
+
+.branch-name::before {
+  content: '🏢';
+  margin-left: var(--space-xs);
+  font-size: 1.1rem;
+  opacity: 0.7;
+}
+
+.appointment-date {
+  font-weight: 600;
+  color: var(--charcoal);
+  position: relative;
+}
+
+.appointment-date::before {
+  content: '';
+  margin-left: 0.5rem;
+  font-size: 1.2em;
+}
+
+.appointment-time {
+  font-weight: 500;
+  color: var(--charcoal-light);
+  position: relative;
+}
+
+.appointment-time::before {
+  content: '';
+  margin-left: var(--space-xs);
+  font-size: 1.1rem;
+  opacity: 0.7;
+}
+
+.distance-info {
+  font-weight: 500;
+  color: var(--gold);
+  position: relative;
+}
+
+.distance-info::before {
+  content: '';
+  margin-left: var(--space-xs);
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.availability-status {
+  font-weight: 600;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  min-width: 80px;
+  position: relative;
+}
+
+.availability-status.available {
+  background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(39, 174, 96, 0.05) 100%);
+  color: #27ae60;
+  border: 1px solid rgba(46, 204, 113, 0.2);
+}
+
+.availability-status.available::before {
+  content: '';
+  margin-left: 0.5rem;
+  font-size: 1.2em;
+}
+
+.availability-status.limited {
+  background: linear-gradient(135deg, rgba(243, 156, 18, 0.1) 0%, rgba(230, 126, 34, 0.05) 100%);
+  color: #e67e22;
+  border: 1px solid rgba(243, 156, 18, 0.2);
+}
+
+.availability-status.limited::before {
+  content: '';
+  margin-left: var(--space-xs);
+  font-size: 1rem;
+}
+
+.availability-status.unavailable {
+  background: linear-gradient(135deg, rgba(231, 76, 60, 0.1) 0%, rgba(192, 57, 43, 0.05) 100%);
+  color: #c0392b;
+  border: 1px solid rgba(231, 76, 60, 0.2);
+}
+
+.availability-status.unavailable::before {
+  content: '';
+  margin-left: var(--space-xs);
+  font-size: 1rem;
+}
+
+/* Action Buttons in Table */
+.table-action-btn {
+  padding: var(--space-xs) var(--space-sm);
+  border: 2px solid var(--gold);
+  background: transparent;
+  color: var(--gold);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  position: relative;
+  overflow: hidden;
+  margin: 0 var(--space-xs);
+}
+
+.table-action-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--gold);
+  transition: left var(--transition-smooth);
+  z-index: -1;
+}
+
+.table-action-btn:hover::before {
+  left: 0;
+}
+
+.table-action-btn:hover {
+  color: var(--ivory);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.table-action-btn.primary {
+  background: var(--gold);
+  color: var(--ivory);
+  box-shadow: var(--shadow-gold);
+}
+
+.table-action-btn.primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-lg);
+  color: var(--slate);
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  opacity: 0.3;
+  margin-bottom: var(--space-md);
+}
+
+.empty-state-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--charcoal);
+  margin-bottom: var(--space-sm);
+}
+
+.empty-state-message {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Loading State */
+.loading-state {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-lg);
+  color: var(--slate);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--mist);
+  border-top: 3px solid var(--gold);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto var(--space-md) auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 1.1rem;
+  color: var(--slate);
+}
+
+/* Responsive Table */
+@media (max-width: 1024px) {
+  .appointments-table {
+    font-size: 0.95rem;
+  }
+  
+  .appointments-table th,
+  .appointments-table td {
+    padding: var(--space-sm) var(--space-md);
+  }
+  
+  .appointments-header {
+    padding: var(--space-md);
+  }
+  
+  .appointments-title {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .appointments-container {
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-md);
+  }
+  
+  .appointments-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+  }
+  
+  .appointments-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .action-btn {
+    flex: 1;
+    justify-content: center;
+    min-width: 120px;
+  }
+  
+  .appointments-table {
+    font-size: 0.9rem;
+  }
+  
+  .appointments-table th,
+  .appointments-table td {
+    padding: var(--space-sm);
+  }
+  
+  .table-action-btn {
+    margin: var(--space-xs) 0;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .availability-status {
+    min-width: 60px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .appointments-container {
+    border-radius: var(--radius-sm);
+  }
+  
+  .appointments-header {
+    padding: var(--space-sm);
+  }
+  
+  .appointments-title {
+    font-size: 1.2rem;
+  }
+  
+  .appointments-count {
+    font-size: 0.85rem;
+    padding: var(--space-xs);
+    min-width: 35px;
+  }
+  
+  .action-btn {
+    font-size: 0.9rem;
+    padding: var(--space-sm);
+    min-width: 100px;
+  }
+  
+  .appointments-table {
+    font-size: 0.85rem;
+  }
+  
+  .appointments-table th,
+  .appointments-table td {
+    padding: var(--space-xs);
+  }
+  
+  .empty-state {
+    padding: var(--space-xl) var(--space-md);
+  }
+  
+  .empty-state-icon {
+    font-size: 3rem;
+  }
+  
+  .empty-state-title {
+    font-size: 1.3rem;
+  }
+  
+  .empty-state-message {
+    font-size: 1rem;
+  }
+}
+
+/* Animation Enhancements */
+.appointments-container {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.appointments-table tbody tr {
+  animation: fadeInUp 0.4s ease-out;
+  animation-fill-mode: both;
+}
+
+.appointments-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.appointments-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+.appointments-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+.appointments-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+.appointments-table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+
+/* Hover Effects */
+.appointments-container:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.appointments-table th:hover {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(184, 147, 31, 0.05) 100%);
+}
+
+/* Focus States */
+.action-btn:focus,
+.table-action-btn:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.appointments-table th:focus,
+.appointments-table td:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+
+/* Dark mode styling for appointments table */
+.dark .appointments-container {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(37, 99, 235, 0.08) 100%) !important;
+  border-color: rgba(59, 130, 246, 0.25) !important;
+}
+
+.dark .appointments-header {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.1) 100%) !important;
+  border-bottom-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+.dark .appointments-title {
+  color: var(--ivory) !important;
+}
+
+.dark .appointments-icon {
+  color: var(--gold-light) !important;
+}
+
+.dark .appointments-count {
+  background: var(--gold) !important;
+  color: var(--ivory) !important;
+}
+
+.dark .action-btn {
+  border-color: var(--gold) !important;
+  color: var(--gold) !important;
+}
+
+.dark .action-btn:hover {
+  background: var(--gold) !important;
+  color: var(--ivory) !important;
+}
+
+.dark .action-btn.active {
+  background: var(--gold) !important;
+  color: var(--ivory) !important;
+}
+
+.dark .appointments-table {
+  color: var(--ivory) !important;
+}
+
+.dark .appointments-table thead {
+  background: rgba(59, 130, 246, 0.15) !important;
+}
+
+.dark .appointments-table th {
+  color: var(--ivory) !important;
+  background: rgba(59, 130, 246, 0.15) !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+.dark .appointments-table td {
+  color: var(--ivory) !important;
+  border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+.dark .appointments-table tbody tr {
+  background: rgba(59, 130, 246, 0.08) !important;
+}
+
+.dark .appointments-table tbody tr:nth-child(even) {
+  background: rgba(59, 130, 246, 0.12) !important;
+}
+
+.dark .appointments-table tbody tr:hover {
+  background: rgba(59, 130, 246, 0.2) !important;
+}
+
+.dark .appointments-table tbody tr:hover td {
+  background: rgba(59, 130, 246, 0.2) !important;
+}
+
+.dark .branch-name {
+  color: var(--ivory) !important;
+}
+
+.dark .appointment-date {
+  color: var(--ivory) !important;
+}
+
+.dark .appointment-time {
+  color: var(--ivory) !important;
+}
+
+.dark .distance-info {
+  color: var(--ivory) !important;
+}
+
+.dark .availability-status {
+  color: var(--ivory) !important;
+}
+
+.dark .table-action-btn {
+  color: var(--ivory) !important;
+  border-color: var(--gold) !important;
+}
+
+.dark .table-action-btn:hover {
+  background: var(--gold) !important;
+  color: var(--ivory) !important;
+}
+
+.dark .empty-state-title {
+  color: var(--ivory) !important;
+}
+
+.dark .empty-state-message {
+  color: var(--charcoal-light) !important;
+}
+
+.dark .loading-text {
+  color: var(--ivory) !important;
+}
+
+/* Ensure all text in the table is visible in dark mode */
+.dark .appointments-container *,
+.dark .appointments-table * {
+  color: var(--ivory) !important;
+}
+
+/* Exception for specific elements that should keep their colors */
+.dark .appointments-icon {
+  color: var(--gold-light) !important;
+}
+
+.dark .appointments-count {
+  color: var(--ivory) !important;
+}
+
+.dark .action-btn {
+  color: var(--gold) !important;
+}
+
+.dark .action-btn:hover,
+.dark .action-btn.active {
+  color: var(--ivory) !important;
+}
+
+/* Final comprehensive dark mode override - ensures ALL text is visible */
+.dark * {
+  color: var(--ivory) !important;
+}
+
+/* Also target html.dark specifically for maximum specificity */
+html.dark * {
+  color: var(--ivory) !important;
+}
+
+/* Exception for buttons and interactive elements that should keep their styling */
+.dark .btn,
+.dark .btn-primary,
+.dark .btn-secondary,
+.dark .btn-outline,
+.dark .btn-outline-primary,
+.dark .btn-outline-secondary,
+.dark .step-badge,
+.dark .action-btn,
+.dark .table-action-btn,
+.dark .distance-btn {
+  color: var(--ivory) !important;
+}
+
+/* Also apply to html.dark for maximum specificity */
+html.dark .btn,
+html.dark .btn-primary,
+html.dark .btn-secondary,
+html.dark .btn-outline,
+html.dark .btn-outline-primary,
+html.dark .btn-outline-secondary,
+html.dark .step-badge,
+html.dark .action-btn,
+html.dark .table-action-btn,
+html.dark .distance-btn {
+  color: var(--ivory) !important;
+}
+
+/* Exception for icons that should keep their colors */
+.dark .appointments-icon,
+.dark .distance-filter-icon,
+.dark .distance-info-icon,
+.dark .filter-icon,
+.dark .alert-icon {
+  color: var(--gold-light) !important;
+}
+
+/* Also apply to html.dark for maximum specificity */
+html.dark .appointments-icon,
+html.dark .distance-filter-icon,
+html.dark .distance-info-icon,
+html.dark .filter-icon,
+html.dark .alert-icon {
+  color: var(--gold-light) !important;
+}
+
+/* Exception for specific utility colors that should remain visible */
+.dark .text-danger {
+  color: #fca5a5 !important;
+}
+
+html.dark .text-danger {
+  color: #fca5a5 !important;
+}
+
+.dark .text-warning {
+  color: #fde047 !important;
+}
+
+html.dark .text-warning {
+  color: #fde047 !important;
+}
+
+.dark .text-success {
+  color: #86efac !important;
+}
+
+html.dark .text-success {
+  color: #86efac !important;
+}
+
+.dark .text-info {
+  color: #93c5fd !important;
+}
+
+html.dark .text-info {
+  color: #93c5fd !important;
+}
+
+.dark .text-primary {
+  color: var(--gold-light) !important;
+}
+
+html.dark .text-primary {
+  color: var(--gold-light) !important;
+}
+
+.dark .text-muted {
+  color: var(--charcoal-light) !important;
+}
+
+html.dark .text-muted {
+  color: var(--charcoal-light) !important;
+}
+
+/* Exception for availability status colors */
+.dark .availability-status.available {
+  color: #86efac !important;
+}
+
+html.dark .availability-status.available {
+  color: #86efac !important;
+}
+
+.dark .availability-status.limited {
+  color: #fde047 !important;
+}
+
+html.dark .availability-status.limited {
+  color: #fde047 !important;
+}
+
+.dark .availability-status.unavailable {
+  color: #fca5a5 !important;
+}
+
+html.dark .availability-status.unavailable {
+  color: #fca5a5 !important;
+}
+
+/* Simple test - force all text to be white in dark mode */
+html.dark * {
+  color: white !important;
+}
+
+/* Test specific elements */
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6,
+html.dark p,
+html.dark span,
+html.dark div,
+html.dark label {
+  color: white !important;
+}
+
+/* Specific overrides for elements that use var(--charcoal) and var(--slate) */
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6,
+html.dark p,
+html.dark .hero-subtitle,
+html.dark .section-heading,
+html.dark .divider-text,
+html.dark .step-header,
+html.dark .step-content,
+html.dark .location-options,
+html.dark .info-alert,
+html.dark .alert-info,
+html.dark .highlight-text,
+html.dark .faq-container,
+html.dark .navbar-nav .nav-link,
+html.dark .navbar-brand,
+html.dark .form-label,
+html.dark .text-muted,
+html.dark .text-dark,
+html.dark .text-black,
+html.dark .text-body,
+html.dark .text-secondary,
+html.dark .text-body-secondary,
+html.dark .bg-white,
+html.dark .bg-light,
+html.dark .bg-dark,
+html.dark .border,
+html.dark .card,
+html.dark .card-body,
+html.dark .table,
+html.dark .table th,
+html.dark .table td,
+html.dark .table-striped > tbody > tr:nth-of-type(odd) > td,
+html.dark .table-striped > tbody > tr:nth-of-type(even) > td,
+html.dark .table-bordered,
+html.dark .table-hover > tbody > tr:hover > td,
+html.dark caption,
+html.dark span,
+html.dark div,
+html.dark label,
+html.dark input,
+html.dark input::placeholder,
+html.dark [class*="text-"],
+html.dark .text-danger,
+html.dark .text-warning,
+html.dark .text-success,
+html.dark .text-info,
+html.dark .text-primary,
+html.dark .text-muted,
+html.dark .luxury-text-charcoal,
+html.dark .luxury-text-slate {
+  color: white !important;
+}
+
+/* Force override for any remaining text elements */
+html.dark *:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-outline):not(.btn-outline-primary):not(.btn-outline-secondary):not(.step-badge):not(.action-btn):not(.table-action-btn):not(.distance-btn):not(.appointments-icon):not(.distance-filter-icon):not(.distance-info-icon):not(.filter-icon):not(.alert-icon):not(.availability-status.available):not(.availability-status.limited):not(.availability-status.unavailable):not(h1):not(.hero-title) {
+  color: white !important;
+}
+
+/* Filter drawer styles moved to filter_drawer.css for complete decoupling */

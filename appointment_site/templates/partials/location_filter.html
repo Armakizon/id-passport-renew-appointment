@@ -45,15 +45,15 @@
       const branchId = selectedOption.value;
       const branchName = selectedOption.text;
 
-      if (!activeBranchIds.includes(branchId)) {
-        activeBranchIds.push(branchId);
+      if (!window.activeBranchIds.includes(branchId)) {
+        window.activeBranchIds.push(branchId);
         updateTableVisibility();
 
         const btn = document.createElement("button");
         btn.className = "btn btn-secondary btn-sm location-btn";
         btn.textContent = branchName;
         btn.onclick = () => {
-          activeBranchIds = activeBranchIds.filter(id => id !== branchId);
+          window.activeBranchIds = window.activeBranchIds.filter(id => id !== branchId);
           locationButtons.removeChild(btn);
           updateTableVisibility();
         };

@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Set confirmation message HTML with line breaks
     messageEl.innerHTML = `
-       אתם עומדים להירשם לרשימת התפוצה עבור הלשכות הבאות :<br><strong>${displayedBranches}</strong><br><br>
+       אתם עומדים להירשם לרשימת התפוצה עבור הלשכות הבאות<br><strong>${displayedBranches}</strong><br><br>
       מתאריך: <strong>${document.getElementById("startDate")?.value || "כל תאריך"}</strong><br>
       עד תאריך: <strong>${document.getElementById("endDate")?.value || "כל תאריך"}</strong>.<br><br>
       המשך?

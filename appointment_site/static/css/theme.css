@@ -1,104 +1,911 @@
-/* Theme enhancements: light/dark tokens, refined colors, responsive tweaks */
+/* Luxury Theme System - High-End Restaurant Aesthetics */
+/* Seamlessly integrated with the luxury design system */
 
-/* Color tokens (HSL) */
-:root {
-  --bg: 213 36% 95%;           /* #eef2f7 */
-  --surface: 0 0% 100%;        /* #ffffff */
-  --text: 215 28% 17%;         /* #1f2937 */
-  --muted-text: 215 20% 34%;   /* #475569 */
-  --primary: 221 83% 54%;      /* #2563eb */
-  --primary-600: 221 72% 49%;  /* #1d4ed8 */
-  --accent: 207 88% 94%;       /* #e3f2fd */
-  --border: 220 14% 93%;       /* #e5e7eb */
-  --shadow: rgba(2,6,23,0.08);
-
-  /* Extras */
-  --success: 158 64% 52%;
-  --warning: 35 92% 56%;
-  --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-600)));
-}
-
+/* Dark theme for sophisticated blue aesthetics */
 .dark {
-  --bg: 220 47% 8%;            /* #0b1220 */
-  --surface: 215 28% 10%;      /* #111827 */
-  --text: 220 14% 92%;         /* #e5e7eb */
-  --muted-text: 214 32% 82%;   /* #cbd5e1 */
-  --primary: 217 92% 70%;      /* #60a5fa */
-  --primary-600: 217 91% 60%;  /* #3b82f6 */
-  --accent: 210 72% 15%;       /* #0b2540 */
-  --border: 215 28% 17%;       /* #1f2937 */
-  --shadow: rgba(0,0,0,0.45);
+  --champagne: #0f172a;
+  --cream: #020617;
+  --ivory: #0f172a;
+  --gold: #3b82f6;
+  --gold-light: #60a5fa;
+  --gold-dark: #2563eb;
+  --copper: #1e40af;
+  --copper-light: #3b82f6;
+  --burgundy: #1e3a8a;
+  --burgundy-light: #2563eb;
+  --charcoal: #f8fafc;
+  --charcoal-light: #e2e8f0;
+  --slate: #cbd5e1;
+  --sage: #94a3b8;
+  --mist: #1e293b;
 }
 
-/* Base */
-html, body { transition: background-color .25s ease, color .25s ease; }
-body { background-color: var(--bg) !important; color: var(--text) !important; }
-h2 { color: var(--text) !important; }
-
-/* Links */
-a { color: var(--primary); }
-a:hover { color: var(--primary-600); }
-
-/* Buttons */
-.btn-primary {
-  background-color: var(--primary) !important;
-  border-color: var(--primary) !important;
-  color: #fff !important;
-  box-shadow: 0 4px 10px color-mix(in srgb, var(--primary), transparent 70%);
+/* Prevent white flash by applying dark styles immediately */
+html.dark .form-select,
+html.dark select {
+  background: #1f2937 url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 7 7 7-7'") no-repeat left 0.75rem center / 16px 12px !important;
+  color: white !important;
+  border-color: rgba(59, 130, 246, 0.4) !important;
 }
-.btn-primary:hover {
-  background-color: var(--primary-600) !important;
-  border-color: var(--primary-600) !important;
+
+/* Hide white version immediately when dark mode is active to prevent flash */
+html.dark .form-select:not([style*="background"]),
+html.dark select:not([style*="background"]) {
+  background: #1f2937 !important;
+  color: white !important;
 }
-/* Secondary buttons - adapt in dark mode */
-.btn-secondary { color: var(--primary) !important; }
-.dark .btn-secondary { background-color: rgba(96,165,250,.18) !important; color: #bfdbfe !important; }
 
-/* Navbar */
-.navbar.bg-light { background-color: var(--surface) !important; }
-.navbar.sticky-top { box-shadow: 0 6px 18px var(--shadow) !important; backdrop-filter: saturate(1.2) blur(6px); }
-.navbar .nav-link { color: var(--text) !important; }
-.navbar .nav-link:hover { background-color: rgba(148,163,184,0.15) !important; color: var(--text) !important; }
-.navbar .navbar-brand { color: var(--text) !important; }
+html.dark .dropdown-menu {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%) !important;
+  color: white !important;
+  border: 2px solid rgba(59, 130, 246, 0.4) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
 
-/* Filter Drawer (Offcanvas) */
-#filterDrawer { background-color: var(--accent) !important; color: var(--text) !important; box-shadow: 0 2px 16px var(--shadow) !important; }
-.offcanvas.offcanvas-end { background-color: var(--accent) !important; color: var(--text) !important; }
+html.dark .dropdown-item {
+  color: white !important;
+}
 
-/* Modal */
-.modal-content { background: var(--surface) !important; color: var(--text) !important; box-shadow: 0 0 24px var(--shadow) !important; }
-.modal-content button.cancel { background-color: color-mix(in srgb, var(--text) 8%, var(--surface)) !important; color: var(--muted-text) !important; }
+html.dark .dropdown-item:hover {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.15) 100%) !important;
+  color: white !important;
+}
 
-/* Cards / About */
-.about-page { background-color: var(--surface) !important; box-shadow: 0 2px 12px var(--shadow) !important; }
-.about-page h2 { color: var(--text) !important; }
+/* Light theme enhancements for better color depth */
+:root {
+  --light-accent: #dbeafe;
+  --light-accent-2: #bfdbfe;
+  --light-accent-3: #93c5fd;
+}
 
-/* Forms */
-.form-control, .form-select { background-color: var(--surface) !important; color: var(--text) !important; border-color: var(--border) !important; }
-.form-control::placeholder { color: color-mix(in srgb, var(--text) 50%, transparent) !important; }
-.dark .form-control::placeholder { color: #94a3b8 !important; }
+/* Theme toggle button styling */
+#themeToggle {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%);
+  color: var(--ivory);
+  border: none;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all var(--transition-smooth);
+  box-shadow: var(--shadow-gold);
+  font-size: 0.9rem;
+  min-width: 80px;
+  position: relative;
+  overflow: hidden;
+}
 
-/* Table highlights */
-#appointmentsTable tbody tr.highlighted { border-right: 8px solid var(--primary) !important; }
+#themeToggle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left var(--transition-smooth);
+}
 
-/* Get Location Button */
-#getLocationBtn { background-color: var(--primary) !important; }
-#getLocationBtn:hover, #getLocationBtn:focus { background-color: var(--primary-600) !important; }
+#themeToggle:hover::before {
+  left: 100%;
+}
 
-/* UI helpers: cards, steps, dropdowns, tables */
-.card-surface { background-color: hsl(var(--surface)) !important; color: hsl(var(--text)) !important; border: 1px solid hsl(var(--border)) !important; border-radius: 14px; box-shadow: 0 6px 18px var(--shadow) !important; }
-.section-heading { font-weight: 700; font-size: 1.1rem; color: hsl(var(--text)); margin-bottom: .5rem; }
-.step-badge { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 9999px; background: var(--gradient-primary); color: #fff; font-weight: 700; font-size: .9rem; box-shadow: 0 6px 16px color-mix(in srgb, hsl(var(--primary)), transparent 70%); }
-.dropdown-menu { background-color: hsl(var(--surface)) !important; color: hsl(var(--text)) !important; border: 1px solid hsl(var(--border)) !important; z-index: 1060; }
+#themeToggle:hover {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--copper-light) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+}
 
-/* Sticky table header */
-#appointmentsTable thead th { position: sticky; top: 0; z-index: 2; }
+#themeToggle:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+/* Navbar luxury styling */
+.navbar {
+  background: linear-gradient(135deg, rgba(224, 242, 254, 0.95) 0%, rgba(240, 249, 255, 0.95) 100%) !important;
+  backdrop-filter: blur(20px) saturate(1.2);
+  border-bottom: 2px solid rgba(37, 99, 235, 0.2);
+  box-shadow: var(--shadow-md);
+}
+
+.dark .navbar {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.navbar-brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 50%, var(--burgundy) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all var(--transition-smooth);
+  text-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
+}
+
+.navbar-brand:hover {
+  transform: scale(1.05);
+}
+
+.navbar-nav .nav-link {
+  font-weight: 500;
+  color: var(--charcoal) !important;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.navbar-nav .nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+  transition: left var(--transition-smooth);
+}
+
+.navbar-nav .nav-link:hover::before {
+  left: 100%;
+}
+
+.navbar-nav .nav-link:hover {
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--charcoal) !important;
+  transform: translateY(-1px);
+}
+
+/* Filter drawer styles moved to filter_drawer.css for complete decoupling */
+
+/* Modal luxury styling */
+#confirmationModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+}
+
+.modal-content {
+  position: relative;
+  background: var(--ivory) !important;
+  color: var(--charcoal) !important;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  box-shadow: var(--shadow-lg) !important;
+  overflow: hidden;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  z-index: 10000;
+}
+
+.modal-content {
+  background: var(--ivory) !important;
+  color: var(--charcoal) !important;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  box-shadow: var(--shadow-lg) !important;
+  overflow: hidden;
+}
+
+.modal-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--copper) 100%);
+}
+
+.modal-content button {
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all var(--transition-smooth);
+  margin: 0.5rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.modal-content #confirmBtn {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: var(--shadow-gold) !important;
+}
+
+.modal-content #confirmBtn:hover {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--copper-light) 100%) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3) !important;
+}
+
+.modal-content #cancelBtn {
+  background: var(--mist) !important;
+  color: white !important;
+  border: 2px solid var(--mist) !important;
+}
+
+.modal-content #cancelBtn:hover {
+  background: var(--sage) !important;
+  color: white !important;
+  border-color: var(--sage) !important;
+}
+
+/* Light mode modal button text colors */
+.modal-content #confirmBtn {
+  color: black !important;
+}
+
+.modal-content #cancelBtn {
+  color: black !important;
+}
+
+.modal-content #confirmBtn:hover {
+  color: black !important;
+}
+
+.modal-content #cancelBtn:hover {
+  color: black !important;
+}
+
+/* Form elements luxury styling */
+.form-control, .form-select {
+  background: linear-gradient(135deg, var(--ivory) 0%, var(--light-accent) 100%) !important;
+  color: var(--charcoal) !important;
+  border: 2px solid var(--mist) !important;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-smooth);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+  transform: translateY(-1px);
+}
+
+.form-control::placeholder {
+  color: var(--sage) !important;
+  font-style: italic;
+}
+
+/* Dropdown luxury styling */
+.dropdown-menu {
+  background: linear-gradient(135deg, var(--ivory) 0%, var(--light-accent) 100%) !important;
+  color: var(--charcoal) !important;
+  border: 2px solid rgba(37, 99, 235, 0.4) !important;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--copper) 100%);
+}
+
+.dropdown-item {
+  color: var(--charcoal) !important;
+  transition: all var(--transition-fast);
+}
+
+.dropdown-item:hover {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(59, 130, 246, 0.1) 100%) !important;
+  color: var(--charcoal) !important;
+  transform: translateX(-2px);
+}
+
+/* Dark mode dropdown overrides */
+html.dark .dropdown-menu {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%) !important;
+  color: white !important;
+  border: 2px solid rgba(59, 130, 246, 0.4) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Remove the decorative line in dark mode */
+html.dark .dropdown-menu::before {
+  display: none !important;
+}
+
+html.dark .dropdown-item {
+  color: white !important;
+}
+
+html.dark .dropdown-item:hover {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.15) 100%) !important;
+  color: white !important;
+}
+
+html.dark .dropdown-item:active,
+html.dark .dropdown-item:focus {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(37, 99, 235, 0.25) 100%) !important;
+  color: white !important;
+}
+
+/* Enhanced dropdown visibility for location selector */
+.form-select {
+  border: 2px solid var(--mist) !important;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1) !important;
+  position: relative;
+  font-weight: 600 !important;
+}
+
+.form-select::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 0%, rgba(37, 99, 235, 0.02) 50%, transparent 100%);
+  pointer-events: none;
+  border-radius: var(--radius-md);
+}
+
+.form-select:focus {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+  transform: translateY(-1px);
+}
+
+/* Make dropdown arrow more visible and position on left */
+.form-select {
+  background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%232563eb' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 7 7 7-7'") no-repeat left 0.75rem center / 16px 12px !important;
+  padding-left: 2.5rem !important;
+}
+
+/* Dark mode form-select overrides */
+html.dark .form-select {
+  background: #1f2937 url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 7 7 7-7'") no-repeat left 0.75rem center / 16px 12px !important;
+  color: white !important;
+  border-color: rgba(59, 130, 246, 0.4) !important;
+}
+
+/* Remove the form-select::before pseudo-element in dark mode */
+html.dark .form-select::before {
+  display: none !important;
+}
+
+html.dark .form-select:focus {
+  background-color: #374151 !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+}
+
+html.dark .form-select option {
+  background-color: #1f2937 !important;
+  color: white !important;
+}
+
+html.dark .form-select option:hover {
+  background-color: #374151 !important;
+}
+
+/* Table luxury styling */
+#appointmentsTable tbody tr.highlighted {
+  border-right: 8px solid var(--gold) !important;
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.1) 0%, rgba(29, 78, 216, 0.05) 100%) !important;
+}
+
+/* Get Location Button luxury styling */
+#getLocationBtn {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%) !important;
+  color: var(--ivory) !important;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  font-weight: 500;
+  transition: all var(--transition-smooth);
+  box-shadow: var(--shadow-gold);
+}
+
+#getLocationBtn:hover, #getLocationBtn:focus {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--copper-light) 100%) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+}
+
+/* Toggle button luxury styling */
+#toggleEarliestBtn {
+  background: var(--ivory);
+  color: var(--charcoal);
+  border: 2px solid var(--mist);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  font-weight: 500;
+  transition: all var(--transition-smooth);
+  box-shadow: var(--shadow-sm);
+}
+
+#toggleEarliestBtn:hover {
+  background: var(--gold);
+  color: var(--ivory);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+}
+
+/* About page styling removed for simplicity */
+
+/* Filter drawer close button styles moved to filter_drawer.css for complete decoupling */
+
+/* Filter drawer location button styles moved to filter_drawer.css for complete decoupling */
+
+/* Filter drawer form group and explanation styles moved to filter_drawer.css for complete decoupling */
+
+/* Filter drawer dark mode styles moved to filter_drawer.css for complete decoupling */
 
 /* Responsive improvements */
 @media (max-width: 576px) {
-  body { padding: 16px 16px !important; }
-  #filterDrawer, .offcanvas.offcanvas-end { width: 100vw !important; }
+  body { padding: var(--space-md) !important; }
+  /* Filter drawer responsive styles moved to filter_drawer.css for complete decoupling */
   h1, h2 { font-size: 1.5rem !important; }
   #toggleEarliestBtn, #getLocationBtn, #notifyForm button[type="submit"] { width: 100%; }
   .navbar-nav { gap: 1rem !important; }
+  
+  /* Theme toggle responsive styling */
+  #themeToggle {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 0.85rem;
+    min-width: 70px;
+  }
+  
+  .navbar-brand {
+    font-size: 1.3rem;
+  }
+  
+  .d-flex.align-items-center.gap-3 {
+    gap: var(--space-sm) !important;
+  }
+}
+
+/* Medium screen responsive styling */
+@media (max-width: 768px) {
+  #themeToggle {
+    padding: var(--space-xs) var(--space-md);
+    font-size: 0.9rem;
+    min-width: 75px;
+  }
+  
+  .navbar-brand {
+    font-size: 1.4rem;
+  }
+  
+  .d-flex.align-items-center.gap-3 {
+    gap: var(--space-md) !important;
+  }
+}
+
+/* Enhanced Navigation Styling */
+.navbar-brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+.navbar-brand::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--copper) 100%);
+  border-radius: 1px;
+  transform: scaleX(0);
+  transition: transform var(--transition-smooth);
+}
+
+.navbar-brand:hover::after {
+  transform: scaleX(1);
+}
+
+/* Comprehensive dark mode text styling */
+.dark * {
+  color: var(--ivory) !important;
+}
+
+/* Exception for buttons and interactive elements */
+.dark .btn,
+.dark .btn-primary,
+.dark .btn-secondary,
+.dark .btn-outline,
+.dark .btn-outline-primary,
+.dark .btn-outline-secondary,
+.dark .step-badge {
+  color: var(--ivory) !important;
+}
+
+/* Dark mode for all text utility classes */
+.dark .text-muted {
+  color: var(--charcoal-light) !important;
+}
+
+.dark .text-danger {
+  color: #fca5a5 !important;
+}
+
+.dark .text-warning {
+  color: #fde047 !important;
+}
+
+.dark .text-success {
+  color: #86efac !important;
+}
+
+.dark .text-info {
+  color: #93c5fd !important;
+}
+
+.dark .text-primary {
+  color: var(--gold-light) !important;
+}
+
+/* Dark mode for table elements */
+.dark table,
+.dark .table {
+  color: var(--ivory) !important;
+}
+
+.dark th,
+.dark td,
+.dark caption {
+  color: var(--ivory) !important;
+}
+
+/* Dark mode for form elements */
+.dark input,
+.dark select,
+.dark textarea,
+.dark option {
+  color: var(--ivory) !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Dark mode for any remaining text elements */
+.dark span,
+.dark div,
+.dark label,
+.dark small,
+.dark strong,
+.dark em,
+.dark b,
+.dark i,
+.dark p {
+  color: var(--ivory) !important;
+}
+
+/* Ensure all text is visible in dark mode */
+.dark [class*="text-"] {
+  color: var(--ivory) !important;
+}
+
+/* Keep specific utility colors visible */
+.dark .text-danger {
+  color: #fca5a5 !important;
+}
+
+html.dark .text-danger {
+  color: #fca5a5 !important;
+}
+
+.dark .text-warning {
+  color: #fde047 !important;
+}
+
+html.dark .text-warning {
+  color: #fde047 !important;
+}
+
+.dark .text-success {
+  color: #86efac !important;
+}
+
+html.dark .text-success {
+  color: #86efac !important;
+}
+
+.dark .text-info {
+  color: #93c5fd !important;
+}
+
+html.dark .text-info {
+  color: #93c5fd !important;
+}
+
+.dark .text-primary {
+  color: var(--gold-light) !important;
+}
+
+html.dark .text-primary {
+  color: var(--gold-light) !important;
+}
+
+.dark .text-muted {
+  color: var(--charcoal-light) !important;
+}
+
+html.dark .text-muted {
+  color: var(--charcoal-light) !important;
+}
+
+/* Exception for gradient text elements */
+.dark h1,
+.dark .hero-title {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+/* Also apply to html.dark for maximum specificity */
+html.dark h1,
+html.dark .hero-title {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+/* Exception for availability status colors */
+.dark .availability-status.available {
+  color: #86efac !important;
+}
+
+html.dark .availability-status.available {
+  color: #86efac !important;
+}
+
+.dark .availability-status.limited {
+  color: #fde047 !important;
+}
+
+html.dark .availability-status.limited {
+  color: #fde047 !important;
+}
+
+.dark .availability-status.unavailable {
+  color: #fca5a5 !important;
+}
+
+html.dark .availability-status.unavailable {
+  color: #fca5a5 !important;
+}
+
+/* Final comprehensive dark mode override - ensures ALL text is visible */
+.dark * {
+  color: var(--ivory) !important;
+}
+
+/* Also target html.dark specifically for maximum specificity */
+html.dark * {
+  color: var(--ivory) !important;
+}
+
+/* Exception for buttons and interactive elements that should keep their styling */
+.dark .btn,
+.dark .btn-primary,
+.dark .btn-secondary,
+.dark .btn-outline,
+.dark .btn-outline-primary,
+.dark .btn-outline-secondary,
+.dark .step-badge,
+.dark .action-btn,
+.dark .table-action-btn,
+.dark .distance-btn {
+  color: var(--ivory) !important;
+}
+
+/* Also apply to html.dark for maximum specificity */
+html.dark .btn,
+html.dark .btn-primary,
+html.dark .btn-secondary,
+html.dark .btn-outline,
+html.dark .btn-outline-primary,
+html.dark .btn-outline-secondary,
+html.dark .step-badge,
+html.dark .action-btn,
+html.dark .table-action-btn,
+html.dark .distance-btn {
+  color: var(--ivory) !important;
+}
+
+/* Exception for icons that should keep their colors */
+.dark .appointments-icon,
+.dark .distance-filter-icon,
+.dark .distance-info-icon,
+.dark .filter-icon,
+.dark .alert-icon {
+  color: var(--gold-light) !important;
+}
+
+/* Also apply to html.dark for maximum specificity */
+html.dark .appointments-icon,
+html.dark .distance-filter-icon,
+html.dark .distance-info-icon,
+html.dark .filter-icon,
+html.dark .alert-icon {
+  color: var(--gold-light) !important;
+}
+
+/* Exception for availability status colors */
+.dark .availability-status.available {
+  color: #86efac !important;
+}
+
+html.dark .availability-status.available {
+  color: #86efac !important;
+}
+
+.dark .availability-status.limited {
+  color: #fde047 !important;
+}
+
+html.dark .availability-status.limited {
+  color: #fde047 !important;
+}
+
+.dark .availability-status.unavailable {
+  color: #fca5a5 !important;
+}
+
+html.dark .availability-status.unavailable {
+  color: #fca5a5 !important;
+}
+
+/* Simple test - force all text to be white in dark mode */
+html.dark * {
+  color: white !important;
+}
+
+/* Test specific elements */
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6,
+html.dark p,
+html.dark span,
+html.dark div,
+html.dark label {
+  color: white !important;
+}
+
+/* Specific overrides for elements that use var(--charcoal) and var(--slate) */
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6,
+html.dark p,
+html.dark .hero-subtitle,
+html.dark .section-heading,
+html.dark .divider-text,
+html.dark .step-header,
+html.dark .step-content,
+html.dark .location-options,
+html.dark .info-alert,
+html.dark .alert-info,
+html.dark .highlight-text,
+html.dark .faq-container,
+html.dark .navbar-nav .nav-link,
+html.dark .navbar-brand,
+html.dark .form-label,
+html.dark .text-muted,
+html.dark .text-dark,
+html.dark .text-black,
+html.dark .text-body,
+html.dark .text-secondary,
+html.dark .text-body-secondary,
+html.dark .bg-white,
+html.dark .bg-light,
+html.dark .bg-dark,
+html.dark .border,
+html.dark .card,
+html.dark .card-body,
+html.dark .table,
+html.dark .table th,
+html.dark .table td,
+html.dark .table-striped > tbody > tr:nth-of-type(odd) > td,
+html.dark .table-striped > tbody > tr:nth-of-type(even) > td,
+html.dark .table-bordered,
+html.dark .table-hover > tbody > tr:hover > td,
+html.dark caption,
+html.dark span,
+html.dark div,
+html.dark label,
+html.dark input,
+html.dark input::placeholder,
+html.dark [class*="text-"],
+html.dark .text-danger,
+html.dark .text-warning,
+html.dark .text-success,
+html.dark .text-info,
+html.dark .text-primary,
+html.dark .text-muted,
+html.dark .luxury-text-charcoal,
+html.dark .luxury-text-slate {
+  color: white !important;
+}
+
+/* Force override for any remaining text elements */
+html.dark *:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-outline):not(.btn-outline-primary):not(.btn-outline-secondary):not(.step-badge):not(.action-btn):not(.table-action-btn):not(.distance-btn):not(.appointments-icon):not(.distance-filter-icon):not(.distance-info-icon):not(.filter-icon):not(.alert-icon):not(.availability-status.available):not(.availability-status.limited):not(.availability-status.unavailable):not(h1):not(.hero-title) {
+  color: white !important;
+}
+
+/* HTML.dark filter drawer overrides */
+/* Filter drawer html.dark styles moved to filter_drawer.css for complete decoupling */
+
+/* Additional dark mode dropdown and select overrides */
+html.dark select,
+html.dark select option {
+  background-color: #1f2937 !important;
+  color: white !important;
+}
+
+html.dark select:focus,
+html.dark select:active {
+  background-color: #374151 !important;
+  border-color: #3b82f6 !important;
+}
+
+html.dark .dropdown-toggle {
+  background-color: #1f2937 !important;
+  color: white !important;
+  border-color: rgba(59, 130, 246, 0.4) !important;
+}
+
+html.dark .dropdown-toggle:hover,
+html.dark .dropdown-toggle:focus {
+  background-color: #374151 !important;
+  border-color: #3b82f6 !important;
+}
+
+/* Ensure all select elements in dark mode have proper styling */
+html.dark .form-select,
+html.dark select,
+html.dark .dropdown-menu,
+html.dark .dropdown-item {
+  background-color: #1f2937 !important;
+  color: white !important;
 }
