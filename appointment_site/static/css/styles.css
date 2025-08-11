@@ -606,29 +606,7 @@ p {
   border-radius: 1px;
 }
 
-/* Luxury Form Elements */
-.form-control, .form-select {
-  background: var(--ivory);
-  border: 2px solid var(--mist);
-  border-radius: var(--radius-md);
-  padding: var(--space-sm) var(--space-md);
-  font-size: 1rem;
-  color: var(--charcoal);
-  transition: all var(--transition-smooth);
-  font-family: var(--font-body);
-}
-
-.form-control:focus, .form-select:focus {
-  outline: none;
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
-  transform: translateY(-1px);
-}
-
-.form-control::placeholder {
-  color: var(--sage);
-  font-style: italic;
-}
+/* Luxury Form Elements - moved to forms.css to avoid duplication */
 
 /* Enhanced Alert Styling */
 .info-alert {
@@ -685,21 +663,7 @@ p {
   text-decoration: underline !important;
 }
 
-/* Dark mode form controls */
-.dark .form-control, .dark .form-select {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(37, 99, 235, 0.08) 100%) !important;
-  color: var(--ivory) !important;
-  border-color: rgba(59, 130, 246, 0.4) !important;
-}
-
-.dark .form-control:focus, .dark .form-select:focus {
-  border-color: var(--gold) !important;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25) !important;
-}
-
-.dark .form-control::placeholder {
-  color: rgba(255, 255, 255, 0.6) !important;
-}
+/* Dark mode form controls - moved to forms.css to avoid duplication */
 
 /* Additional text visibility fixes for dark mode */
 .dark label,

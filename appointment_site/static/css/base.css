@@ -150,10 +150,7 @@ a:hover {
   color: var(--accent-hover);
 }
 
-/* Utility classes */
-.text-center { text-align: center; }
-.text-right { text-align: right; }
-.text-left { text-align: left; }
+/* Utility classes - removed unused text alignment classes */
 
 .mb-1 { margin-bottom: var(--space-xs); }
 .mb-2 { margin-bottom: var(--space-xs); }
