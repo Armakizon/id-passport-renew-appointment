@@ -101,7 +101,7 @@ html.dark .form-select {
 
 /* Date Inputs */
 input[type="date"] {
-  font-family: var(--font-family);
+  font-family: var(--font-body);
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -241,7 +241,13 @@ html.dark input[type="date"]::-webkit-calendar-picker-indicator {
   user-select: none;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments - moved to consolidated media queries section */
+
+/* ======================================== */
+/* CONSOLIDATED MEDIA QUERIES SECTION */
+/* ======================================== */
+
+/* Tablet and Mobile Large (max-width: 768px) */
 @media (max-width: 768px) {
   .location-dropdown {
     min-width: 100%;
@@ -256,6 +262,7 @@ html.dark input[type="date"]::-webkit-calendar-picker-indicator {
   }
 }
 
+/* Mobile Medium (max-width: 576px) */
 @media (max-width: 576px) {
   .form-control,
   .form-select {

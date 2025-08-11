@@ -250,7 +250,15 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Responsive Table */
+/* Responsive Table - moved to consolidated media queries section */
+
+/* Print Styles - moved to consolidated media queries section */
+
+/* ======================================== */
+/* CONSOLIDATED MEDIA QUERIES SECTION */
+/* ======================================== */
+
+/* Tablet and Mobile Large (max-width: 768px) */
 @media (max-width: 768px) {
   .appointments-table {
     font-size: var(--font-size-sm);
@@ -283,6 +291,7 @@
   }
 }
 
+/* Mobile Medium (max-width: 576px) */
 @media (max-width: 576px) {
   .appointments-container {
     border-radius: var(--radius-md);

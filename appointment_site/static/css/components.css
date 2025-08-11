@@ -188,7 +188,13 @@
   flex-wrap: wrap;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments - moved to consolidated media queries section */
+
+/* ======================================== */
+/* CONSOLIDATED MEDIA QUERIES SECTION */
+/* ======================================== */
+
+/* Tablet and Mobile Large (max-width: 768px) */
 @media (max-width: 768px) {
   .hero-title {
     font-size: var(--font-size-3xl);
@@ -218,6 +224,7 @@
   }
 }
 
+/* Mobile Medium (max-width: 576px) */
 @media (max-width: 576px) {
   .hero-header {
     padding: var(--spacing-6) 0;

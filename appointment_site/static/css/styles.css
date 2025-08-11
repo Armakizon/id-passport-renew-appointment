@@ -125,25 +125,7 @@ body.offcanvas-open .main-content > * {
   max-width: none;
 }
 
-/* Responsive adjustments for mobile */
-@media (max-width: 768px) {
-  .main-content {
-    margin-right: 0;
-    padding-right: 0;
-    width: 100%;
-  }
-
-  /* On mobile, filter drawer should not affect main content layout */
-  body.offcanvas-open .main-content {
-    margin-right: 0;
-    width: 100%;
-  }
-
-  body.offcanvas-open .main-content > * {
-    width: 100%;
-    max-width: none;
-  }
-}
+/* Responsive adjustments for mobile - moved to consolidated media queries section */
 
 /* Background Gradients */
 .background-gradients {
@@ -300,34 +282,9 @@ body.offcanvas-open .main-content > * {
   opacity: 0.4;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .gradient-layer {
-    opacity: 0.06;
-  }
-  
-  .dark .gradient-layer {
-    opacity: 0.09;
-  }
-  
-  .texture-overlay {
-    background-size: 40px 40px, 25px 25px;
-  }
-}
+/* Tablet responsive rules - moved to consolidated media queries section */
 
-@media (max-width: 480px) {
-  .gradient-layer {
-    opacity: 0.04;
-  }
-  
-  .dark .gradient-layer {
-    opacity: 0.07;
-  }
-  
-  .texture-overlay {
-    background-size: 30px 30px, 20px 20px;
-  }
-}
+/* Mobile small responsive rules - moved to consolidated media queries section */
 
 /* Typography System */
 h1, h2, h3, h4, h5, h6 {
@@ -844,61 +801,7 @@ p {
 
 /* FAQ Accordion styles moved to dedicated faq.css file */
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  h1 { font-size: 2.5rem; }
-  .hero-title { font-size: 3rem; }
-  h2 { font-size: 2rem; }
-  h3 { font-size: 1.5rem; }
-  
-  .card-surface {
-    padding: var(--space-sm);
-    margin-bottom: var(--space-sm);
-  }
-  
-  .btn {
-    padding: var(--space-sm) var(--space-md);
-    font-size: 0.95rem;
-  }
-  
-  .location-options {
-    flex-direction: column;
-    gap: var(--space-sm);
-  }
-  
-  .divider {
-    flex-direction: row;
-  }
-  
-  .divider::before,
-  .divider::after {
-    width: 20px;
-  }
-  
-  body {
-    padding: var(--space-md);
-  }
-}
-
-@media (max-width: 480px) {
-  h1 { font-size: 2rem; }
-  .hero-title { font-size: 2.5rem; }
-  h2 { font-size: 1.75rem; }
-  
-  .card-surface {
-    padding: var(--space-xs);
-  }
-  
-  .step-badge {
-    width: 32px;
-    height: 32px;
-    font-size: 0.9rem;
-  }
-  
-  .hero-header {
-    padding: var(--space-lg) 0;
-  }
-}
+/* Responsive Design - moved to consolidated media queries section */
 
 /* Luxury Animations */
 @keyframes fadeInUp {
@@ -1170,4 +1073,113 @@ html.dark .info-alert a.luxury-link {
 html.dark .info-alert a.luxury-link:hover {
   color: #0052a3 !important;
   text-decoration: underline !important;
+}
+
+/* ======================================== */
+/* CONSOLIDATED MEDIA QUERIES SECTION */
+/* ======================================== */
+
+/* Tablet and Mobile Large (max-width: 768px) */
+@media (max-width: 768px) {
+  /* Main content adjustments */
+  .main-content {
+    margin-right: 0;
+    padding-right: 0;
+    width: 100%;
+  }
+
+  /* Filter drawer mobile adjustments */
+  body.offcanvas-open .main-content {
+    margin-right: 0;
+    width: 100%;
+  }
+
+  body.offcanvas-open .main-content > * {
+    width: 100%;
+    max-width: none;
+  }
+
+  /* Background gradient adjustments */
+  .gradient-layer {
+    opacity: 0.06;
+  }
+  
+  .dark .gradient-layer {
+    opacity: 0.09;
+  }
+  
+  .texture-overlay {
+    background-size: 40px 40px, 25px 25px;
+  }
+
+  /* Typography adjustments */
+  h1 { font-size: 2.5rem; }
+  .hero-title { font-size: 3rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.5rem; }
+  
+  /* Component adjustments */
+  .card-surface {
+    padding: var(--space-sm);
+    margin-bottom: var(--space-sm);
+  }
+  
+  .btn {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.95rem;
+  }
+  
+  .location-options {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  
+  .divider {
+    flex-direction: row;
+  }
+  
+  .divider::before,
+  .divider::after {
+    width: 20px;
+  }
+  
+  body {
+    padding: var(--space-md);
+  }
+}
+
+/* Mobile Small (max-width: 480px) */
+@media (max-width: 480px) {
+  /* Background gradient adjustments */
+  .gradient-layer {
+    opacity: 0.04;
+  }
+  
+  .dark .gradient-layer {
+    opacity: 0.07;
+  }
+  
+  .texture-overlay {
+    background-size: 30px 30px, 20px 20px;
+  }
+
+  /* Typography adjustments */
+  h1 { font-size: 2rem; }
+  .hero-title { font-size: 2.5rem; }
+  h2 { font-size: 1.75rem; }
+  
+  /* Component adjustments */
+  .card-surface {
+    padding: var(--space-xs);
+  }
+  
+  .step-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+  
+  .hero-header {
+    padding: var(--space-lg) 0;
+  }
 }

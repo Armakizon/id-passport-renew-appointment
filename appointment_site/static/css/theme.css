@@ -462,46 +462,7 @@ html.dark .form-select option:hover {
 
 /* Filter drawer dark mode styles moved to filter_drawer.css for complete decoupling */
 
-/* Responsive improvements */
-@media (max-width: 576px) {
-  body { padding: var(--space-md) !important; }
-  /* Filter drawer responsive styles moved to filter_drawer.css for complete decoupling */
-  h1, h2 { font-size: 1.5rem !important; }
-  #toggleEarliestBtn, #getLocationBtn, #notifyForm button[type="submit"] { width: 100%; }
-  .navbar-nav { gap: 1rem !important; }
-  
-  /* Theme toggle responsive styling */
-  #themeToggle {
-    padding: var(--space-xs) var(--space-sm);
-    font-size: 0.85rem;
-    min-width: 70px;
-  }
-  
-  .navbar-brand {
-    font-size: 1.3rem;
-  }
-  
-  .d-flex.align-items-center.gap-3 {
-    gap: var(--space-sm) !important;
-  }
-}
-
-/* Medium screen responsive styling */
-@media (max-width: 768px) {
-  #themeToggle {
-    padding: var(--space-xs) var(--space-md);
-    font-size: 0.9rem;
-    min-width: 75px;
-  }
-  
-  .navbar-brand {
-    font-size: 1.4rem;
-  }
-  
-  .d-flex.align-items-center.gap-3 {
-    gap: var(--space-md) !important;
-  }
-}
+/* Responsive improvements - moved to consolidated media queries section */
 
 /* Enhanced Navigation Styling */
 .navbar-brand {
@@ -726,4 +687,49 @@ html.dark .dropdown-menu,
 html.dark .dropdown-item {
   background-color: #1f2937 !important;
   color: white !important;
+}
+
+/* ======================================== */
+/* CONSOLIDATED MEDIA QUERIES SECTION */
+/* ======================================== */
+
+/* Mobile Medium (max-width: 576px) */
+@media (max-width: 576px) {
+  body { padding: var(--space-md) !important; }
+  /* Filter drawer responsive styles moved to filter_drawer.css for complete decoupling */
+  h1, h2 { font-size: 1.5rem !important; }
+  #toggleEarliestBtn, #getLocationBtn, #notifyForm button[type="submit"] { width: 100%; }
+  .navbar-nav { gap: 1rem !important; }
+  
+  /* Theme toggle responsive styling */
+  #themeToggle {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 0.85rem;
+    min-width: 70px;
+  }
+  
+  .navbar-brand {
+    font-size: 1.3rem;
+  }
+  
+  .d-flex.align-items-center.gap-3 {
+    gap: var(--space-sm) !important;
+  }
+}
+
+/* Tablet and Mobile Large (max-width: 768px) */
+@media (max-width: 768px) {
+  #themeToggle {
+    padding: var(--space-xs) var(--space-md);
+    font-size: 0.9rem;
+    min-width: 75px;
+  }
+  
+  .navbar-brand {
+    font-size: 1.4rem;
+  }
+  
+  .d-flex.align-items-center.gap-3 {
+    gap: var(--space-md) !important;
+  }
 }

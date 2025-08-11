@@ -402,67 +402,7 @@ html.dark .filter-section-title {
   color: white !important;
 }
 
-/* Responsive Design */
-@media (max-width: 500px) {
-  .luxury-filter-drawer {
-    width: 100vw !important;
-    max-width: 100vw !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .distance-filter-container {
-    padding: var(--space-md);
-  }
-  
-  .distance-input-group {
-    flex-direction: column;
-    gap: var(--space-sm);
-  }
-  
-  .distance-input-wrapper {
-    min-width: 100%;
-  }
-  
-  .distance-buttons {
-    justify-content: center;
-  }
-  
-  .luxury-filter-drawer {
-    max-width: 100vw;
-    width: 100vw;
-  }
-  
-  .luxury-filter-drawer .offcanvas-header,
-  .luxury-filter-drawer .offcanvas-body {
-    padding: var(--space-md);
-  }
-}
-
-@media (max-width: 480px) {
-  .distance-filter-container {
-    padding: var(--space-sm);
-  }
-  
-  .distance-filter-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-xs);
-  }
-  
-  .distance-slider-container {
-    padding: var(--space-sm);
-  }
-  
-  .distance-buttons {
-    flex-direction: column;
-  }
-  
-  .distance-btn {
-    width: 100%;
-    justify-content: center;
-  }
-}
+/* Responsive Design - moved to consolidated media queries section */
 
 /* Hover Effects */
 .distance-filter-container:hover {
@@ -504,4 +444,72 @@ html.dark .luxury-filter-drawer select:focus,
 html.dark .luxury-filter-drawer textarea:focus {
   border-color: var(--gold) !important;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+}
+
+/* ======================================== */
+/* CONSOLIDATED MEDIA QUERIES SECTION */
+/* ======================================== */
+
+/* Mobile Small (max-width: 500px) */
+@media (max-width: 500px) {
+  .luxury-filter-drawer {
+    width: 100vw !important;
+    max-width: 100vw !important;
+  }
+}
+
+/* Tablet and Mobile Large (max-width: 768px) */
+@media (max-width: 768px) {
+  .distance-filter-container {
+    padding: var(--space-md);
+  }
+  
+  .distance-input-group {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  
+  .distance-input-wrapper {
+    min-width: 100%;
+  }
+  
+  .distance-buttons {
+    justify-content: center;
+  }
+  
+  .luxury-filter-drawer {
+    max-width: 100vw;
+    width: 100vw;
+  }
+  
+  .luxury-filter-drawer .offcanvas-header,
+  .luxury-filter-drawer .offcanvas-body {
+    padding: var(--space-md);
+  }
+}
+
+/* Mobile Small (max-width: 480px) */
+@media (max-width: 480px) {
+  .distance-filter-container {
+    padding: var(--space-sm);
+  }
+  
+  .distance-filter-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+  }
+  
+  .distance-slider-container {
+    padding: var(--space-sm);
+  }
+  
+  .distance-buttons {
+    flex-direction: column;
+  }
+  
+  .distance-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }

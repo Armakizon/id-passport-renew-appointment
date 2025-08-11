@@ -14,8 +14,7 @@
   --light-accent: #3b82f6;
   --light-accent-hover: #2563eb;
   --light-accent-light: #dbeafe;
-  --light-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --light-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  /* Shadow variables moved to styles.css for consistency */
   
   /* Dark Mode Colors */
   --dark-bg-primary: #0f172a;
@@ -29,8 +28,7 @@
   --dark-accent: #60a5fa;
   --dark-accent-hover: #3b82f6;
   --dark-accent-light: #1e3a8a;
-  --dark-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-  --dark-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  /* Shadow variables moved to styles.css for consistency */
   
   /* Common Colors */
   --success: #10b981;
@@ -39,7 +37,7 @@
   --info: #3b82f6;
   
   /* Typography */
-  --font-family: 'Heebo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Font variables moved to styles.css for consistency */
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
@@ -49,28 +47,11 @@
   --font-size-3xl: 1.875rem;
   --font-size-4xl: 2.25rem;
   
-  /* Spacing */
-  --spacing-1: 0.25rem;
-  --spacing-2: 0.5rem;
-  --spacing-3: 0.75rem;
-  --spacing-4: 1rem;
-  --spacing-5: 1.25rem;
-  --spacing-6: 1.5rem;
-  --spacing-8: 2rem;
-  --spacing-10: 2.5rem;
-  --spacing-12: 3rem;
-  --spacing-16: 4rem;
+  /* Spacing - using styles.css spacing system */
   
-  /* Border Radius */
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
+  /* Border Radius - using styles.css radius system */
   
-  /* Transitions */
-  --transition-fast: 150ms ease-in-out;
-  --transition-normal: 250ms ease-in-out;
-  --transition-slow: 350ms ease-in-out;
+  /* Transitions - using styles.css transition system */
   
   /* Z-index */
   --z-dropdown: 1000;
@@ -95,8 +76,8 @@ html.dark {
   --accent: var(--dark-accent);
   --accent-hover: var(--dark-accent-hover);
   --accent-light: var(--dark-accent-light);
-  --shadow: var(--dark-shadow);
-  --shadow-lg: var(--dark-shadow-lg);
+  /* Shadow variables moved to styles.css for consistency */
+  /* Shadow variables moved to styles.css for consistency */
 }
 
 /* Light mode (default) */
@@ -112,8 +93,8 @@ html.dark {
   --accent: var(--light-accent);
   --accent-hover: var(--light-accent-hover);
   --accent-light: var(--light-accent-light);
-  --shadow: var(--light-shadow);
-  --shadow-lg: var(--light-shadow-lg);
+  /* Shadow variables moved to styles.css for consistency */
+  /* Shadow variables moved to styles.css for consistency */
 }
 
 /* Reset and base styles */
@@ -129,12 +110,12 @@ html {
 }
 
 body {
-  font-family: var(--font-family);
+  font-family: var(--font-body);
   font-size: var(--font-size-base);
   line-height: 1.6;
   color: var(--text-primary);
   background-color: var(--bg-primary);
-  transition: background-color var(--transition-normal), color var(--transition-normal);
+  transition: background-color var(--transition-smooth), color var(--transition-smooth);
   direction: rtl;
   text-align: right;
 }
@@ -143,7 +124,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   line-height: 1.3;
-  margin-bottom: var(--spacing-4);
+  margin-bottom: var(--space-sm);
   color: var(--text-primary);
 }
 
@@ -155,14 +136,14 @@ h5 { font-size: var(--font-size-lg); }
 h6 { font-size: var(--font-size-base); }
 
 p {
-  margin-bottom: var(--spacing-4);
+  margin-bottom: var(--space-sm);
   color: var(--text-secondary);
 }
 
 a {
   color: var(--accent);
   text-decoration: none;
-  transition: color var(--transition-fast);
+  transition: color var(--transition-smooth);
 }
 
 a:hover {
@@ -174,19 +155,19 @@ a:hover {
 .text-right { text-align: right; }
 .text-left { text-align: left; }
 
-.mb-1 { margin-bottom: var(--spacing-1); }
-.mb-2 { margin-bottom: var(--spacing-2); }
-.mb-3 { margin-bottom: var(--spacing-3); }
-.mb-4 { margin-bottom: var(--spacing-4); }
-.mb-5 { margin-bottom: var(--spacing-5); }
-.mb-6 { margin-bottom: var(--spacing-6); }
+.mb-1 { margin-bottom: var(--space-xs); }
+.mb-2 { margin-bottom: var(--space-xs); }
+.mb-3 { margin-bottom: var(--space-sm); }
+.mb-4 { margin-bottom: var(--space-sm); }
+.mb-5 { margin-bottom: var(--space-md); }
+.mb-6 { margin-bottom: var(--space-md); }
 
-.mt-1 { margin-top: var(--spacing-1); }
-.mt-2 { margin-top: var(--spacing-2); }
-.mt-3 { margin-top: var(--spacing-3); }
-.mt-4 { margin-top: var(--spacing-4); }
-.mt-5 { margin-top: var(--spacing-5); }
-.mt-6 { margin-top: var(--spacing-6); }
+.mt-1 { margin-top: var(--space-xs); }
+.mt-2 { margin-top: var(--space-xs); }
+.mt-3 { margin-top: var(--space-sm); }
+.mt-4 { margin-top: var(--space-sm); }
+.mt-5 { margin-top: var(--space-md); }
+.mt-6 { margin-top: var(--space-md); }
 
 /* Simplified background - removed complex animations for better performance */
 
@@ -195,18 +176,24 @@ a:hover {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 var(--spacing-4);
+  padding: 0 var(--space-sm);
 }
 
 .container-fluid {
   width: 100%;
-  padding: 0 var(--spacing-4);
+  padding: 0 var(--space-sm);
 }
 
-/* Responsive breakpoints */
+/* Responsive breakpoints - moved to consolidated media queries section */
+
+/* ======================================== */
+/* CONSOLIDATED MEDIA QUERIES SECTION */
+/* ======================================== */
+
+/* Mobile Large (max-width: 640px) */
 @media (max-width: 640px) {
   .container, .container-fluid {
-    padding: 0 var(--spacing-3);
+    padding: 0 var(--space-sm);
   }
   
   h1 { font-size: var(--font-size-3xl); }
@@ -214,14 +201,16 @@ a:hover {
   h3 { font-size: var(--font-size-xl); }
 }
 
+/* Tablet and Mobile Large (max-width: 768px) */
 @media (max-width: 768px) {
   .container, .container-fluid {
-    padding: 0 var(--spacing-4);
+    padding: 0 var(--space-sm);
   }
 }
 
+/* Desktop Small and up (min-width: 1024px) */
 @media (min-width: 1024px) {
   .container, .container-fluid {
-    padding: 0 var(--spacing-6);
+    padding: 0 var(--space-md);
   }
 }

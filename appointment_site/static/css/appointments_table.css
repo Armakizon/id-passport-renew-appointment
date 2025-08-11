@@ -403,120 +403,11 @@
 }
 
 /* Responsive Table */
-@media (max-width: 1024px) {
-  .appointments-table {
-    font-size: 0.95rem;
-  }
-  
-  .appointments-table th,
-  .appointments-table td {
-    padding: var(--space-sm) var(--space-md);
-  }
-  
-  .appointments-header {
-    padding: var(--space-md);
-  }
-  
-  .appointments-title {
-    font-size: 1.3rem;
-  }
-}
+/* Desktop Small responsive rules - moved to consolidated media queries section */
 
-@media (max-width: 768px) {
-  .appointments-container {
-    border-radius: var(--radius-md);
-    margin-bottom: var(--space-md);
-  }
-  
-  .appointments-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-sm);
-    padding: var(--space-md);
-  }
-  
-  .appointments-actions {
-    width: 100%;
-    justify-content: flex-start;
-  }
-  
-  .action-btn {
-    flex: 1;
-    justify-content: center;
-    min-width: 120px;
-  }
-  
-  .appointments-table {
-    font-size: 0.9rem;
-  }
-  
-  .appointments-table th,
-  .appointments-table td {
-    padding: var(--space-sm);
-  }
-  
-  .table-action-btn {
-    margin: var(--space-xs) 0;
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .availability-status {
-    min-width: 60px;
-    font-size: 0.85rem;
-  }
-}
+/* Tablet responsive rules - moved to consolidated media queries section */
 
-@media (max-width: 480px) {
-  .appointments-container {
-    border-radius: var(--radius-sm);
-  }
-  
-  .appointments-header {
-    padding: var(--space-sm);
-  }
-  
-  .appointments-title {
-    font-size: 1.2rem;
-  }
-  
-  .appointments-count {
-    font-size: 0.85rem;
-    padding: var(--space-xs);
-    min-width: 35px;
-  }
-  
-  .action-btn {
-    font-size: 0.9rem;
-    padding: var(--space-sm);
-    min-width: 100px;
-  }
-  
-  .appointments-table {
-    font-size: 0.85rem;
-  }
-  
-  .appointments-table th,
-  .appointments-table td {
-    padding: var(--space-xs);
-  }
-  
-  .empty-state {
-    padding: var(--space-xl) var(--space-md);
-  }
-  
-  .empty-state-icon {
-    font-size: 3rem;
-  }
-  
-  .empty-state-title {
-    font-size: 1.3rem;
-  }
-  
-  .empty-state-message {
-    font-size: 1rem;
-  }
-}
+/* Mobile Small responsive rules - moved to consolidated media queries section */
 
 /* Animation Enhancements */
 .appointments-container {
@@ -727,3 +618,137 @@ html.dark .availability-status.unavailable {
 /* Additional dark mode rules moved to theme.css for consolidation */
 
 /* Filter drawer styles moved to filter_drawer.css for complete decoupling */
+
+/* ======================================== */
+/* CONSOLIDATED MEDIA QUERIES SECTION */
+/* ======================================== */
+
+/* Desktop Small (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .appointments-table {
+    font-size: 0.95rem;
+  }
+  
+  .appointments-table th,
+  .appointments-table td {
+    padding: var(--space-sm) var(--space-md);
+  }
+  
+  .appointments-header {
+    padding: var(--space-md);
+  }
+  
+  .appointments-title {
+    font-size: 1.3rem;
+  }
+}
+
+/* Tablet and Mobile Large (max-width: 768px) */
+@media (max-width: 768px) {
+  .appointments-container {
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-md);
+  }
+  
+  .appointments-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+  }
+  
+  .appointments-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .action-btn {
+    flex: 1;
+    justify-content: center;
+    min-width: 120px;
+  }
+  
+  .appointments-table {
+    font-size: 0.9rem;
+  }
+  
+  .appointments-table th,
+  .appointments-table td {
+    padding: var(--space-sm);
+  }
+  
+  .table-action-btn {
+    margin: var(--space-xs) 0;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .availability-status {
+    min-width: 60px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Mobile Small (max-width: 480px) */
+@media (max-width: 480px) {
+  .appointments-container {
+    border-radius: var(--radius-sm);
+  }
+  
+  .appointments-header {
+    padding: var(--space-sm);
+  }
+  
+  .appointments-title {
+    font-size: 1.2rem;
+  }
+  
+  .appointments-count {
+    font-size: 0.85rem;
+    padding: var(--space-xs);
+    min-width: 35px;
+  }
+  
+  .action-btn {
+    font-size: 0.9rem;
+    padding: var(--space-sm);
+    min-width: 100px;
+  }
+  
+  .appointments-table {
+    font-size: 0.85rem;
+  }
+  
+  .appointments-table th,
+  .appointments-table td {
+    padding: var(--space-xs);
+  }
+  
+  .table-action-btn {
+    font-size: 0.8rem;
+    padding: var(--space-xs) var(--space-sm);
+    min-width: 80px;
+  }
+  
+  .availability-status {
+    font-size: 0.8rem;
+    padding: var(--space-xs);
+    min-width: 50px;
+  }
+  
+  .empty-state {
+    padding: var(--space-md);
+  }
+  
+  .empty-state-icon {
+    font-size: 2rem;
+  }
+  
+  .empty-state-title {
+    font-size: 1.1rem;
+  }
+  
+  .empty-state-message {
+    font-size: 0.9rem;
+  }
+}
