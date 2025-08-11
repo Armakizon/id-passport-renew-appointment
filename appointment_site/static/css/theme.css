@@ -67,7 +67,7 @@ html.dark .dropdown-item:hover {
   border-radius: var(--radius-md);
   font-weight: 500;
   transition: all var(--transition-smooth);
-  box-shadow: var(--shadow-gold);
+  box-shadow: var(--shadow-md);
   font-size: 0.9rem;
   min-width: 80px;
   position: relative;
@@ -232,7 +232,7 @@ html.dark .dropdown-item:hover {
   background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%) !important;
   color: white !important;
   border: none !important;
-  box-shadow: var(--shadow-gold) !important;
+  box-shadow: var(--shadow-md) !important;
 }
 
 .modal-content #confirmBtn:hover {

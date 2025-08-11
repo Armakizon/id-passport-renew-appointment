@@ -39,6 +39,7 @@
   --shadow-sm: 0 2px 8px rgba(37, 99, 235, 0.08);
   --shadow-md: 0 8px 32px rgba(37, 99, 235, 0.12);
   --shadow-lg: 0 16px 64px rgba(37, 99, 235, 0.16);
+  --shadow-xl: 0 24px 96px rgba(37, 99, 235, 0.20);
   
   /* Border Radius */
   --radius-sm: 8px;
@@ -427,10 +428,7 @@ p {
   color: var(--ivory) !important;
 }
 
-.update-icon {
-  font-size: 1.4rem;
-  opacity: 0.8;
-}
+
 
 /* Step Section Styling */
 .step-section {
@@ -584,10 +582,7 @@ p {
   border-color: var(--gold);
 }
 
-.filter-btn {
-  font-size: 1.1rem;
-  padding: var(--space-md) var(--space-xl);
-}
+
 
 .btn-icon {
   font-size: 1.2rem;
@@ -699,11 +694,7 @@ p {
   background: var(--gold);
 }
 
-.alert-icon {
-  font-size: 1.2rem;
-  opacity: 0.8;
-  margin-top: 2px;
-}
+
 
 .alert-info {
   background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(184, 147, 31, 0.05) 100%);
@@ -760,10 +751,7 @@ p {
   color: var(--ivory) !important;
 }
 
-.dark .text-muted,
-.dark .text-secondary {
-  color: var(--charcoal-light) !important;
-}
+/* Dark mode text rules moved to theme.css for consolidation */
 
 .dark .navbar-nav .nav-link {
   color: var(--ivory) !important;
@@ -775,81 +763,9 @@ p {
 
 /* FAQ accordion styling moved to dedicated faq.css file */
 
-/* Dark mode buttons */
-.dark .btn {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%) !important;
-  color: var(--ivory) !important;
-  border-color: var(--gold) !important;
-}
+/* Dark mode button styling moved to theme.css for consolidation */
 
-.dark .btn:hover {
-  background: linear-gradient(135deg, var(--gold-light) 0%, var(--copper-light) 100%) !important;
-}
 
-.dark .btn-primary {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%) !important;
-  color: var(--ivory) !important;
-  border-color: var(--gold) !important;
-}
-
-.dark .btn-primary:hover {
-  background: linear-gradient(135deg, var(--gold-light) 0%, var(--copper-light) 100%) !important;
-}
-
-.dark .btn-secondary {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.15) 100%) !important;
-  color: var(--ivory) !important;
-  border-color: rgba(59, 130, 246, 0.4) !important;
-}
-
-.dark .btn-secondary:hover {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(37, 99, 235, 0.25) 100%) !important;
-}
-
-/* Dark mode outline buttons */
-.dark .btn-outline {
-  background: transparent !important;
-  color: var(--gold) !important;
-  border-color: var(--gold) !important;
-}
-
-.dark .btn-outline:hover {
-  background: var(--gold) !important;
-  color: var(--ivory) !important;
-}
-
-.dark .btn-outline-primary {
-  background: transparent !important;
-  color: var(--gold) !important;
-  border-color: var(--gold) !important;
-}
-
-.dark .btn-outline-primary:hover {
-  background: var(--gold) !important;
-  color: var(--ivory) !important;
-}
-
-.dark .btn-outline-secondary {
-  background: transparent !important;
-  color: var(--gold-light) !important;
-  border-color: var(--gold-light) !important;
-}
-
-.dark .btn-outline-secondary:hover {
-  background: var(--gold-light) !important;
-  color: var(--ivory) !important;
-}
-
-/* Ensure small outline buttons are visible in dark mode */
-.dark .btn-outline-secondary.btn-sm {
-  color: var(--gold-light) !important;
-  border-color: var(--gold-light) !important;
-}
-
-.dark .btn-outline-secondary.btn-sm:hover {
-  background: var(--gold-light) !important;
-  color: var(--ivory) !important;
-}
 
 /* Theme toggle button specific styling for dark mode */
 .dark #themeToggle,
@@ -876,26 +792,7 @@ p {
   font-weight: 600 !important;
 }
 
-/* Dark mode text elements */
-.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
-  color: var(--ivory) !important;
-}
-
-.dark p {
-  color: var(--ivory) !important;
-}
-
-.dark .hero-subtitle {
-  color: var(--charcoal-light) !important;
-}
-
-.dark .divider-text {
-  color: var(--gold-light) !important;
-}
-
-.dark .section-heading {
-  color: var(--ivory) !important;
-}
+/* Dark mode text elements moved to theme.css for consolidation */
 
 /* Ensure text elements are visible in dark mode without breaking buttons */
 .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6,
@@ -910,31 +807,11 @@ p {
   color: var(--ivory) !important;
 }
 
-.dark .step-badge {
-  color: var(--ivory) !important;
-}
+/* Dark mode step badge rules moved to theme.css for consolidation */
 
-/* Dark mode info alerts */
-.dark .info-alert {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(37, 99, 235, 0.08) 100%) !important;
-  border-color: rgba(59, 130, 246, 0.25) !important;
-  color: var(--ivory) !important;
-}
+/* Dark mode info alerts moved to theme.css for consolidation */
 
-.dark .alert-info {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(37, 99, 235, 0.08) 100%) !important;
-  color: var(--ivory) !important;
-}
-
-.dark .alert-info a {
-  color: var(--gold-light) !important;
-  border-bottom-color: var(--gold-light) !important;
-}
-
-.dark .alert-info a:hover {
-  color: var(--gold) !important;
-  border-bottom-color: var(--gold) !important;
-}
+/* Dark mode alert info rules moved to theme.css for consolidation */
 
 /* Dark mode overrides for luxury-link inside info-alert */
 .dark .info-alert a.luxury-link {
@@ -1158,25 +1035,7 @@ p {
   color: var(--ivory) !important;
 }
 
-.dark .text-danger {
-  color: #fca5a5 !important;
-}
-
-.dark .text-warning {
-  color: #fde047 !important;
-}
-
-.dark .text-success {
-  color: #86efac !important;
-}
-
-.dark .text-info {
-  color: #93c5fd !important;
-}
-
-.dark .text-primary {
-  color: var(--gold-light) !important;
-}
+/* Dark mode utility colors moved to theme.css for consolidation */
 
 /* Dark mode table styling */
 .dark .table {
@@ -1241,9 +1100,7 @@ p {
   color: var(--ivory) !important;
 }
 
-.dark .step-badge {
-  color: var(--ivory) !important;
-}
+/* Dark mode step badge rules moved to theme.css for consolidation */
 
 /* Dark mode for form elements */
 .dark input,
@@ -1264,53 +1121,7 @@ p {
 }
 
 /* Keep specific utility colors visible */
-.dark .text-danger {
-  color: #fca5a5 !important;
-}
-
-html.dark .text-danger {
-  color: #fca5a5 !important;
-}
-
-.dark .text-warning {
-  color: #fde047 !important;
-}
-
-html.dark .text-warning {
-  color: #fde047 !important;
-}
-
-.dark .text-success {
-  color: #86efac !important;
-}
-
-html.dark .text-success {
-  color: #86efac !important;
-}
-
-.dark .text-info {
-  color: #93c5fd !important;
-}
-
-html.dark .text-info {
-  color: #93c5fd !important;
-}
-
-.dark .text-primary {
-  color: var(--gold-light) !important;
-}
-
-html.dark .text-primary {
-  color: var(--gold-light) !important;
-}
-
-.dark .text-muted {
-  color: var(--charcoal-light) !important;
-}
-
-html.dark .text-muted {
-  color: var(--charcoal-light) !important;
-}
+/* Additional dark mode utility colors moved to theme.css for consolidation */
 
 /* Exception for gradient text elements */
 .dark h1,

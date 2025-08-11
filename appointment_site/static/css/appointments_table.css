@@ -339,7 +339,7 @@
 .table-action-btn.primary {
   background: var(--gold);
   color: var(--ivory);
-  box-shadow: var(--shadow-gold);
+  box-shadow: var(--shadow-md);
 }
 
 .table-action-btn.primary:hover {

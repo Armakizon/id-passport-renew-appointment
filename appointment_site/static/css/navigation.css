@@ -171,6 +171,12 @@ html.dark .navbar-toggler-icon {
   }
 }
 
+/* Container adjustments for navbar */
+.navbar .container-fluid {
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+}
+
 @media (max-width: 576px) {
   .navbar-brand {
     font-size: var(--font-size-xl);
@@ -184,15 +190,7 @@ html.dark .navbar-toggler-icon {
   .navbar-nav .nav-link {
     font-size: var(--font-size-base);
   }
-}
-
-/* Container adjustments for navbar */
-.navbar .container-fluid {
-  padding-left: var(--spacing-4);
-  padding-right: var(--spacing-4);
-}
-
-@media (max-width: 576px) {
+  
   .navbar .container-fluid {
     padding-left: var(--spacing-3);
     padding-right: var(--spacing-3);

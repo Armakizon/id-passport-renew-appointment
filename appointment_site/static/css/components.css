@@ -99,61 +99,7 @@
   cursor: not-allowed;
 }
 
-/* Primary Button */
-.btn-primary {
-  background-color: var(--accent);
-  border-color: var(--accent);
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: var(--accent-hover);
-  border-color: var(--accent-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow);
-}
-
-.btn-primary:active {
-  transform: translateY(0);
-}
-
-/* Secondary Button */
-.btn-secondary {
-  background-color: var(--bg-tertiary);
-  border-color: var(--border);
-  color: var(--text-primary);
-}
-
-.btn-secondary:hover {
-  background-color: var(--border);
-  border-color: var(--border-hover);
-  color: var(--text-primary);
-}
-
-/* Outline Button */
-.btn-outline-primary {
-  background-color: transparent;
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.btn-outline-primary:hover {
-  background-color: var(--accent);
-  border-color: var(--accent);
-  color: white;
-}
-
-.btn-outline-secondary {
-  background-color: transparent;
-  border-color: var(--border);
-  color: var(--text-secondary);
-}
-
-.btn-outline-secondary:hover {
-  background-color: var(--bg-tertiary);
-  border-color: var(--border-hover);
-  color: var(--text-primary);
-}
+/* Button styles moved to styles.css to avoid duplication */
 
 /* Button Sizes */
 .btn-sm {
@@ -189,21 +135,11 @@
   box-shadow: var(--shadow-lg);
 }
 
-.card-body {
-  padding: var(--spacing-6);
-}
 
-.card-header {
-  padding: var(--spacing-4) var(--spacing-6);
-  background-color: var(--bg-tertiary);
-  border-bottom: 1px solid var(--border);
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-}
 
-.card-title {
-  margin-bottom: 0;
-  color: var(--text-primary);
-}
+
+
+
 
 /* Location Options */
 .location-options {
