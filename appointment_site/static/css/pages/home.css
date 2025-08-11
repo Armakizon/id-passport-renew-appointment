@@ -1,0 +1,4 @@
+/* Home page specifics */
+.hero-header { position: relative; }
+.step-content { padding-top: var(--sp-2); }
+.view-controls { display: flex; justify-content: flex-end; }

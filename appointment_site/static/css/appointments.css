@@ -1,0 +1,348 @@
+/* Appointments CSS - Appointments table and related components */
+
+/* Appointments Container */
+.appointments-container {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* Appointments Table */
+.appointments-table {
+  width: 100%;
+  margin-bottom: 0;
+  color: var(--text-primary);
+  border-collapse: collapse;
+}
+
+.appointments-table th,
+.appointments-table td {
+  padding: var(--spacing-4);
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border);
+  text-align: right;
+}
+
+.appointments-table th {
+  background-color: var(--bg-tertiary);
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.appointments-table th:last-child,
+.appointments-table td:last-child {
+  border-left: none;
+}
+
+.appointments-table tbody tr {
+  transition: background-color var(--transition-fast);
+}
+
+.appointments-table tbody tr:hover {
+  background-color: var(--accent-light);
+}
+
+.appointments-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Table Headers */
+.table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-4) var(--spacing-6);
+  background-color: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border);
+}
+
+.table-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.table-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+/* Availability Status */
+.availability-status {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.availability-status.available {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.availability-status.limited {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.availability-status.unavailable {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Distance Badge */
+.distance-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-1) var(--spacing-2);
+  background-color: var(--accent-light);
+  color: var(--accent);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+.distance-badge::before {
+  content: '📍';
+  margin-left: var(--spacing-1);
+  font-size: var(--font-size-xs);
+}
+
+/* Action Buttons */
+.table-action-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-2) var(--spacing-3);
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.table-action-btn:hover {
+  background-color: var(--accent-hover);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.table-action-btn:active {
+  transform: translateY(0);
+}
+
+.table-action-btn.secondary {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.table-action-btn.secondary:hover {
+  background-color: var(--border);
+  color: var(--text-primary);
+}
+
+/* Toggle Button */
+.toggle-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.toggle-button:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.toggle-button:active {
+  transform: translateY(0);
+}
+
+.toggle-button.outline {
+  background-color: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.toggle-button.outline:hover {
+  background-color: var(--accent);
+  color: white;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-12) var(--spacing-6);
+  color: var(--text-muted);
+}
+
+.empty-state-icon {
+  font-size: var(--font-size-4xl);
+  margin-bottom: var(--spacing-4);
+  opacity: 0.5;
+}
+
+.empty-state-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-2);
+}
+
+.empty-state-description {
+  font-size: var(--font-size-base);
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-4);
+}
+
+/* Loading State */
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-8) var(--spacing-6);
+  color: var(--text-muted);
+}
+
+.loading-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--border);
+  border-top: 2px solid var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: var(--spacing-3);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+  .appointments-table {
+    font-size: var(--font-size-sm);
+  }
+  
+  .appointments-table th,
+  .appointments-table td {
+    padding: var(--spacing-3);
+  }
+  
+  .table-header {
+    padding: var(--spacing-3) var(--spacing-4);
+    flex-direction: column;
+    gap: var(--spacing-3);
+    align-items: stretch;
+  }
+  
+  .table-actions {
+    justify-content: center;
+  }
+  
+  .availability-status {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-1) var(--spacing-2);
+  }
+  
+  .table-action-btn {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-1) var(--spacing-2);
+  }
+}
+
+@media (max-width: 576px) {
+  .appointments-container {
+    border-radius: var(--radius-md);
+  }
+  
+  .appointments-table th,
+  .appointments-table td {
+    padding: var(--spacing-2);
+    font-size: var(--font-size-xs);
+  }
+  
+  .table-header {
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+  
+  .table-title {
+    font-size: var(--font-size-base);
+  }
+  
+  .availability-status {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-1);
+  }
+  
+  .distance-badge {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-1);
+  }
+  
+  .table-action-btn {
+    width: 100%;
+    justify-content: center;
+    font-size: var(--font-size-xs);
+  }
+  
+  .toggle-button {
+    width: 100%;
+    justify-content: center;
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .appointments-container {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+  
+  .table-actions,
+  .table-action-btn {
+    display: none;
+  }
+  
+  .appointments-table th {
+    background-color: #f0f0f0 !important;
+    color: #000 !important;
+  }
+  
+  .appointments-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9 !important;
+  }
+}

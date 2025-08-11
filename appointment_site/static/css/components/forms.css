@@ -1,0 +1,12 @@
+/* Forms */
+.form-control, .form-select, select, input[type="text"], input[type="email"], input[type="date"] {
+  background: hsl(var(--surface-2)); color: hsl(var(--text)); border: 1px solid hsl(var(--border));
+  padding: 12px 14px; border-radius: 12px; transition: box-shadow .25s ease, border-color .25s ease; height: 48px;
+}
+.form-control::placeholder { color: hsl(var(--muted)); }
+.form-control:focus, .form-select:focus, select:focus, input:focus { border-color: hsl(var(--primary)); box-shadow: 0 0 0 4px hsl(var(--primary) / 0.20); }
+
+/* Dropdown menus (prevent transparency) */
+.select-dropdown, .dropdown-menu { background: hsl(var(--surface)); color: hsl(var(--text)); border: 1px solid hsl(var(--border)); border-radius: 10px; box-shadow: var(--shadow-elev); z-index: 1000; }
+.dropdown-item { color: hsl(var(--text)); }
+.dropdown-item:hover { background: hsl(var(--primary) / 0.10); }

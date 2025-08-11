@@ -1,0 +1,11 @@
+/* Buttons */
+.btn { --bg: hsl(var(--surface)); --fg: hsl(var(--text)); padding: 10px 16px; border-radius: 12px; border: 1px solid hsl(var(--border)); color: var(--fg); background: var(--bg); transition: all .25s ease; box-shadow: none; }
+.btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-soft); }
+
+.btn-primary { background: linear-gradient(180deg, hsl(var(--primary-700)), hsl(var(--primary))); border-color: hsl(var(--primary)); color: #fff; }
+.btn-primary:hover { background: linear-gradient(180deg, hsl(var(--primary-800)), hsl(var(--primary-700))); }
+
+.btn-outline, .btn-outline-primary { background: transparent; color: hsl(var(--primary)); border-color: hsl(var(--primary)); }
+.btn-outline:hover, .btn-outline-primary:hover { background: hsl(var(--primary) / 0.12); }
+
+.table-action-btn, .action-btn { padding: 8px 12px; border-radius: 10px; border: 1px solid hsl(var(--border)); background: hsl(var(--surface)); color: hsl(var(--text)); }

@@ -1,0 +1,7 @@
+/* Navbar to match design */
+.navbar { backdrop-filter: blur(10px); background: hsl(var(--surface) / 0.6) !important; border-bottom: 1px solid hsl(var(--border)); }
+.navbar .navbar-brand { color: hsl(var(--text)); font-weight: 800; letter-spacing: 0.2px; }
+.navbar .nav-link { color: hsl(var(--muted)); margin-inline: var(--sp-4); }
+.navbar .nav-link:hover, .navbar .nav-link.active { color: hsl(var(--text)); }
+
+#themeToggle.btn { border-radius: 12px; padding: 8px 14px; }

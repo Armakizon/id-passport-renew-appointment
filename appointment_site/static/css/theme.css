@@ -92,13 +92,13 @@ html.dark .dropdown-item:hover {
 #themeToggle:hover {
   background: linear-gradient(135deg, var(--gold-light) 0%, var(--copper-light) 100%);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
 }
 
 #themeToggle:focus {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
-  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 /* Navbar luxury styling */
@@ -147,7 +147,7 @@ html.dark .dropdown-item:hover {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.1), transparent);
   transition: left var(--transition-smooth);
 }
 
@@ -156,7 +156,7 @@ html.dark .dropdown-item:hover {
 }
 
 .navbar-nav .nav-link:hover {
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(37, 99, 235, 0.1);
   color: var(--charcoal) !important;
   transform: translateY(-1px);
 }
@@ -423,13 +423,13 @@ html.dark .form-select option:hover {
   padding: var(--space-sm) var(--space-md);
   font-weight: 500;
   transition: all var(--transition-smooth);
-  box-shadow: var(--shadow-gold);
+  box-shadow: var(--shadow-md);
 }
 
 #getLocationBtn:hover, #getLocationBtn:focus {
   background: linear-gradient(135deg, var(--gold-light) 0%, var(--copper-light) 100%) !important;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+  box-shadow: var(--shadow-md);
 }
 
 /* Toggle button luxury styling */
@@ -449,7 +449,7 @@ html.dark .form-select option:hover {
   color: var(--ivory);
   border-color: var(--gold);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-gold);
+  box-shadow: var(--shadow-md);
 }
 
 /* About page styling removed for simplicity */
@@ -532,8 +532,9 @@ html.dark .form-select option:hover {
   transform: scaleX(1);
 }
 
-/* Comprehensive dark mode text styling */
-.dark * {
+/* Consolidated dark mode text styling */
+.dark *,
+html.dark * {
   color: var(--ivory) !important;
 }
 
@@ -544,138 +545,51 @@ html.dark .form-select option:hover {
 .dark .btn-outline,
 .dark .btn-outline-primary,
 .dark .btn-outline-secondary,
-.dark .step-badge {
+.dark .step-badge,
+html.dark .btn,
+html.dark .btn-primary,
+html.dark .btn-secondary,
+html.dark .btn-outline,
+html.dark .btn-outline-primary,
+html.dark .btn-outline-secondary,
+html.dark .step-badge {
   color: var(--ivory) !important;
 }
 
-/* Dark mode for all text utility classes */
-.dark .text-muted {
-  color: var(--charcoal-light) !important;
-}
-
-.dark .text-danger {
-  color: #fca5a5 !important;
-}
-
-.dark .text-warning {
-  color: #fde047 !important;
-}
-
-.dark .text-success {
-  color: #86efac !important;
-}
-
-.dark .text-info {
-  color: #93c5fd !important;
-}
-
-.dark .text-primary {
-  color: var(--gold-light) !important;
-}
-
-/* Dark mode for table elements */
-.dark table,
-.dark .table {
-  color: var(--ivory) !important;
-}
-
-.dark th,
-.dark td,
-.dark caption {
-  color: var(--ivory) !important;
-}
-
-/* Dark mode for form elements */
-.dark input,
-.dark select,
-.dark textarea,
-.dark option {
-  color: var(--ivory) !important;
-}
-
-.dark input::placeholder,
-.dark textarea::placeholder {
-  color: rgba(255, 255, 255, 0.6) !important;
-}
-
-/* Dark mode for any remaining text elements */
-.dark span,
-.dark div,
-.dark label,
-.dark small,
-.dark strong,
-.dark em,
-.dark b,
-.dark i,
-.dark p {
-  color: var(--ivory) !important;
-}
-
-/* Ensure all text is visible in dark mode */
-.dark [class*="text-"] {
-  color: var(--ivory) !important;
-}
-
-/* Keep specific utility colors visible */
-.dark .text-danger {
-  color: #fca5a5 !important;
-}
-
-html.dark .text-danger {
-  color: #fca5a5 !important;
-}
-
-.dark .text-warning {
-  color: #fde047 !important;
-}
-
-html.dark .text-warning {
-  color: #fde047 !important;
-}
-
-.dark .text-success {
-  color: #86efac !important;
-}
-
-html.dark .text-success {
-  color: #86efac !important;
-}
-
-.dark .text-info {
-  color: #93c5fd !important;
-}
-
-html.dark .text-info {
-  color: #93c5fd !important;
-}
-
-.dark .text-primary {
-  color: var(--gold-light) !important;
-}
-
-html.dark .text-primary {
-  color: var(--gold-light) !important;
-}
-
-.dark .text-muted {
-  color: var(--charcoal-light) !important;
-}
-
+/* Dark mode utility colors */
+.dark .text-muted,
 html.dark .text-muted {
   color: var(--charcoal-light) !important;
 }
 
-/* Exception for gradient text elements */
-.dark h1,
-.dark .hero-title {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
-  color: transparent !important;
+.dark .text-danger,
+html.dark .text-danger {
+  color: #fca5a5 !important;
 }
 
-/* Also apply to html.dark for maximum specificity */
+.dark .text-warning,
+html.dark .text-warning {
+  color: #fde047 !important;
+}
+
+.dark .text-success,
+html.dark .text-success {
+  color: #86efac !important;
+}
+
+.dark .text-info,
+html.dark .text-info {
+  color: #93c5fd !important;
+}
+
+.dark .text-primary,
+html.dark .text-primary {
+  color: var(--gold-light) !important;
+}
+
+/* Exception for gradient text elements */
+.dark h1,
+.dark .hero-title,
 html.dark h1,
 html.dark .hero-title {
   background: linear-gradient(135deg, var(--gold) 0%, var(--copper) 100%) !important;
@@ -686,62 +600,25 @@ html.dark .hero-title {
 }
 
 /* Exception for availability status colors */
-.dark .availability-status.available {
-  color: #86efac !important;
-}
-
+.dark .availability-status.available,
 html.dark .availability-status.available {
   color: #86efac !important;
 }
 
-.dark .availability-status.limited {
-  color: #fde047 !important;
-}
-
+.dark .availability-status.limited,
 html.dark .availability-status.limited {
   color: #fde047 !important;
 }
 
-.dark .availability-status.unavailable {
-  color: #fca5a5 !important;
-}
-
+.dark .availability-status.unavailable,
 html.dark .availability-status.unavailable {
   color: #fca5a5 !important;
 }
 
-/* Final comprehensive dark mode override - ensures ALL text is visible */
-.dark * {
-  color: var(--ivory) !important;
-}
-
-/* Also target html.dark specifically for maximum specificity */
-html.dark * {
-  color: var(--ivory) !important;
-}
-
-/* Exception for buttons and interactive elements that should keep their styling */
-.dark .btn,
-.dark .btn-primary,
-.dark .btn-secondary,
-.dark .btn-outline,
-.dark .btn-outline-primary,
-.dark .btn-outline-secondary,
-.dark .step-badge,
+/* Additional button exceptions for dark mode */
 .dark .action-btn,
 .dark .table-action-btn,
-.dark .distance-btn {
-  color: var(--ivory) !important;
-}
-
-/* Also apply to html.dark for maximum specificity */
-html.dark .btn,
-html.dark .btn-primary,
-html.dark .btn-secondary,
-html.dark .btn-outline,
-html.dark .btn-outline-primary,
-html.dark .btn-outline-secondary,
-html.dark .step-badge,
+.dark .distance-btn,
 html.dark .action-btn,
 html.dark .table-action-btn,
 html.dark .distance-btn {
@@ -753,11 +630,7 @@ html.dark .distance-btn {
 .dark .distance-filter-icon,
 .dark .distance-info-icon,
 .dark .filter-icon,
-.dark .alert-icon {
-  color: var(--gold-light) !important;
-}
-
-/* Also apply to html.dark for maximum specificity */
+.dark .alert-icon,
 html.dark .appointments-icon,
 html.dark .distance-filter-icon,
 html.dark .distance-info-icon,
@@ -766,37 +639,7 @@ html.dark .alert-icon {
   color: var(--gold-light) !important;
 }
 
-/* Exception for availability status colors */
-.dark .availability-status.available {
-  color: #86efac !important;
-}
-
-html.dark .availability-status.available {
-  color: #86efac !important;
-}
-
-.dark .availability-status.limited {
-  color: #fde047 !important;
-}
-
-html.dark .availability-status.limited {
-  color: #fde047 !important;
-}
-
-.dark .availability-status.unavailable {
-  color: #fca5a5 !important;
-}
-
-html.dark .availability-status.unavailable {
-  color: #fca5a5 !important;
-}
-
-/* Simple test - force all text to be white in dark mode */
-html.dark * {
-  color: white !important;
-}
-
-/* Test specific elements */
+/* Comprehensive dark mode text styling - consolidated */
 html.dark h1,
 html.dark h2,
 html.dark h3,
@@ -806,18 +649,9 @@ html.dark h6,
 html.dark p,
 html.dark span,
 html.dark div,
-html.dark label {
-  color: white !important;
-}
-
-/* Specific overrides for elements that use var(--charcoal) and var(--slate) */
-html.dark h1,
-html.dark h2,
-html.dark h3,
-html.dark h4,
-html.dark h5,
-html.dark h6,
-html.dark p,
+html.dark label,
+html.dark input,
+html.dark input::placeholder,
 html.dark .hero-subtitle,
 html.dark .section-heading,
 html.dark .divider-text,
@@ -851,25 +685,9 @@ html.dark .table-striped > tbody > tr:nth-of-type(even) > td,
 html.dark .table-bordered,
 html.dark .table-hover > tbody > tr:hover > td,
 html.dark caption,
-html.dark span,
-html.dark div,
-html.dark label,
-html.dark input,
-html.dark input::placeholder,
 html.dark [class*="text-"],
-html.dark .text-danger,
-html.dark .text-warning,
-html.dark .text-success,
-html.dark .text-info,
-html.dark .text-primary,
-html.dark .text-muted,
 html.dark .luxury-text-charcoal,
 html.dark .luxury-text-slate {
-  color: white !important;
-}
-
-/* Force override for any remaining text elements */
-html.dark *:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-outline):not(.btn-outline-primary):not(.btn-outline-secondary):not(.step-badge):not(.action-btn):not(.table-action-btn):not(.distance-btn):not(.appointments-icon):not(.distance-filter-icon):not(.distance-info-icon):not(.filter-icon):not(.alert-icon):not(.availability-status.available):not(.availability-status.limited):not(.availability-status.unavailable):not(h1):not(.hero-title) {
   color: white !important;
 }
 

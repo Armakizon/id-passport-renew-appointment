@@ -37,8 +37,8 @@
 
 /* Filter Drawer Header */
 .luxury-filter-drawer .offcanvas-header {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(184, 147, 31, 0.02) 100%);
-  border-bottom: 2px solid rgba(212, 175, 55, 0.1);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(29, 78, 216, 0.02) 100%);
+  border-bottom: 2px solid rgba(37, 99, 235, 0.1);
   padding: 0.75rem var(--space-lg);
   min-height: 79px;
   display: flex;
@@ -108,7 +108,7 @@
 
 /* Luxury Filters Accordion */
 .luxury-filters-accordion .accordion-item {
-  border: 1px solid rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(37, 99, 235, 0.1);
   border-radius: var(--radius-md);
   margin-bottom: var(--space-sm);
   overflow: hidden;
@@ -122,7 +122,7 @@
 }
 
 .luxury-filters-accordion .accordion-button {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(184, 147, 31, 0.02) 100%);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(29, 78, 216, 0.02) 100%);
   color: var(--charcoal);
   border: none;
   font-weight: 600;
@@ -221,7 +221,7 @@
   padding: var(--space-sm) var(--space-md);
   font-weight: 500;
   transition: all var(--transition-smooth);
-  box-shadow: var(--shadow-gold);
+  box-shadow: var(--shadow-md);
 }
 
 .luxury-filter-drawer .btn:hover {

@@ -1,0 +1,4 @@
+/* Modal confirm styling with backdrop blur */
+.modal-overlay { position: fixed; inset: 0; backdrop-filter: blur(8px); background: rgba(0,0,0,.35); }
+.modal-content { background: linear-gradient(180deg, hsl(var(--surface)), hsl(var(--surface-2))); color: hsl(var(--text)); padding: var(--sp-6); border-radius: 18px; box-shadow: var(--shadow-elev); border: 1px solid hsl(var(--primary) / .35); width: min(560px, calc(100% - 32px)); margin: 10vh auto; }
+.modal-content .btn { width: 100%; margin-top: var(--sp-3); }

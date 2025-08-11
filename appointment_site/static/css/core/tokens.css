@@ -1,0 +1,36 @@
+/* Design tokens: colors, spacing, radii, shadows (light defaults) */
+:root {
+  /* Palette (HSL) */
+  --bg: 220 30% 98%;
+  --bg-elev: 220 30% 100%;
+  --surface: 220 20% 98%;
+  --surface-2: 220 20% 96%;
+  --text: 222 47% 11%;
+  --muted: 215 16% 45%;
+  --border: 220 16% 86%;
+  --primary: 221 83% 53%; /* blue-600 */
+  --primary-500: 221 83% 60%;
+  --primary-700: 224 76% 48%;
+  --primary-800: 226 71% 40%;
+  --success: 142 71% 45%;
+  --warning: 38 92% 50%;
+  --danger: 0 84% 60%;
+
+  /* Effects */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --ring: 0 0 0 2px hsl(var(--primary) / 0.35), 0 0 0 6px hsl(var(--primary) / 0.15);
+  --shadow-soft: 0 10px 30px hsl(220 40% 15% / 0.08);
+  --shadow-elev: 0 12px 40px hsl(220 40% 20% / 0.12);
+
+  /* Spacing scale */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+}

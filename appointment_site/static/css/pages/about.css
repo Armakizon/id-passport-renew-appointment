@@ -1,0 +1,4 @@
+/* About page card */
+.about-card { max-width: 800px; margin-inline: auto; padding: var(--sp-8); border-radius: 16px; background: hsl(var(--surface)); border: 1px solid hsl(var(--border)); box-shadow: var(--shadow-soft); }
+.about-card h1 { font-size: clamp(28px, 3.5vw, 42px); margin-bottom: var(--sp-4); }
+.about-card p { color: hsl(var(--muted)); }

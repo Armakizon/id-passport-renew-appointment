@@ -1,0 +1,11 @@
+/* Offcanvas / Filter drawer */
+.offcanvas { background: linear-gradient(180deg, hsl(var(--surface)), hsl(var(--surface-2))); border-left: 1px solid hsl(var(--border)); }
+.offcanvas-header { border-bottom: 1px solid hsl(var(--border)); }
+.offcanvas-title { font-weight: 800; color: hsl(var(--text)); }
+
+/* Accordion in drawer */
+.accordion .accordion-item { background: transparent; border: 1px solid hsl(var(--border)); border-radius: 14px; overflow: hidden; margin-bottom: var(--sp-4); }
+.accordion-button { background: linear-gradient(180deg, hsl(var(--primary) / 0.18), hsl(var(--primary) / 0.12)); color: #fff; font-weight: 700; }
+.accordion-button.collapsed { background: hsl(var(--primary) / 0.14); color: #fff; }
+.accordion-button:focus { box-shadow: 0 0 0 4px hsl(var(--primary) / .25); }
+.accordion-body { background: hsl(var(--surface-2)); }

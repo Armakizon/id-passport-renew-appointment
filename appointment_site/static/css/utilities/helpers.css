@@ -1,0 +1,5 @@
+/* Small helpers */
+.text-muted { color: hsl(var(--muted)); }
+.border-primary { border-color: hsl(var(--primary)) !important; }
+.rounded-lg { border-radius: var(--radius-lg); }
+.shadow-soft { box-shadow: var(--shadow-soft); }

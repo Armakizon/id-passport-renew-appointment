@@ -1,0 +1,5 @@
+/* FAQ page accordions look */
+.faq-container h1, .faq-title { text-align: center; font-size: clamp(28px, 3.5vw, 42px); margin-bottom: var(--sp-6); }
+.faq-item { border-radius: 14px; overflow: hidden; background: hsl(var(--surface)); border: 1px solid hsl(var(--border)); margin-bottom: var(--sp-3); }
+.faq-item .faq-question { padding: 16px 18px; font-weight: 700; color: hsl(var(--text)); background: hsl(var(--surface-2)); border-bottom: 1px solid hsl(var(--border)); }
+.faq-item .faq-answer { padding: 16px 18px; color: hsl(var(--muted)); }

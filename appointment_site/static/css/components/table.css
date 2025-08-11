@@ -1,0 +1,10 @@
+/* Appointments table basic styling */
+.appointments-container { border-radius: var(--radius-lg); overflow: hidden; border: 1px solid hsl(var(--border)); background: hsl(var(--surface)); }
+#appointmentsTable { width: 100%; }
+#appointmentsTable th, #appointmentsTable td { padding: 12px 16px; border-bottom: 1px solid hsl(var(--border)); color: hsl(var(--text)); }
+#appointmentsTable thead th { background: hsl(var(--surface-2)); font-weight: 700; }
+#appointmentsTable tbody tr:hover { background: hsl(var(--primary) / 0.06); }
+
+.availability-status.available { color: hsl(142 71% 45%); }
+.availability-status.limited { color: hsl(38 92% 50%); }
+.availability-status.unavailable { color: hsl(0 84% 60%); }

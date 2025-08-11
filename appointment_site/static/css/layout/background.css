@@ -1,0 +1,11 @@
+/* Geometric gradient background similar to screenshots */
+.background-gradients { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
+.gradient-layer { position: absolute; inset: -10%; background: radial-gradient(1200px 800px at 70% -10%, hsl(222 80% 55% / 0.12), transparent 60%),
+  radial-gradient(800px 600px at -10% 90%, hsl(222 80% 55% / 0.10), transparent 60%),
+  linear-gradient(135deg, hsl(var(--bg)) 0%, hsl(var(--bg-elev)) 100%);
+  filter: saturate(1.1);
+}
+.gradient-layer::after { content:''; position:absolute; inset:0; background: conic-gradient(from 30deg at 50% 50%, transparent 0 20%, hsl(222 60% 50% / 0.05) 20% 22%, transparent 22% 38%, hsl(222 60% 50% / 0.05) 38% 40%, transparent 40% 100%); mix-blend-mode: overlay; }
+
+/* Page spacing */
+.main-content { position: relative; }

@@ -22,9 +22,9 @@
 }
 
 .appointments-header {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(184, 147, 31, 0.02) 100%);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(29, 78, 216, 0.02) 100%);
   padding: var(--space-lg);
-  border-bottom: 2px solid rgba(212, 175, 55, 0.1);
+  border-bottom: 2px solid rgba(37, 99, 235, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -109,7 +109,7 @@
 .action-btn.active {
   background: var(--gold);
   color: var(--ivory);
-  box-shadow: var(--shadow-gold);
+  box-shadow: var(--shadow-md);
 }
 
 .action-btn.active:hover {
@@ -697,110 +697,7 @@
   color: var(--ivory) !important;
 }
 
-/* Final comprehensive dark mode override - ensures ALL text is visible */
-.dark * {
-  color: var(--ivory) !important;
-}
-
-/* Also target html.dark specifically for maximum specificity */
-html.dark * {
-  color: var(--ivory) !important;
-}
-
-/* Exception for buttons and interactive elements that should keep their styling */
-.dark .btn,
-.dark .btn-primary,
-.dark .btn-secondary,
-.dark .btn-outline,
-.dark .btn-outline-primary,
-.dark .btn-outline-secondary,
-.dark .step-badge,
-.dark .action-btn,
-.dark .table-action-btn,
-.dark .distance-btn {
-  color: var(--ivory) !important;
-}
-
-/* Also apply to html.dark for maximum specificity */
-html.dark .btn,
-html.dark .btn-primary,
-html.dark .btn-secondary,
-html.dark .btn-outline,
-html.dark .btn-outline-primary,
-html.dark .btn-outline-secondary,
-html.dark .step-badge,
-html.dark .action-btn,
-html.dark .table-action-btn,
-html.dark .distance-btn {
-  color: var(--ivory) !important;
-}
-
-/* Exception for icons that should keep their colors */
-.dark .appointments-icon,
-.dark .distance-filter-icon,
-.dark .distance-info-icon,
-.dark .filter-icon,
-.dark .alert-icon {
-  color: var(--gold-light) !important;
-}
-
-/* Also apply to html.dark for maximum specificity */
-html.dark .appointments-icon,
-html.dark .distance-filter-icon,
-html.dark .distance-info-icon,
-html.dark .filter-icon,
-html.dark .alert-icon {
-  color: var(--gold-light) !important;
-}
-
-/* Exception for specific utility colors that should remain visible */
-.dark .text-danger {
-  color: #fca5a5 !important;
-}
-
-html.dark .text-danger {
-  color: #fca5a5 !important;
-}
-
-.dark .text-warning {
-  color: #fde047 !important;
-}
-
-html.dark .text-warning {
-  color: #fde047 !important;
-}
-
-.dark .text-success {
-  color: #86efac !important;
-}
-
-html.dark .text-success {
-  color: #86efac !important;
-}
-
-.dark .text-info {
-  color: #93c5fd !important;
-}
-
-html.dark .text-info {
-  color: #93c5fd !important;
-}
-
-.dark .text-primary {
-  color: var(--gold-light) !important;
-}
-
-html.dark .text-primary {
-  color: var(--gold-light) !important;
-}
-
-.dark .text-muted {
-  color: var(--charcoal-light) !important;
-}
-
-html.dark .text-muted {
-  color: var(--charcoal-light) !important;
-}
+/* Dark mode rules moved to theme.css for consolidation */
 
 /* Exception for availability status colors */
 .dark .availability-status.available {
@@ -827,86 +724,6 @@ html.dark .availability-status.unavailable {
   color: #fca5a5 !important;
 }
 
-/* Simple test - force all text to be white in dark mode */
-html.dark * {
-  color: white !important;
-}
-
-/* Test specific elements */
-html.dark h1,
-html.dark h2,
-html.dark h3,
-html.dark h4,
-html.dark h5,
-html.dark h6,
-html.dark p,
-html.dark span,
-html.dark div,
-html.dark label {
-  color: white !important;
-}
-
-/* Specific overrides for elements that use var(--charcoal) and var(--slate) */
-html.dark h1,
-html.dark h2,
-html.dark h3,
-html.dark h4,
-html.dark h5,
-html.dark h6,
-html.dark p,
-html.dark .hero-subtitle,
-html.dark .section-heading,
-html.dark .divider-text,
-html.dark .step-header,
-html.dark .step-content,
-html.dark .location-options,
-html.dark .info-alert,
-html.dark .alert-info,
-html.dark .highlight-text,
-html.dark .faq-container,
-html.dark .navbar-nav .nav-link,
-html.dark .navbar-brand,
-html.dark .form-label,
-html.dark .text-muted,
-html.dark .text-dark,
-html.dark .text-black,
-html.dark .text-body,
-html.dark .text-secondary,
-html.dark .text-body-secondary,
-html.dark .bg-white,
-html.dark .bg-light,
-html.dark .bg-dark,
-html.dark .border,
-html.dark .card,
-html.dark .card-body,
-html.dark .table,
-html.dark .table th,
-html.dark .table td,
-html.dark .table-striped > tbody > tr:nth-of-type(odd) > td,
-html.dark .table-striped > tbody > tr:nth-of-type(even) > td,
-html.dark .table-bordered,
-html.dark .table-hover > tbody > tr:hover > td,
-html.dark caption,
-html.dark span,
-html.dark div,
-html.dark label,
-html.dark input,
-html.dark input::placeholder,
-html.dark [class*="text-"],
-html.dark .text-danger,
-html.dark .text-warning,
-html.dark .text-success,
-html.dark .text-info,
-html.dark .text-primary,
-html.dark .text-muted,
-html.dark .luxury-text-charcoal,
-html.dark .luxury-text-slate {
-  color: white !important;
-}
-
-/* Force override for any remaining text elements */
-html.dark *:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-outline):not(.btn-outline-primary):not(.btn-outline-secondary):not(.step-badge):not(.action-btn):not(.table-action-btn):not(.distance-btn):not(.appointments-icon):not(.distance-filter-icon):not(.distance-info-icon):not(.filter-icon):not(.alert-icon):not(.availability-status.available):not(.availability-status.limited):not(.availability-status.unavailable):not(h1):not(.hero-title) {
-  color: white !important;
-}
+/* Additional dark mode rules moved to theme.css for consolidation */
 
 /* Filter drawer styles moved to filter_drawer.css for complete decoupling */
