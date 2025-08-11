@@ -245,10 +245,7 @@
   margin-left: var(--spacing-3);
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+
 
 /* Responsive Table - moved to consolidated media queries section */
 
@@ -354,4 +351,4 @@
   .appointments-table tbody tr:nth-child(even) {
     background-color: #f9f9f9 !important;
   }
-}
+} 

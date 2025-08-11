@@ -85,7 +85,7 @@
   font-size: 1rem;
   color: var(--charcoal);
   background: rgba(255, 255, 255, 0.9);
-  transition: all var(--transition-smooth);
+  transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth), background var(--transition-smooth);
   font-family: var(--font-body);
 }
 

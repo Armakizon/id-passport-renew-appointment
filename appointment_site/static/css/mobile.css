@@ -3,17 +3,7 @@
 
 /* Mobile Navigation styles - moved to consolidated media queries section */
 
-/* Keyframe animations */
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* Keyframe animations - moved to styles.css for centralization */
 
 /* ======================================== */
 /* CONSOLIDATED MEDIA QUERIES SECTION */
@@ -53,6 +43,7 @@
     border-color: var(--gold) !important;
     transform: translateY(-2px) !important;
     box-shadow: var(--shadow-md) !important;
+    will-change: transform;
   }
 
   /* Horizontal Dividers - Override vertical borders */
