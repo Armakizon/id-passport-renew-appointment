@@ -258,8 +258,8 @@
   background: linear-gradient(135deg, var(--champagne) 0%, var(--cream) 100%);
   border-left: 1px solid var(--gold);
   box-shadow: var(--shadow-xl);
-  width: 500px !important;
-  max-width: 500px !important;
+  width: 500px;
+  max-width: 500px;
   position: fixed;
   top: 0;
   right: 0;
@@ -269,7 +269,7 @@
 
 /* HTML.dark filter drawer overrides */
 html.dark .luxury-filter-drawer {
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(29, 78, 216, 0.05) 100%) !important;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(29, 78, 216, 0.05) 100%);
   border-left: 1px solid rgba(37, 99, 235, 0.3);
 }
 
@@ -290,7 +290,7 @@ html.dark .luxury-filter-drawer {
 
 /* Dark mode filter drawer title */
 html.dark .luxury-filter-drawer .offcanvas-title {
-  color: white !important;
+  color: white;
 }
 
 .filter-icon {
@@ -344,7 +344,7 @@ html.dark .luxury-filter-drawer .offcanvas-title {
 
 /* Dark mode accordion button text */
 html.dark .luxury-filters-accordion .accordion-button {
-  color: white !important;
+  color: white;
 }
 
 .luxury-filters-accordion .accordion-button:not(.collapsed) {
@@ -355,7 +355,7 @@ html.dark .luxury-filters-accordion .accordion-button {
 
 /* Dark mode accordion button text when not collapsed */
 html.dark .luxury-filters-accordion .accordion-button:not(.collapsed) {
-  color: white !important;
+  color: white;
 }
 
 .luxury-filters-accordion .accordion-button:focus {

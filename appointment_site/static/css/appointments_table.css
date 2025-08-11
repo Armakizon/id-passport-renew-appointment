@@ -448,171 +448,157 @@
   outline-offset: -2px;
 }
 
-/* Dark mode styling for appointments table */
-.dark .appointments-container {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(37, 99, 235, 0.08) 100%) !important;
-  border-color: rgba(59, 130, 246, 0.25) !important;
+/* Dark mode styling for appointments table - optimized specificity */
+html.dark .appointments-container {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(37, 99, 235, 0.08) 100%);
+  border-color: rgba(59, 130, 246, 0.25);
 }
 
-.dark .appointments-header {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.1) 100%) !important;
-  border-bottom-color: rgba(59, 130, 246, 0.3) !important;
+html.dark .appointments-header {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.1) 100%);
+  border-bottom-color: rgba(59, 130, 246, 0.3);
 }
 
-.dark .appointments-title {
-  color: var(--ivory) !important;
+html.dark .appointments-title {
+  color: var(--ivory);
 }
 
-.dark .appointments-icon {
-  color: var(--gold-light) !important;
+html.dark .appointments-icon {
+  color: var(--gold-light);
 }
 
-.dark .appointments-count {
-  background: var(--gold) !important;
-  color: var(--ivory) !important;
+html.dark .appointments-count {
+  background: var(--gold);
+  color: var(--ivory);
 }
 
-.dark .action-btn {
-  border-color: var(--gold) !important;
-  color: var(--gold) !important;
+html.dark .action-btn {
+  border-color: var(--gold);
+  color: var(--gold);
 }
 
-.dark .action-btn:hover {
-  background: var(--gold) !important;
-  color: var(--ivory) !important;
+html.dark .action-btn:hover {
+  background: var(--gold);
+  color: var(--ivory);
 }
 
-.dark .action-btn.active {
-  background: var(--gold) !important;
-  color: var(--ivory) !important;
+html.dark .action-btn.active {
+  background: var(--gold);
+  color: var(--ivory);
 }
 
-.dark .appointments-table {
-  color: var(--ivory) !important;
+html.dark .appointments-table {
+  color: var(--ivory);
 }
 
-.dark .appointments-table thead {
-  background: rgba(59, 130, 246, 0.15) !important;
+html.dark .appointments-table thead {
+  background: rgba(59, 130, 246, 0.15);
 }
 
-.dark .appointments-table th {
-  color: var(--ivory) !important;
-  background: rgba(59, 130, 246, 0.15) !important;
-  border-color: rgba(59, 130, 246, 0.3) !important;
+html.dark .appointments-table th {
+  color: var(--ivory);
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
 }
 
-.dark .appointments-table td {
-  color: var(--ivory) !important;
-  border-color: rgba(59, 130, 246, 0.2) !important;
+html.dark .appointments-table td {
+  color: var(--ivory);
+  border-color: rgba(59, 130, 246, 0.2);
 }
 
-.dark .appointments-table tbody tr {
-  background: rgba(59, 130, 246, 0.08) !important;
+html.dark .appointments-table tbody tr {
+  background: rgba(59, 130, 246, 0.08);
 }
 
-.dark .appointments-table tbody tr:nth-child(even) {
-  background: rgba(59, 130, 246, 0.12) !important;
+html.dark .appointments-table tbody tr:nth-child(even) {
+  background: rgba(59, 130, 246, 0.12);
 }
 
-.dark .appointments-table tbody tr:hover {
-  background: rgba(59, 130, 246, 0.2) !important;
+html.dark .appointments-table tbody tr:hover {
+  background: rgba(59, 130, 246, 0.2);
 }
 
-.dark .appointments-table tbody tr:hover td {
-  background: rgba(59, 130, 246, 0.2) !important;
+html.dark .appointments-table tbody tr:hover td {
+  background: rgba(59, 130, 246, 0.2);
 }
 
-.dark .branch-name {
-  color: var(--ivory) !important;
+html.dark .branch-name {
+  color: var(--ivory);
 }
 
-.dark .appointment-date {
-  color: var(--ivory) !important;
+html.dark .appointment-date {
+  color: var(--ivory);
 }
 
-.dark .appointment-time {
-  color: var(--ivory) !important;
+html.dark .appointment-time {
+  color: var(--ivory);
 }
 
-.dark .distance-info {
-  color: var(--ivory) !important;
+html.dark .distance-info {
+  color: var(--ivory);
 }
 
-.dark .availability-status {
-  color: var(--ivory) !important;
+html.dark .availability-status {
+  color: var(--ivory);
 }
 
-.dark .table-action-btn {
-  color: var(--ivory) !important;
-  border-color: var(--gold) !important;
+html.dark .table-action-btn {
+  color: var(--ivory);
+  border-color: var(--gold);
 }
 
-.dark .table-action-btn:hover {
-  background: var(--gold) !important;
-  color: var(--ivory) !important;
+html.dark .table-action-btn:hover {
+  background: var(--gold);
+  color: var(--ivory);
 }
 
-.dark .empty-state-title {
-  color: var(--ivory) !important;
+html.dark .empty-state-title {
+  color: var(--ivory);
 }
 
-.dark .empty-state-message {
-  color: var(--charcoal-light) !important;
+html.dark .empty-state-message {
+  color: var(--charcoal-light);
 }
 
-.dark .loading-text {
-  color: var(--ivory) !important;
+html.dark .loading-text {
+  color: var(--ivory);
 }
 
 /* Ensure all text in the table is visible in dark mode */
-.dark .appointments-container *,
-.dark .appointments-table * {
-  color: var(--ivory) !important;
+html.dark .appointments-container *,
+html.dark .appointments-table * {
+  color: var(--ivory);
 }
 
 /* Exception for specific elements that should keep their colors */
-.dark .appointments-icon {
-  color: var(--gold-light) !important;
+html.dark .appointments-icon {
+  color: var(--gold-light);
 }
 
-.dark .appointments-count {
-  color: var(--ivory) !important;
+html.dark .appointments-count {
+  color: var(--ivory);
 }
 
-.dark .action-btn {
-  color: var(--gold) !important;
+html.dark .action-btn {
+  color: var(--gold);
 }
 
-.dark .action-btn:hover,
-.dark .action-btn.active {
-  color: var(--ivory) !important;
+html.dark .action-btn:hover,
+html.dark .action-btn.active {
+  color: var(--ivory);
 }
 
-/* Dark mode rules moved to theme.css for consolidation */
-
-/* Exception for availability status colors */
-.dark .availability-status.available {
-  color: #86efac !important;
-}
-
+/* Availability status colors with proper specificity */
 html.dark .availability-status.available {
-  color: #86efac !important;
-}
-
-.dark .availability-status.limited {
-  color: #fde047 !important;
+  color: #86efac;
 }
 
 html.dark .availability-status.limited {
-  color: #fde047 !important;
-}
-
-.dark .availability-status.unavailable {
-  color: #fca5a5 !important;
+  color: #fde047;
 }
 
 html.dark .availability-status.unavailable {
-  color: #fca5a5 !important;
+  color: #fca5a5;
 }
 
 /* Additional dark mode rules moved to theme.css for consolidation */
