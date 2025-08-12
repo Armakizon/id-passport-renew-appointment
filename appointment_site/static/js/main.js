@@ -1,19 +1,14 @@
 // static/js/main.js
 
-const allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
-const searchInput = document.getElementById("branchSearch");
-const resultsList = document.getElementById("branchResults");
-const getLocationButton = document.getElementById("getLocationButton");
+// Declare variables at module level but don't query DOM yet
+let allRows = [];
+let searchInput = null;
+let resultsList = null;
+let getLocationButton = null;
+let branchNames = [];
 
 window.activeBranchIds = [];
 window.userHasSelectedLocation = false;
-
-const branchNames = [...new Set(allRows.map(row => {
-  const id = row.getAttribute("data-branch-id");
-  const name = row.children[0].textContent.trim();
-  return `${id}|${name}`;
-}))];
-
 
 // Helper to parse DD/MM/YYYY to Date object
 function parseDateDMY(dateStr) {
@@ -99,11 +94,25 @@ function getFilteredEntries(startDate, endDate, activeBranchIds) {
   return results;
 }
 
-// Initialize display on page load
-updateTableVisibility();
-
-// Filter drawer event handling
+// Initialize everything when DOM is ready to prevent forced reflows
 document.addEventListener('DOMContentLoaded', function() {
+  // Now safely query DOM elements
+  allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
+  searchInput = document.getElementById("branchSearch");
+  resultsList = document.getElementById("branchResults");
+  getLocationButton = document.getElementById("getLocationButton");
+
+  // Initialize branch names after DOM is ready
+  branchNames = [...new Set(allRows.map(row => {
+    const id = row.getAttribute("data-branch-id");
+    const name = row.children[0].textContent.trim();
+    return `${id}|${name}`;
+  }))];
+
+  // Initialize display after DOM is ready
+  updateTableVisibility();
+
+  // Filter drawer event handling
   const filterDrawer = document.getElementById('filterDrawer');
   if (filterDrawer) {
     filterDrawer.addEventListener('show.bs.offcanvas', function() {
