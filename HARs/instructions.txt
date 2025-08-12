@@ -1,3 +1,0 @@
-right click copy request header/curl
-
-can transform between the 2 with postman
