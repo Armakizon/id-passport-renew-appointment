@@ -29,7 +29,6 @@ def get_govisit_token(wait_for_code=60):
     delete_lock_files(profile_path)
 
     options = Options()
-    options.headless = False
     options.profile = profile_path
     # Set language and user-agent (change user-agent to a real one if you want)
     options.set_preference("intl.accept_languages", "en-US, en")
