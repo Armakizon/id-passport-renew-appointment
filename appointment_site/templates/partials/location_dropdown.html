@@ -29,8 +29,15 @@
     }
 
     dropdown?.addEventListener("change", () => {
-	  userHasSelectedLocation = true;
+      if (dropdown.value === "בחר לשכה") return; // Skip if default option
+      
+      userHasSelectedLocation = true;
       const [refLat, refLon] = dropdown.value.split(",").map(parseFloat);
+      
+      // Update global user coordinates for distance filter
+      window.userLat = refLat;
+      window.userLon = refLon;
+      
       const rows = document.querySelectorAll("#appointmentsTable tbody tr");
 
       rows.forEach(row => {
@@ -45,6 +52,16 @@
           distanceCell.textContent = "-";
         }
       });
+      
+      // Update distance filter if it has a value
+      const distanceInput = document.getElementById("distanceInput");
+      if (distanceInput && distanceInput.value) {
+        // Trigger the distance filter to recalculate with new coordinates
+        const applyBtn = document.getElementById("applyDistanceFilter");
+        if (applyBtn) {
+          applyBtn.click();
+        }
+      }
     });
   });
 </script>

@@ -32,6 +32,11 @@ document.getElementById("getLocationBtn")?.addEventListener("click", (e) => {
   navigator.geolocation.getCurrentPosition(pos => {
     userLat = pos.coords.latitude.toFixed(6);
     userLon = pos.coords.longitude.toFixed(6);
+    
+    // Update global user coordinates for distance filter
+    window.userLat = parseFloat(userLat);
+    window.userLon = parseFloat(userLon);
+    
     const allRows = document.querySelectorAll("#appointmentsTable tbody tr");
 
     // Update distance column
@@ -70,6 +75,16 @@ document.getElementById("getLocationBtn")?.addEventListener("click", (e) => {
 
       // Manually trigger the change event to reapply any other logic
       dropdown.dispatchEvent(new Event("change"));
+    }
+    
+    // Update distance filter if it has a value
+    const distanceInput = document.getElementById("distanceInput");
+    if (distanceInput && distanceInput.value) {
+      // Trigger the distance filter to recalculate with new coordinates
+      const applyBtn = document.getElementById("applyDistanceFilter");
+      if (applyBtn) {
+        applyBtn.click();
+      }
     }
 
   }, () => {
