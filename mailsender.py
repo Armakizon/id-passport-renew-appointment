@@ -111,12 +111,15 @@ def main():
 
         entries = fetch_filtered_entries(locations, fromdate, todate)
         if entries:
-            # Sort entries by branch_name (case-insensitive), then by date ascending
-            entries.sort(key=lambda e: (e['branch_name'].lower(), e['date']))
+            # Sort entries by date ascending first, then by branch_name to ensure earliest appointments appear first
+            entries.sort(key=lambda e: (e['date'], e['branch_name'].lower()))
 
             # Add formatted_date field to each entry for the template
             for e in entries:
                 e["formatted_date"] = format_date(e["date"])
+
+            # Get the earliest date for the subject line
+            earliest_date = format_date(entries[0]['date']) if entries else ""
 
             unsubscribe_url = f"https://armakizon.pythonanywhere.com/unsubscribe?email={email}"
 
@@ -147,7 +150,8 @@ def main():
             )
 
             print(f"Sending email to {email} with {len(entries)} entries...")
-            send_email(email, "Appointment Updates", body_html, body_text)
+            subject = f"Appointment Update {earliest_date} closest" if earliest_date else "Appointment Updates"
+            send_email(email, subject, body_html, body_text)
         else:
             print(f"No entries for {email}")
 
