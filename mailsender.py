@@ -117,12 +117,43 @@ def main():
 
         entries = fetch_filtered_entries(locations, fromdate, todate)
         if entries:
-            # The backend now returns unique entries, so we don't need to sort again
-            # Just ensure formatted_date is available for templates
+            # Ensure formatted_date is available for templates
             for e in entries:
                 # Only format if not already formatted (backend now returns DD/MM/YYYY)
                 if not e.get("formatted_date"):
                     e["formatted_date"] = format_date(e["date"])
+            
+            # Reorganize entries: first show earliest for each branch, then sort remaining by date
+            reorganized_entries = []
+            branch_earliest = {}
+            
+            # First pass: find the earliest appointment for each branch
+            for entry in entries:
+                branch_id = entry['branch_id']
+                if branch_id not in branch_earliest:
+                    branch_earliest[branch_id] = entry
+                else:
+                    # Compare dates to find the earliest for this branch
+                    current_earliest = branch_earliest[branch_id]
+                    if entry['date'] < current_earliest['date']:
+                        branch_earliest[branch_id] = entry
+            
+            # Add earliest appointments for each branch first
+            earliest_entries = list(branch_earliest.values())
+            earliest_entries.sort(key=lambda x: x['date'])  # Sort by date
+            reorganized_entries.extend(earliest_entries)
+            
+            # Add remaining appointments, sorted by date
+            remaining_entries = []
+            for entry in entries:
+                if entry not in earliest_entries:
+                    remaining_entries.append(entry)
+            
+            remaining_entries.sort(key=lambda x: x['date'])  # Sort by date
+            reorganized_entries.extend(remaining_entries)
+            
+            # Replace the original entries with reorganized ones
+            entries = reorganized_entries
 
             unsubscribe_url = f"https://armakizon.pythonanywhere.com/unsubscribe?email={email}"
 
