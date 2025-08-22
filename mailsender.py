@@ -141,12 +141,18 @@ def main():
             # Add earliest appointments for each branch first
             earliest_entries = list(branch_earliest.values())
             earliest_entries.sort(key=lambda x: x['date'])  # Sort by date
+            
+            # Mark earliest entries as highlighted
+            for entry in earliest_entries:
+                entry['is_highlighted'] = True
+            
             reorganized_entries.extend(earliest_entries)
             
             # Add remaining appointments, sorted by date
             remaining_entries = []
             for entry in entries:
                 if entry not in earliest_entries:
+                    entry['is_highlighted'] = False  # Mark as not highlighted
                     remaining_entries.append(entry)
             
             remaining_entries.sort(key=lambda x: x['date'])  # Sort by date

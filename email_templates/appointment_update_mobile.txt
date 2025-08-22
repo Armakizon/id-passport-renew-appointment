@@ -5,16 +5,14 @@
 
 ═══════════════════════════════════════════════════════════════
 
-{% set last_branch = None %}
 {% for entry in entries %}
-{% if entry.branch_name != last_branch %}
+{% if entry.is_highlighted %}
 {{ entry.branch_name }}
-{{ entry.formatted_date }}  ← התור הראשון בסניף
+{{ entry.formatted_date }}  ← התור המוקדם ביותר בסניף
 ───────────────────────────────────────────────────────────────
 {% else %}
 {{ entry.formatted_date }}
 {% endif %}
-{% set last_branch = entry.branch_name %}
 {% endfor %}
 
 ═══════════════════════════════════════════════════════════════

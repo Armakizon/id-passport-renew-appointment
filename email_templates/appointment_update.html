@@ -25,21 +25,18 @@
             </tr>
           </thead>
           <tbody>
-            {% set ns = namespace(last_branch=None) %}
             {% for entry in entries %}
-              {% set is_first_for_branch = entry.branch_name != ns.last_branch %}
               <tr style="
-                background: {% if is_first_for_branch %}linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.1) 100%){% else %}rgba(30, 41, 59, 0.8){% endif %};
-                font-weight: {% if is_first_for_branch %}700{% else %}400{% endif %};
-                border-right: {% if is_first_for_branch %}4px solid #3b82f6{% else %}none{% endif %};
+                background: {% if entry.is_highlighted %}linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.1) 100%){% else %}rgba(30, 41, 59, 0.8){% endif %};
+                font-weight: {% if entry.is_highlighted %}700{% else %}400{% endif %};
+                border-right: {% if entry.is_highlighted %}4px solid #3b82f6{% else %}none{% endif %};
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
                 border-radius: 10px;
-                border: 1px solid {% if is_first_for_branch %}rgba(59, 130, 246, 0.3){% else %}rgba(59, 130, 246, 0.1){% endif %};
+                border: 1px solid {% if entry.is_highlighted %}rgba(59, 130, 246, 0.3){% else %}rgba(59, 130, 246, 0.1){% endif %};
               ">
-                <td style="padding: 16px 20px; border-radius: 10px 0 0 10px; color: {% if is_first_for_branch %}#60a5fa{% else %}#e2e8f0{% endif %}; text-align: center;">{{ entry.branch_name }}</td>
-                <td style="padding: 16px 20px; text-align: center; border-radius: 0 10px 10px 10px; color: {% if is_first_for_branch %}#60a5fa{% else %}#e2e8f0{% endif %};">{{ entry.formatted_date }}</td>
+                <td style="padding: 16px 20px; border-radius: 10px 0 0 10px; color: {% if entry.is_highlighted %}#60a5fa{% else %}#e2e8f0{% endif %}; text-align: center;">{{ entry.branch_name }}</td>
+                <td style="padding: 16px 20px; text-align: center; border-radius: 0 10px 10px 10px; color: {% if entry.is_highlighted %}#60a5fa{% else %}#e2e8f0{% endif %};">{{ entry.formatted_date }}</td>
               </tr>
-              {% set ns.last_branch = entry.branch_name %}
             {% endfor %}
           </tbody>
         </table>

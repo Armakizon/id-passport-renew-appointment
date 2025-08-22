@@ -1,13 +1,11 @@
 נמצאו {{ count }} תורים חדשים לסניפים המנויים שלך:
 
-{% set last_branch = None %}
 {% for entry in entries %}
-{% if entry.branch_name != last_branch %}
-* {{ entry.branch_name }} : {{ entry.formatted_date }}  <-- התור הראשון בסניף
+{% if entry.is_highlighted %}
+* {{ entry.branch_name }} : {{ entry.formatted_date }}  <-- התור המוקדם ביותר בסניף
 {% else %}
   {{ entry.branch_name }} : {{ entry.formatted_date }}
 {% endif %}
-{% set last_branch = entry.branch_name %}
 {% endfor %}
 
 לביטול המנוי, בקר בכתובת: {{ unsubscribe_url }}
