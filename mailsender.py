@@ -152,8 +152,28 @@ def main():
                 unsubscribe_url=unsubscribe_url
             )
 
-            print(f"Sending email to {email} with {len(entries)} entries...")
-            send_email(email, "Appointment Updates", body_html, body_text)
+            # Get the earliest date for the email subject
+            earliest_date = None
+            if entries:
+                # Find the earliest date among all entries
+                earliest_entry = min(entries, key=lambda e: e.get('date', ''))
+                earliest_date = earliest_entry.get('date', '')
+                
+                # Convert DD/MM/YYYY to DD/MM for subject
+                try:
+                    if '/' in earliest_date:
+                        day_month = '/'.join(earliest_date.split('/')[:2])  # Extract DD/MM
+                    else:
+                        # Fallback if date format is unexpected
+                        day_month = earliest_date
+                except:
+                    day_month = earliest_date
+            
+            # Create dynamic subject with earliest date
+            subject = f"תורים זמינים - {day_month}" if day_month else "תורים זמינים"
+            
+            print(f"Sending email to {email} with {len(entries)} entries, earliest date: {earliest_date}")
+            send_email(email, subject, body_html, body_text)
         else:
             print(f"No entries for {email}")
 
