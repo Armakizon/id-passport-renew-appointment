@@ -6,88 +6,121 @@ import random
 import requests
 from dotenv import load_dotenv
 import os
+import tempfile
+import shutil
 
 load_dotenv()
 password=os.getenv("PASSWORD")
-def delete_lock_files(profile_path):
-    for filename in os.listdir(profile_path):
-        if filename.endswith(".lock") or filename == "parent.lock":
-            file_path = os.path.join(profile_path, filename)
-            try:
-                os.remove(file_path)
-                print(f"Deleted lock file: {file_path}")
-            except Exception as e:
-                print(f"Failed to delete {file_path}: {e}")
+
+def create_temporary_profile():
+    """Create a temporary Firefox profile that won't interfere with main profile"""
+    temp_dir = tempfile.mkdtemp(prefix="firefox_temp_")
+    print(f"🔧 Created temporary profile: {temp_dir}")
+    return temp_dir
+
+def cleanup_temporary_profile(profile_path):
+    """Clean up temporary profile directory"""
+    try:
+        if os.path.exists(profile_path):
+            shutil.rmtree(profile_path)
+            print(f"🧹 Cleaned up temporary profile: {profile_path}")
+    except Exception as e:
+        print(f"⚠️ Warning: Could not clean up profile {profile_path}: {e}")
 
 def random_sleep(base=2.5, jitter=1.0):
     time.sleep(base + random.uniform(0, jitter))
 
 def get_govisit_token(wait_for_code=60):
-    profile_path = r'C:\Users\shake\AppData\Roaming\Mozilla\Firefox\Profiles\ezygy35n.Sele'
+    # Create a temporary profile instead of using existing one
+    temp_profile_path = create_temporary_profile()
     
-    # Delete lock files before launching Firefox
-    delete_lock_files(profile_path)
-
-    options = Options()
-    options.profile = profile_path
-    # Set language and user-agent (change user-agent to a real one if you want)
-    options.set_preference("intl.accept_languages", "en-US, en")
-    options.set_preference("general.useragent.override", 
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0")
-
-    driver = webdriver.Firefox(
-        options=options,
-        seleniumwire_options={}
-    )
-
     try:
-        driver.get("https://govisit.gov.il/he/app/auth/login")
-        random_sleep(2, 1)
+        options = Options()
+        options.profile = temp_profile_path
+        
+        # Set language and user-agent - using profile-specific preferences to avoid global interference
+        # These preferences are now isolated to the temporary profile only
+        options.set_preference("intl.accept_languages", "en-US, en")
+        options.set_preference("general.useragent.override", 
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0")
+        
+        # Additional preferences to avoid detection - isolated to temp profile
+        # These won't affect your main Firefox installation
+        options.set_preference("dom.webdriver.enabled", False)
+        options.set_preference("useAutomationExtension", False)
+        
+        # Remove duplicate user-agent override (was duplicated in original code)
+        # options.set_preference("general.useragent.override", 
+        #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0")
 
-        # Override navigator.webdriver to undefined
-        driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+        driver = webdriver.Firefox(
+            options=options,
+            seleniumwire_options={}
+        )
 
-        driver.find_element(By.ID, "my_visits").click()
-        random_sleep(3, 1)
+        # Ensure complete isolation from main Firefox profile
+        # This prevents any settings from leaking to your main Firefox installation
+        driver.execute_script("""
+            // Ensure this session is completely isolated
+            if (typeof window !== 'undefined') {
+                // Clear any potential shared storage
+                if (window.localStorage) window.localStorage.clear();
+                if (window.sessionStorage) window.sessionStorage.clear();
+            }
+        """)
 
-        phone_input = driver.find_element(By.XPATH, "//input[@type='tel']")
-        phone_number = os.getenv("PHONE_NUMBER")
-        phone_input.send_keys(phone_number)  
-        random_sleep(2, 0.5)
+        try:
+            driver.get("https://govisit.gov.il/he/app/auth/login")
+            random_sleep(2, 1)
 
-        driver.find_element(By.ID, "login_button").click()
-        print("📱 Phone number submitted")
+            # Override navigator.webdriver to undefined
+            driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
-        time.sleep(wait_for_code)  # Waiting for SMS code as before
+            driver.find_element(By.ID, "my_visits").click()
+            random_sleep(3, 1)
 
-        url = "https://armakizon.pythonanywhere.com/"
-        params = {"password": password}
+            phone_input = driver.find_element(By.XPATH, "//input[@type='tel']")
+            phone_number = os.getenv("PHONE_NUMBER")
+            phone_input.send_keys(phone_number)  
+            random_sleep(2, 0.5)
 
-        response = requests.get(url, params=params)
-        code = response.json().get("code")
+            driver.find_element(By.ID, "login_button").click()
+            print("📱 Phone number submitted")
 
-        if not code:
-            print("❌ No code received from server")
+            time.sleep(wait_for_code)  # Waiting for SMS code as before
+
+            url = "https://armakizon.pythonanywhere.com/"
+            params = {"password": password}
+
+            response = requests.get(url, params=params)
+            code = response.json().get("code")
+
+            if not code:
+                print("❌ No code received from server")
+                return None
+
+            print(f"✅ Code received: {code}")
+            driver.find_element(By.ID, "pincodeInput").send_keys(code)
+            random_sleep(2, 0.5)
+
+            driver.find_element(By.ID, "verify-button").click()
+            print("✅ Verification code submitted")
+
+            time.sleep(3)
+
+            for request in driver.requests:
+                if request.response and "api/signUp/verify" in request.url and request.method == "POST":
+                    token = request.response.headers.get("X-GoVisit-Token")
+                    print(f"✅ X-GoVisit-Token: {token}")
+                    return token
+
+            print("❌ No matching request with token found")
             return None
 
-        print(f"✅ Code received: {code}")
-        driver.find_element(By.ID, "pincodeInput").send_keys(code)
-        random_sleep(2, 0.5)
-
-        driver.find_element(By.ID, "verify-button").click()
-        print("✅ Verification code submitted")
-
-        time.sleep(3)
-
-        for request in driver.requests:
-            if request.response and "api/signUp/verify" in request.url and request.method == "POST":
-                token = request.response.headers.get("X-GoVisit-Token")
-                print(f"✅ X-GoVisit-Token: {token}")
-                return token
-
-        print("❌ No matching request with token found")
-        return None
-
+        finally:
+            random_sleep(1, 0.5)
+            driver.quit()
+            
     finally:
-        random_sleep(1, 0.5)
-        driver.quit()
+        # Always clean up the temporary profile
+        cleanup_temporary_profile(temp_profile_path)

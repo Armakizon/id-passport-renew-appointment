@@ -160,7 +160,7 @@ class AdvancedCaptchaEvasion:
     def _get_current_strategies(self):
         """Get list of currently active strategies"""
         return [
-            'profile_rotation',
+            'temporary_profile_creation',
             'timing_randomization',
             'fingerprint_randomization',
             'behavioral_mimicking'
@@ -176,7 +176,7 @@ class AdvancedCaptchaEvasion:
         suggestions = []
         if success_rate < 0.5:
             suggestions.append("Increase delays between attempts")
-            suggestions.append("Rotate profiles more frequently")
+            suggestions.append("Use fresh temporary profiles")
             suggestions.append("Add more behavioral randomization")
         
         if self.failed_attempts > 5:

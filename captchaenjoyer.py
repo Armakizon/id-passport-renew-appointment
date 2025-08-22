@@ -3,59 +3,29 @@ import os
 import shutil
 import random
 import time
+import tempfile
 from datetime import datetime
 
-def copy_firefox_profile_files(
-    source_folder="C:\\Users\\shake\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\4g5qddpm.default-release",
-    target_folder="C:\\Users\\shake\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\ezygy35n.Sele"
-):
-    files_to_copy = [
-        "logins.json",
-        "key4.db",
-        "cookies.sqlite",
-        "permissions.sqlite",
-        "prefs.js",        # ⚠️ Be cautious with prefs.js; you might want to manually merge instead.
-        "user.js",
-        "cert9.db",
-        "places.sqlite"
-    ]
+def create_temporary_profile():
+    """Create a temporary Firefox profile that won't interfere with existing profiles"""
+    temp_dir = tempfile.mkdtemp(prefix="firefox_temp_")
+    print(f"🔧 Created temporary profile: {temp_dir}")
+    return temp_dir
 
-    copied = []
-    missing = []
+def cleanup_temporary_profile(profile_path):
+    """Clean up temporary profile directory"""
+    try:
+        if os.path.exists(profile_path):
+            shutil.rmtree(profile_path)
+            print(f"🧹 Cleaned up temporary profile: {profile_path}")
+    except Exception as e:
+        print(f"⚠️ Warning: Could not clean up profile {profile_path}: {e}")
 
-    for filename in files_to_copy:
-        src_path = os.path.join(source_folder, filename)
-        dst_path = os.path.join(target_folder, filename)
-
-        if os.path.exists(src_path):
-            try:
-                shutil.copy2(src_path, dst_path)
-                copied.append(filename)
-            except Exception as e:
-                print(f"⚠️ Failed to copy {filename}: {e}")
-        else:
-            missing.append(filename)
-
-    print(f"✅ Copied: {copied}")
-    if missing:
-        print(f"❌ Missing files not copied: {missing}")
-
-def rotate_profiles():
-    """Rotate between multiple Firefox profiles to avoid detection"""
-    profiles = [
-        "C:\\Users\\shake\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\4g5qddpm.default-release",
-        "C:\\Users\\shake\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\ezygy35n.Sele",
-        "C:\\Users\\shake\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\ghm9bfgv.Default Userd",
-        "C:\\Users\\shake\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\nhi655hy.Default User"
-    ]
-    
-    # Randomly select a source profile
-    source = random.choice(profiles)
-    # Use a different target profile
-    target = random.choice([p for p in profiles if p != source])
-    
-    print(f"🔄 Rotating profiles: {os.path.basename(source)} → {os.path.basename(target)}")
-    copy_firefox_profile_files(source, target)
+def get_temporary_profile():
+    """Get a temporary profile path for current session"""
+    profile_path = create_temporary_profile()
+    print(f"🔄 Using temporary profile: {os.path.basename(profile_path)}")
+    return profile_path
 
 def add_random_delay():
     """Add random delays to make requests look more human-like"""
@@ -149,8 +119,8 @@ def apply_anti_captcha_strategies():
     """Apply all anti-captcha strategies"""
     print("🛡️ Applying anti-captcha strategies...")
     
-    # 1. Profile rotation
-    rotate_profiles()
+    # 1. Create temporary profile (instead of rotating existing ones)
+    temp_profile = get_temporary_profile()
     
     # 2. Random delay
     add_random_delay()
@@ -172,7 +142,10 @@ def apply_anti_captcha_strategies():
     patterns = create_human_like_patterns()
     
     print("✅ Anti-captcha strategies applied")
+    
+    # Return the temporary profile path so it can be cleaned up later
     return {
+        'temp_profile': temp_profile,
         'user_agent': ua,
         'cookie_strategy': cookie_strategy,
         'incognito_config': incognito_config,
@@ -180,6 +153,14 @@ def apply_anti_captcha_strategies():
         'patterns': patterns
     }
 
+def cleanup_session(profile_path):
+    """Clean up the temporary profile after session ends"""
+    cleanup_temporary_profile(profile_path)
+
 if __name__ == "__main__":
     # Test the enhanced functionality
-    apply_anti_captcha_strategies()
+    result = apply_anti_captcha_strategies()
+    
+    # Simulate cleanup
+    if 'temp_profile' in result:
+        cleanup_session(result['temp_profile'])
