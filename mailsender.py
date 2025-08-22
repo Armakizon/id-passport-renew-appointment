@@ -91,8 +91,14 @@ def fetch_filtered_entries(branch_ids, fromdate, todate):
 # ─── Date formatting ─────────────────────────────────────────────
 def format_date(date_str):
     try:
-        dt = datetime.strptime(date_str, "%Y-%m-%d")
-        return dt.strftime("%d/%m/%Y")
+        # Handle both YYYY-MM-DD and DD/MM/YYYY formats
+        if "/" in date_str:
+            # Already in DD/MM/YYYY format
+            return date_str
+        else:
+            # Convert from YYYY-MM-DD to DD/MM/YYYY
+            dt = datetime.strptime(date_str, "%Y-%m-%d")
+            return dt.strftime("%d/%m/%Y")
     except Exception:
         return date_str
 
@@ -111,12 +117,12 @@ def main():
 
         entries = fetch_filtered_entries(locations, fromdate, todate)
         if entries:
-            # Sort entries by branch_name (case-insensitive), then by date ascending
-            entries.sort(key=lambda e: (e['branch_name'].lower(), e['date']))
-
-            # Add formatted_date field to each entry for the template
+            # The backend now returns unique entries, so we don't need to sort again
+            # Just ensure formatted_date is available for templates
             for e in entries:
-                e["formatted_date"] = format_date(e["date"])
+                # Only format if not already formatted (backend now returns DD/MM/YYYY)
+                if not e.get("formatted_date"):
+                    e["formatted_date"] = format_date(e["date"])
 
             unsubscribe_url = f"https://armakizon.pythonanywhere.com/unsubscribe?email={email}"
 

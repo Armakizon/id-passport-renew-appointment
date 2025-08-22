@@ -143,22 +143,33 @@ def filter_entries():
     if end_date:
         query = query.filter(Entry.date <= end_date)
 
-    results = []
-    for entry in query.all():
-        branch = BRANCH_MAP.get(entry.branch_id, {})
-        try:
-            formatted_date = datetime.strptime(entry.date, "%Y-%m-%d").strftime("%d/%m/%Y")
-        except Exception:
-            formatted_date = entry.date
+    # Get all entries and group by branch_id and date to avoid duplicates
+    entries = query.all()
+    unique_entries = {}
+    
+    for entry in entries:
+        # Create a unique key for branch_id + date combination
+        unique_key = (entry.branch_id, entry.date)
+        
+        if unique_key not in unique_entries:
+            branch = BRANCH_MAP.get(entry.branch_id, {})
+            try:
+                formatted_date = datetime.strptime(entry.date, "%Y-%m-%d").strftime("%d/%m/%Y")
+            except Exception:
+                formatted_date = entry.date
 
-        results.append({
-            "branch_id": entry.branch_id,
-            "branch_name": branch.get("name", entry.branch_id),
-            "address": branch.get("address", "-"),
-            "date": formatted_date,
-            "lat": branch.get("lat"),
-            "lon": branch.get("lon")
-        })
+            unique_entries[unique_key] = {
+                "branch_id": entry.branch_id,
+                "branch_name": branch.get("name", entry.branch_id),
+                "address": branch.get("address", "-"),
+                "date": formatted_date,
+                "lat": branch.get("lat"),
+                "lon": branch.get("lon")
+            }
+
+    # Convert to list and sort by branch_name, then by date
+    results = list(unique_entries.values())
+    results.sort(key=lambda x: (x['branch_name'].lower(), x['date']))
 
     return jsonify(results)
 
