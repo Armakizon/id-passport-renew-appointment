@@ -72,8 +72,19 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const tbody = table.tBodies[0];
-      tbody.innerHTML = "";
+      
+      // Clear the tbody by removing rows, not by setting innerHTML
+      while (tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
+      }
+      
+      // Re-add the sorted rows
       sortedRows.forEach(row => tbody.appendChild(row));
+      
+      // Update the global allRows reference to maintain consistency
+      if (typeof window !== 'undefined' && window.allRows) {
+        window.allRows = sortedRows;
+      }
     });
   });
 });

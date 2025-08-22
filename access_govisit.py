@@ -44,30 +44,59 @@ def get_govisit_token(wait_for_code=60):
         options.set_preference("general.useragent.override", 
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0")
         
-        # Additional preferences to avoid detection - isolated to temp profile
-        # These won't affect your main Firefox installation
+        # Enhanced profile isolation settings
+        options.set_preference("profile.default_helpers", "")
+        options.set_preference("profile.managed_default_content_settings.images", 1)
+        options.set_preference("profile.default_content_setting_values.notifications", 2)
+        
+        # Firefox compatibility and security settings
+        options.set_preference("security.fileuri.strict_origin_policy", False)
+        options.set_preference("dom.disable_beforeunload", True)
+        options.set_preference("browser.download.folderList", 2)
+        options.set_preference("browser.download.manager.showWhenStarting", False)
+        
+        # Additional settings for newer Firefox versions to prevent SecurityError
         options.set_preference("dom.webdriver.enabled", False)
         options.set_preference("useAutomationExtension", False)
+        options.set_preference("marionette", True)
+        options.set_preference("marionette.port", 0)  # Use random port
+        options.set_preference("marionette.log.level", "Warn")
         
         # Remove duplicate user-agent override (was duplicated in original code)
         # options.set_preference("general.useragent.override", 
         #     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:141.0) Gecko/20100101 Firefox/141.0")
 
-        driver = webdriver.Firefox(
-            options=options,
-            seleniumwire_options={}
-        )
+        try:
+            print("🚀 Initializing Firefox driver with temporary profile...")
+            driver = webdriver.Firefox(
+                options=options,
+                seleniumwire_options={}
+            )
+            print("✅ Firefox driver initialized successfully")
+        except Exception as e:
+            print(f"❌ Failed to initialize Firefox driver: {e}")
+            print("🔧 This might be due to Firefox version compatibility or Selenium version issues")
+            
+            # Try fallback options for older Firefox versions
+            print("🔄 Trying fallback Firefox options...")
+            try:
+                # Remove problematic preferences for older Firefox versions
+                options.set_preference("marionette", False)
+                options.set_preference("marionette.port", None)
+                options.set_preference("marionette.log.level", None)
+                
+                driver = webdriver.Firefox(
+                    options=options,
+                    seleniumwire_options={}
+                )
+                print("✅ Firefox driver initialized with fallback options")
+            except Exception as fallback_error:
+                print(f"❌ Fallback options also failed: {fallback_error}")
+                print("🔧 Please check your Firefox version and Selenium compatibility")
+                raise fallback_error
 
-        # Ensure complete isolation from main Firefox profile
-        # This prevents any settings from leaking to your main Firefox installation
-        driver.execute_script("""
-            // Ensure this session is completely isolated
-            if (typeof window !== 'undefined') {
-                // Clear any potential shared storage
-                if (window.localStorage) window.localStorage.clear();
-                if (window.sessionStorage) window.sessionStorage.clear();
-            }
-        """)
+        # Note: Temporary profile isolation is handled by Selenium's profile system
+        # No additional JavaScript isolation needed - the profile separation is sufficient
 
         try:
             driver.get("https://govisit.gov.il/he/app/auth/login")

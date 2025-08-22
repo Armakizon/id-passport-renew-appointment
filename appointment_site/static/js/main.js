@@ -6,9 +6,11 @@ let searchInput = null;
 let resultsList = null;
 let getLocationButton = null;
 let branchNames = [];
+let currentShowEarliestOnly = true; // Track current state
 
 window.activeBranchIds = [];
 window.userHasSelectedLocation = false;
+window.currentShowEarliestOnly = currentShowEarliestOnly; // Expose globally
 
 // Helper to parse DD/MM/YYYY to Date object
 function parseDateDMY(dateStr) {
@@ -16,7 +18,24 @@ function parseDateDMY(dateStr) {
   return new Date(year, month - 1, day);
 }
 
-function updateTableVisibility(showEarliestOnly = false) {
+// Function to refresh the allRows array to ensure it's in sync with DOM
+function refreshAllRows() {
+  allRows = [...document.querySelectorAll("#appointmentsTable tbody tr")];
+  return allRows;
+}
+
+function updateTableVisibility(showEarliestOnly = null) {
+  // If no parameter is passed, use the current state
+  if (showEarliestOnly === null) {
+    showEarliestOnly = currentShowEarliestOnly;
+  } else {
+    // Update the current state
+    currentShowEarliestOnly = showEarliestOnly;
+  }
+
+  // Refresh the allRows array to ensure it's in sync with DOM
+  refreshAllRows();
+
   const grouped = {};
   allRows.forEach(row => {
     const id = row.getAttribute("data-branch-id");
@@ -27,6 +46,7 @@ function updateTableVisibility(showEarliestOnly = false) {
   const startDate = urlParams.get("start_date");
   const endDate = urlParams.get("end_date");
 
+  // First, hide all rows
   allRows.forEach(row => row.style.display = "none");
 
   for (const [branchId, rows] of Object.entries(grouped)) {
@@ -46,11 +66,19 @@ function updateTableVisibility(showEarliestOnly = false) {
       });
 
       if (showEarliestOnly) {
-        filteredRows
-          .sort((a, b) => parseDateDMY(a.children[2].innerText) - parseDateDMY(b.children[2].innerText))
-          [0]?.style && (filteredRows[0].style.display = "");
+        // Show only the earliest date for each branch
+        if (filteredRows.length > 0) {
+          const earliestRow = filteredRows
+            .sort((a, b) => parseDateDMY(a.children[2].innerText) - parseDateDMY(b.children[2].innerText))[0];
+          if (earliestRow) {
+            earliestRow.style.display = "";
+          }
+        }
       } else {
-        filteredRows.forEach(row => row.style.display = "");
+        // Show all dates for each branch
+        filteredRows.forEach(row => {
+          row.style.display = "";
+        });
       }
     }
   }
@@ -108,6 +136,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const name = row.children[0].textContent.trim();
     return `${id}|${name}`;
   }))];
+
+  // Ensure global variables are properly set
+  window.currentShowEarliestOnly = currentShowEarliestOnly;
+  window.allRows = allRows;
 
   // Initialize display after DOM is ready
   updateTableVisibility();

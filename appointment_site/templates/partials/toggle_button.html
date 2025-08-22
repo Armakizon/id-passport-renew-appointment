@@ -5,29 +5,29 @@
 </div>
 
 <script>
-	let showEarliestOnly = true;  // start showing earliest only
-
 	function initToggleEarliest() {
 	  const earliestBtn = document.getElementById("toggleEarliestBtn");
 
-	  // Set initial button text based on initial state
-	  earliestBtn.textContent = showEarliestOnly
+	  // Set initial button text based on current state
+	  earliestBtn.textContent = window.currentShowEarliestOnly !== false
 		? "הצג את כל התאריכים"
 		: "הצג את התאריך המוקדם ביותר בכל לשכה";
 
 	  earliestBtn?.addEventListener("click", () => {
-		showEarliestOnly = !showEarliestOnly;
-		earliestBtn.textContent = showEarliestOnly
+		// Toggle the global state
+		window.currentShowEarliestOnly = !window.currentShowEarliestOnly;
+		
+		earliestBtn.textContent = window.currentShowEarliestOnly
 		  ? "הצג את כל התאריכים"
 		  : "הצג את התאריך המוקדם ביותר בכל לשכה";
 
 		if (typeof updateTableVisibility === "function") {
-		  updateTableVisibility(showEarliestOnly);
+		  updateTableVisibility(window.currentShowEarliestOnly);
 		}
 	  });
 
 	  if (typeof updateTableVisibility === "function") {
-		updateTableVisibility(showEarliestOnly);  // Run once on load with correct state
+		updateTableVisibility(window.currentShowEarliestOnly);  // Run once on load with correct state
 	  }
 	}
 
