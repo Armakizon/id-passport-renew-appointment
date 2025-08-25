@@ -57,7 +57,7 @@ def register_api_routes(app, db, Entry, set_last_updated):
     @app.route("/reset", methods=["POST"])
     def reset_db():
         token = request.args.get("token")
-        expected = os.environ.get("RESET_TOKEN", "devtoken")
+        expected = os.environ.get("PASSWORD")
         if token != expected:
             return {"status": "unauthorized", "message": "Invalid token"}, 401
 

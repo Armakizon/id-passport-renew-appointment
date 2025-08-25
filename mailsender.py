@@ -152,14 +152,25 @@ def main():
             remaining_entries = []
             for entry in entries:
                 if entry not in earliest_entries:
-                    entry['is_highlighted'] = False  # Mark as not highlighted
                     remaining_entries.append(entry)
+            
+            # Mark all remaining entries as not highlighted
+            for entry in remaining_entries:
+                entry['is_highlighted'] = False
             
             remaining_entries.sort(key=lambda x: x['date'])  # Sort by date
             reorganized_entries.extend(remaining_entries)
             
             # Replace the original entries with reorganized ones
             entries = reorganized_entries
+            
+            # Debug: Print highlighting status
+            print(f"Debug - Total entries: {len(entries)}")
+            highlighted_count = sum(1 for e in entries if e.get('is_highlighted'))
+            print(f"Debug - Highlighted entries: {highlighted_count}")
+            for i, entry in enumerate(entries):
+                status = "HIGHLIGHTED" if entry.get('is_highlighted') else "normal"
+                print(f"Debug - Entry {i+1}: {entry.get('branch_name', 'Unknown')} - {entry.get('date', 'Unknown')} - {status}")
 
             unsubscribe_url = f"https://armakizon.pythonanywhere.com/unsubscribe?email={email}"
 
